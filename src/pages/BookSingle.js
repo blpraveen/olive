@@ -177,11 +177,11 @@ function BookSingle() {
                 <div className="book__description__button__row">
                   <div className="book__description_increment">
                     <Button onClick={""} id="add__button">
-                      +
+                      -
                     </Button>
                     <p>1</p>
                     <Button onClick={""} id="add__button">
-                      -
+                      +
                     </Button>
                     {/* <MinimizeIcon
                       onClick={""}

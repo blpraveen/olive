@@ -360,13 +360,26 @@ function OfferZone() {
                   return (
                     <Col xs="6" sm="4" md="3">
                       <div className="book__item">
+                      <Link
+                        to="/bookSingle"
+                        style={{
+                          textDecoration: "none",
+                          color: "inherit",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
                         <img src={data.image} />
-
+                      </Link>
+                      <Link
+                        to="/bookSingle"
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
                         <div className="book__item__name">
                           <h6>{data.name}</h6>
                           <p>{data.author}</p>
                         </div>
-
+                        </Link>
                         <div className="book__item__price__div">
                           <div className="book__item__price__left">
                             <p className="book__item__cut__price">
