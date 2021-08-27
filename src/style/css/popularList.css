@@ -1,0 +1,98 @@
+.popular__list{
+    max-width: 1150px;
+    margin: auto;
+    margin-top: 50px;
+    /* border: saddlebrown solid; */
+    /* display: flex; */
+    flex-direction: row;
+    align-items: center;
+    
+
+}
+.popular__ani {
+    transition: ease 2000ms;
+  }
+  .popular__list__title{
+      margin-top: 20px;
+  }
+  .popular__list__title h6{
+    text-align: left;
+    font: normal normal normal 15px/20px DM Sans;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.15px;
+    color: #232324;
+   /* border: solid green  ; */
+}
+  .popular__list p{
+      text-align: center;
+    font: normal normal normal 13px/25px Barlow;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.22px;
+    color: #313131;
+
+    /* border: solid red; */
+  }
+  .popular__img__div{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* border: saddlebrown solid; */
+     max-width: 100px;
+     margin-top: 5px;
+     cursor: pointer;
+     overflow:hidden; 
+     white-space:nowrap; 
+     text-overflow: ellipsis;
+     
+  }
+  .popular__img__div:hover{
+      margin-top: -1px;
+  } 
+  .popular__img__div img{
+      margin: auto;
+      max-width: 70px;
+      border-radius: 50%;
+      height: 50px;
+      width: 50px;
+      box-shadow: 0px 3px 6px #00000029;
+
+      /* line-height: 60px; */
+      /* display: inline-block; */
+     
+  }
+
+ /* .popular__img{
+    border-radius: 50%;
+    height: 60px;
+    width: 66px;
+
+    line-height: 66px;
+    display: inline-block;
+ } */
+@media screen and (max-width: 800px) {
+    .popular__list{
+        max-width: 1150px;
+        margin: auto;
+        margin-top: 10px;
+        /* border: saddlebrown solid; */
+        /* display: flex; */
+        flex-direction: row;
+        align-items: center;
+        padding-left: 10px;
+    }
+    .popular__list__title h6{
+        text-align: left;
+        font: normal normal normal 13px/20px DM Sans;
+        font-family: 'DM Sans', sans-serif;
+        letter-spacing: 0.15px;
+        color: #232324;
+    }   
+    .popular__img__div{
+        /* border: saddlebrown solid; */
+       max-width: 60px;
+    }
+    .popular__img__div img{
+        margin: auto;
+        max-width: 60px;
+    }
+}

@@ -1,0 +1,50 @@
+.offer__image__div{
+    border-bottom: 2px solid #f1eeee ;
+}
+.offer__image__div p{
+    text-align: center;
+    font: normal normal normal 15px/31px DM Sans;
+    font-family: 'DM Sans', sans-serif;
+    margin-left: -15%;
+}
+.offer__image__div span{
+   
+    font: normal normal normal 15px/31px DM Sans;
+    font-family: 'DM Sans', sans-serif;
+    background:#46CE04;
+    color: #FFFFFF;
+    border-radius:50%;
+    height: 26px;
+    width: 26px;
+    line-height: 26px;
+    display: inline-block;
+    text-align: center;
+
+}
+
+.offerzone__head__row h5{
+    text-align: left;
+    font: normal normal medium  19px/30px DM Sans;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.3px;
+    color: #343434;
+    
+}
+.offerzone__head__row p{
+    font: normal normal normal 15px/20px DM Sans;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.15px;
+    color: #313131;
+
+}
+.offerzone__head__row{
+    border-bottom: 2px solid #f1eeee ;
+
+    height: 30px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 40px;
+    margin-top: 50px;
+
+}
