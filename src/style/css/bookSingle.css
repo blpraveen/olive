@@ -1,6 +1,6 @@
 .book__single__content {
-  margin-top: 50px;
-  padding-left: 5%;
+  margin-top: 30px;
+  /* padding-left: 5%; */
 }
 .book__description h2 {
   font: normal normal normal 30px/29px DM Sans;
@@ -16,6 +16,7 @@
 }
 #book__single__img__col{
     display: flex;
+    /* border: blue solid; */
     /* justify-content: center; */
 }
 #book__single__img__col img{
@@ -23,6 +24,12 @@
    /* border: solid red; */
    border-radius: 3px;
 }
+.book__single__img__div{
+  /* border: saddlebrown solid; */
+  margin: auto; 
+  max-width: 100%;
+}
+
 .book__description__col {
   display: flex;
   justify-content: center;
@@ -421,13 +428,23 @@ padding-bottom: 10px;
 @media screen and (max-width: 800px) {
     #book__single__img__col img{
         max-height: 300px;
+        max-width: 250px;
+        /* margin: auto; */
+        /* justify-content: center; */
      }
+     #book__single__img__col{
+       justify-content: center;
+     }
+     #book__single__carousel{ 
+      /* border: solid green; */
+      max-width: 200px;
+    }
      .book__single__content {
-      margin-top: 10px;
+      margin-top:5px;
       padding-left: 0px;
     }
     .book__description h2 {
-      font: normal normal normal 22px/29px DM Sans;
+      font: normal normal normal 20px/19px DM Sans;
       font-family: "DM Sans", sans-serif;
       letter-spacing: 0.45px;
       color: #001e43;
@@ -438,6 +455,7 @@ padding-bottom: 10px;
       flex-direction: row;
       /* border: saddlebrown solid; */
       /* align-items: center; */
+      margin-top: -5px;
     }
   
  
@@ -466,11 +484,12 @@ padding-bottom: 10px;
     font: normal normal normal 13px/8px DM Sans;
     font-family: "DM Sans", sans-serif;
     letter-spacing: 0.14px;
+   
     
   }
   .book__description__star__right h6 {
     text-align: left;
-    font: normal normal normal 14px/8px DM Sans;
+    font: normal normal normal 13px/8px DM Sans;
     font-family: "DM Sans", sans-serif;
     letter-spacing: 0.14px;
     color: #001e43;
@@ -538,7 +557,7 @@ padding-bottom: 10px;
     margin-top: -18px;
   }
   #book__add__button {
-    font: normal normal normal 16px/20px DM Sans;
+    font: normal normal normal 14px/20px DM Sans;
     font-family: "DM Sans", sans-serif;
     letter-spacing: 0.3px;
     color: #ffffff;
@@ -555,7 +574,7 @@ padding-bottom: 10px;
   .book__share__row {
     display: grid;
     flex-direction: row;
-    margin-top: 30px;
+    margin-top: 20px;
     justify-content: left;
   }
   .book__book__mark {
@@ -606,7 +625,7 @@ padding-bottom: 10px;
 
 /* <<<<<<<<< DETAILS >>>>>>>>>> */
   .book__detailes {
-    margin-top: 30px;
+    margin-top: 20px;
   }
   .book__detailes__head {
     /* border: green solid; */
@@ -672,28 +691,28 @@ padding-bottom: 10px;
   /*<<<<<<<<<<<<<<< BOOK REVIEW >>>>>>>>>>>>>>>>> */
 .book__review {
   /* border: solid green; */
-  margin-top: 20px;
+  margin-top: 10px;
 }
 /* .book__review__first__row__left{
 margin-top: 30px;
 } */
 .book__review__first__row__left h4 {
   text-align: left;
-  font: normal normal normal 18px/31px DM Sans;
+  font: normal normal normal 18     px/31px DM Sans;
   font-family: "DM Sans", sans-serif;
   letter-spacing: 0.24px;
   color: #746f6f;
 }
 .book__review__first__row__left h1 {
   text-align: left;
-  font: normal normal bold 40px/30px DM Sans;
+  font: normal normal bold 35px/30px DM Sans;
   font-family: "DM Sans", sans-serif;
   letter-spacing: 0.85px;
   color: #001e43;
 }
 .book__review__first__row__left p {
   text-align: left;
-  font: normal normal normal 18px/14px DM Sans;
+  font: normal normal normal 17px/14px DM Sans;
   font-family: "DM Sans", sans-serif;
   letter-spacing: 0.18px;
   color: #888888;
@@ -764,7 +783,7 @@ margin-top: 30px;
 .review__content__head {
   display: grid;
   flex-direction: row;
-  margin-top: 40px;
+  margin-top: 20px;
   /* align-items: center; */
 }
 .review__content__head h6 {
@@ -821,7 +840,7 @@ margin-top: 30px;
 
 
 .also__brought{
-    margin-top: 100px;
+    margin-top: 20px;
  
 }
 .also__brought__head h6{

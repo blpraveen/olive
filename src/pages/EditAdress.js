@@ -15,7 +15,7 @@ function EditAddress() {
   const [email, setEmail] = useState("");
 
   return (
-    <div>
+    <div className='container'>
       <div className="body">
         <div className="container7">
           <div className="title-container7">

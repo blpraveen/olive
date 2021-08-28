@@ -1,20 +1,12 @@
 .author{
-    /* height: 60vh;     */
-    /* max-width: 1200px; */
+   
     margin: auto;
-    /* border: green solid; */
-    padding: 10px;
+   
 }
-@media screen and (min-width: 1200px) {
-    .author{
-      
-        /* max-width: 1200px; */
-      max-width: 80%;
-    }
-  }
+
 .author__content{
-    margin-top: 70px;
-    margin-bottom: 150px;
+    margin-top: 50px;
+    margin-bottom: 70px;
 }
 .author__img__col{
 /* border-right: 1px solid gray; */
@@ -40,7 +32,7 @@ color: #001E43;
 }
 .author__data{
 /* border: solid green; */
-max-width: 80%;
+max-width: 85%;
 margin: auto;
 
 }
@@ -50,7 +42,7 @@ margin: auto;
     justify-content: space-between;
     align-items: center ;
     margin-top: 10px;
-    padding-left:5px;
+    /* padding-left:5px; */
 }
 .author__data__row h5{
     text-align: left;
@@ -97,7 +89,7 @@ padding: 10px;
         justify-content: center;
         border-bottom: 1px solid rgb(231, 231, 231);
         margin-top: 30px;
-        box-shadow: 0px 3px 6px #00000026;
+       
 /* border: solid green; */
         /* overflow:hidden; 
         white-space:nowrap; 
@@ -111,7 +103,7 @@ padding: 10px;
         height: 140px;
         width: 90px;
         border-radius: 3px;
-       
+        box-shadow: 0px 3px 6px #00000026;
     }
     .book__item__name{
         /* border: solid red; */
@@ -182,15 +174,16 @@ padding: 10px;
     
     .author__books{
         margin: auto;
-        margin-top: 26px;
+        margin-top: 0px;
         /* border-left: 1px solid gray; */
     }
 
     .author__books h3{
-        font: normal normal normal 25px/39px DM Sans;
+        font: normal normal normal 20px/29px DM Sans;
         font-family: 'DM Sans', sans-serif;
         letter-spacing: 0.3px;
         color: #343434;
+        margin-bottom: -20px;
     }
     @media screen and (max-width: 800px) {
         .author__data__col{
@@ -203,6 +196,30 @@ padding: 10px;
             /* border: solid green; */
             max-width: 100%;
             margin: auto;
+            padding: 10px;
             
             }
+            .author__content{
+                margin-top: 10px;
+                margin-bottom: 40px;
+            }
+            .author__img__col{
+                /* border-right: 1px solid gray; */
+                /* display: flex; */
+                /* justify-content: center; */
+                /* padding-right: ; */
+                margin-top: 10px;
+                }
+                .author__text{
+                    margin-top: 0px;
+                   
+                  margin-right: -11px;
+                 
+                  /* border: solid red; */
+                 }
+                 .author__data__col{
+               
+                    margin-top: 5px;
+                }
+               
       }

@@ -1,6 +1,6 @@
 .all__order__content{
     /* margin-top: 0px; */
-    margin-bottom: 140px;
+    margin-bottom: 100px;
 }
 .all__order__header h3{
     text-align: left;
@@ -11,12 +11,12 @@
 }
 
 @media screen and (min-width: 800px) {
-    .all__order__content{
+    /* .all__order__content{
         padding-left: 5%;
-    }
+    } */
 }
 .active__order{
-    margin-top: 50px;
+    margin-top: 20px;
 }
 .active__order h5{
     text-align: left;
@@ -132,14 +132,14 @@ margin-bottom: -40px;
         margin-bottom: 20px;
     }
     .all__order__header h3{
-        text-align: center;
-        font: normal normal normal 23px/31px DM Sans;
+        /* text-align: center; */
+        font: normal normal normal 20px/21px DM Sans;
         font-family: 'DM Sans', sans-serif;
         letter-spacing: 0.3px;
         color: #212223;
     }
     .active__order{
-        margin-top: 20px;
+        margin-top: 10px;
     }
     .active__order h5{
         text-align:center;

@@ -1,8 +1,8 @@
 .arrived{
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: auto;
-    margin-top: 50px;
-    padding: 10px;
+    margin-top: 30px;
+    /* padding: 10px; */
   
 }
 .arrived__head__row{
@@ -28,13 +28,17 @@
 }
 .arrived__head__row p{
     text-align: left;
-font: normal normal normal 14px/20px DM Sans;
+font: normal normal normal 13px/29px DM Sans;
 font-family: 'DM Sans', sans-serif;
 letter-spacing: 0.15px;
 color: #313131;
 height: 30px;
 cursor: pointer;
 
+}
+.arrived__head__row p:hover{
+    font: normal normal normal 14px/29px DM Sans;
+font-family: 'DM Sans', sans-serif;
 }
 .arrived__row{
     margin-top: 20px;
@@ -50,7 +54,7 @@ cursor: pointer;
     overflow:hidden; 
     white-space:nowrap; 
     text-overflow: ellipsis;
-    box-shadow: 0px 3px 6px #00000026;
+    
 }
 .arrived__item:hover{
     opacity: 0.9;
@@ -61,7 +65,7 @@ margin: auto;
 height: 140px;
 width: 90px;
 border-radius: 3px;
-
+box-shadow: 0px 3px 6px #00000026;
 
 }
 
@@ -163,14 +167,14 @@ border-radius: 3px;
     display: flex;
     justify-content: center;
     /* position: absolute; */
-    margin-bottom: -20px;   
+    margin-bottom: -15px;   
 /* margin-right: -80px; */
 /* top: 5px; */
   /* right: 0px */
   /* left: 230; */
    position: relative;
    /* border: solid green; */
-   margin-left: 100px;
+   margin-left: 105px;
 }
 .arrived__item span p{
     color: #001E43;

@@ -1,7 +1,7 @@
 .malayalam{
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: auto;
-    margin-top: 50px;
+    margin-top: 30px;
    
 }
 
@@ -52,7 +52,7 @@ height: 30px;
     overflow:hidden; 
     white-space:nowrap; 
     text-overflow: ellipsis;
-    box-shadow: 0px 3px 6px #00000026;
+    
 }
 .malayalam__item:hover{
     opacity: 0.9;
@@ -63,6 +63,7 @@ height: 30px;
     height: 140px;
     width: 90px;
     border-radius: 3px;
+    box-shadow: 0px 3px 6px #00000026;
 }
 
 .malayalam__item__name h6{

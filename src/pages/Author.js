@@ -7,7 +7,7 @@ import best1 from "../images/author/best1.png";
 import best2 from "../images/author/best2.png";
 import best3 from "../images/author/best3.png";
 import best4 from "../images/author/best4.png";
-import sample from "../images/author/review.png";
+
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Featur from "../components/Featur";
 import { useState } from "react";
@@ -105,14 +105,14 @@ function Author() {
     },
   ]);
   return (
-    <div className="author">
+    <div className="author container">
       <div className="author__content">
         <Container>
           <Row>
             <Col sm="12" md="4" className="author__img__col">
               <img className="col-12" src={pualo} />
             </Col>
-            <Col className="author__data__col" md="8">
+            <Col className="author__data__col" md="7">
               <div className="author__data">
                 <h2>Paulo Coelho</h2>
                 <div className="author__data__row">

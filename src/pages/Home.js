@@ -26,12 +26,12 @@ import Featur from "../components/Featur";
 import { Link } from "react-router-dom";
 function Home() {
   return (
-    <div>
+    <div className='container'>
       {/* <<<<<<<<<< MAIN BANNER >>>>>>>>> */}
-      <div className="container home__banner">
-        <Container>
+      <div className=" home__banner">
+        {/* <Container> */}
           <Row>
-            <Col lg="9  ">
+            <Col >
               <Carousel fade controls={false} indicators={false}>
                 <Carousel.Item>
                   <img className="col-12" src={banner1} />
@@ -54,7 +54,7 @@ function Home() {
               </div>
             </Col>
           </Row>
-        </Container>
+        {/* </Container> */}
       </div>
 
       {/* <<<<<<<<<< POPULAR LIST >>>>>>>>>>  /components/PopularList.js */}
@@ -74,7 +74,7 @@ function Home() {
       {/* <<<<<<<<< WEB MAGAZINE BOOK REVIEW >>>>>>>>>>>> */}
 
       <div className="home__exclusive">
-        <Container>
+        {/* <Container> */}
           <Row>
             <Col>
               <div className="home__magazine">
@@ -137,19 +137,19 @@ function Home() {
               </div>
             </Col>
           </Row>
-        </Container>
+        {/* </Container> */}
       </div>
 
       {/* <<<<<<<<< BOOK OF THE MONTH>>>>>>>>>>>> */}
       <div className="home__month__row">
-        <Container>
+        {/* <Container> */}
           <Row>
             <Col md>
               <div className="home__month">
                 <div className="home__month__content">
-                  <Container>
+                  {/* <Container> */}
                     <Row>
-                      <Col md="4">
+                      <Col md="4" id='month__book__col'>
                         <img className="col-8 col-md-11" src={ayurveda} />
                       </Col>
                       <Col md="8">
@@ -168,7 +168,7 @@ function Home() {
                         </p>
                       </Col>
                     </Row>
-                  </Container>
+                  {/* </Container> */}
                 </div>
               </div>
             </Col>
@@ -176,9 +176,9 @@ function Home() {
               <Col md>
                 <div className="home__month">
                   <div className="home__month__content">
-                    <Container>
+                    {/* <Container> */}
                       <Row>
-                        <Col md="4">
+                        <Col md="4" id='month__book__col'>
                           <img className="col-8 col-md-11" src={mt} />
                         </Col>
                         <Col md="8">
@@ -200,13 +200,13 @@ function Home() {
                           </p>
                         </Col>
                       </Row>
-                    </Container>
+                    {/* </Container> */}
                   </div>
                 </div>
               </Col>
             </Col>
           </Row>
-        </Container>
+        {/* </Container> */}
       </div>
 
       {/* <<<<<<<<< BOOK TALKS  >>>>>>>>>>>> */}
@@ -220,7 +220,7 @@ function Home() {
             <p>View all</p>
           </Link>
         </div>
-        <Container>
+        {/* <Container> */}
           <Row>
             <Col sm="auto" md="4">
               <Link to='/blog' style={{textDecoration:'none',color:'inherit'}}>
@@ -269,7 +269,7 @@ function Home() {
               </Link>
             </Col>
           </Row>
-        </Container>
+        {/* </Container> */}
       </div>
 
       {/* <<<<<<<<< DISCOVER NEW  >>>>>>>>>>>> */}
@@ -282,7 +282,7 @@ function Home() {
      
         </div>
         <div className="home__discover__content">
-          <Container>
+          {/* <Container> */}
             <Row>
               <Col className="home__discover__col" sm="6" lg="3">
                 <img className="col-12" src={discover1} />
@@ -297,7 +297,7 @@ function Home() {
                 <img className="col-12" src={discover4} />
               </Col>
             </Row>
-          </Container>
+          {/* </Container> */}
         </div>
       </div>
       {/* FEATURE ROW */}

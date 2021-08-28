@@ -1,4 +1,4 @@
-*{
+/* *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -7,17 +7,17 @@
 .body{
     width: 100%;
     overflow-x: hidden;  
-}
+} */
 
 .Books-container{
-    width: 80%;
+    /* width: 80%; */
     margin: auto;
 
 }
 .book-talks{
-    width: 95%;
+    /* width: 95%; */
     margin: auto;
-    margin-top: 60px;
+    margin-top: 30px;
     border-width: 0 0 1px 0;
     border-style: solid;
     border-color: rgb(196, 194, 194);
@@ -84,6 +84,11 @@
     .book{
         width: 100%;
         text-align: justify;
+    }
+    .book{
+       
+        margin-bottom: 10px;
+       
     }
 }
 

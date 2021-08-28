@@ -17,7 +17,7 @@ function Address() {
   return (
     <div>
       <div className="body">
-        <div className="container5">
+        <div className="container5 container">
           <div className="title-container5">
             <div className="row">
               <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">

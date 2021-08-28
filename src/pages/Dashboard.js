@@ -4,9 +4,9 @@ import "../style/css/dashboard.css";
 
 function MyOrder() {
   return (
-    <div>
+    <div className='container'>
       <div className="body">
-        <div className="dashboard-container">
+        <div className="dashboard-container ">
           <div className="dashboard-title">
             <p>DASHBOARD</p>
           </div>

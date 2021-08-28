@@ -10,7 +10,7 @@ function Featur() {
   return (
     <div>
       <div className="feature__row">
-        <Container>
+        {/* <Container> */}
           <Row>
             <Col className="feature__col" xs="6" md="3">
               <img src={icon1} />
@@ -42,7 +42,7 @@ function Featur() {
               </div>
             </Col>
           </Row>
-        </Container>
+        {/* </Container> */}
       </div>
     </div>
   );

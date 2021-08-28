@@ -16,7 +16,7 @@ import PopularList from "../components/PopularList";
 import UsePagination from "../components/Pagination";
 import { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Alert from "react-bootstrap/Alert";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
@@ -24,6 +24,7 @@ import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
 function OfferZone() {
   const [show, setShow] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false)
   const [item] = useState([
     {
       image: best1,
@@ -119,13 +120,13 @@ function OfferZone() {
       </div>
 
       <div className="categories__content">
-        <Container>
+        {/* <Container> */}
           <Row>
-            <Col className="search__items_col" md="3">
-              {/* SEARCH OPTIONS LEFT OF THE PAGE */}
-              <div className="search__items">
+          <Col className="search__items_col" lg="3">
+              {/*<<<<<<<<<<< SEARCH OPTIONS LEFT OF THE PAGE >>>>>>>>*/}
+              <div className={openFilter ? 'search__items__open' : 'search__items'}>
                 <div className="search__items__head">
-                  <h5>Search Author</h5>
+                  <h5 className='outer__search__text'>Search Author</h5>
                   <div className="search__items__input ">
                     <input />
                     <div className="search__items__icon__div">
@@ -136,6 +137,28 @@ function OfferZone() {
                       />
                     </div>
                   </div>
+                  <div className='filter__div__outer' >
+                  
+                  <div className='filter__div' onClick={()=>setOpenFilter(!openFilter)} type='button'>
+                  <h6>Filter by</h6>
+                  <ArrowDropDownIcon/>
+                  </div>
+                
+                  <div>
+                  <h5>Search Author</h5>
+                  <div className="search__items__input__collapse ">
+                    <input />
+                    <div className="search__items__icon__div">
+                      <SearchIcon
+                        type="button"
+                        onClick={""}
+                        id="search__items__icon"
+                      />
+                    </div>
+                  </div>
+                  </div>
+                  </div>
+                
                 </div>
 
                 {/*  Language */}
@@ -144,7 +167,7 @@ function OfferZone() {
                     Language
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>English</p>
@@ -168,7 +191,7 @@ function OfferZone() {
                     Format
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>Paperback</p>
@@ -193,7 +216,7 @@ function OfferZone() {
                     Filter By Price
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>Low - High</p>
@@ -209,16 +232,16 @@ function OfferZone() {
 
                 <Dropdown id="search__dropdown">
                   <Dropdown.Toggle variant="none" id="dropdown-basic">
-                    Filter By Price
+                  By Date
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
-                        <input type="checkbox" /> <p>Low - High</p>
+                        <input type="checkbox" /> <p>New - Old</p>
                       </div>
                       <div className="search__item__row">
-                        <input type="checkbox" /> <p>High - Low</p>
+                        <input type="checkbox" /> <p>Old - New</p>
                       </div>
                     </div>
                   </Dropdown.Menu>
@@ -231,7 +254,7 @@ function OfferZone() {
                     By Reviews
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>5 Star</p>
@@ -259,7 +282,7 @@ function OfferZone() {
                     By Publisher
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>DC BOOKS</p>
@@ -280,7 +303,7 @@ function OfferZone() {
             <Col md="8">
               <div className="categories__right">
                 <div className="offer__image__div">
-                  <img className="col-12" src={offer} />
+                  <img className="col-12 col-md-10" src={offer} />
 
                   <p>
                     You are <span>3</span> books away from this offer{" "}
@@ -404,7 +427,7 @@ function OfferZone() {
               </Row>
             </Col>
           </Row>
-        </Container>
+        {/* </Container> */}
       </div>
 
       <PopularList />

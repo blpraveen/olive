@@ -19,8 +19,11 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+
 function SearchResult() {
   const [show, setShow] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false)
   const [item] = useState([
     {
       image: best1,
@@ -115,13 +118,13 @@ function SearchResult() {
         <p>Search </p>
       </div>
       <div className="search__content">
-        <Container>
+        {/* <Container> */}
           <Row>
-            <Col className="search__items_col" md="3">
-              {/* SEARCH OPTIONS LEFT OF THE PAGE */}
-              <div className="search__items">
+          <Col className="search__items_col" lg="3">
+              {/*<<<<<<<<<<< SEARCH OPTIONS LEFT OF THE PAGE >>>>>>>>*/}
+              <div className={openFilter ? 'search__items__open' : 'search__items'}>
                 <div className="search__items__head">
-                  <h5>Search Author</h5>
+                  <h5 className='outer__search__text'>Search Author</h5>
                   <div className="search__items__input ">
                     <input />
                     <div className="search__items__icon__div">
@@ -132,6 +135,28 @@ function SearchResult() {
                       />
                     </div>
                   </div>
+                  <div className='filter__div__outer' >
+                  
+                  <div className='filter__div' onClick={()=>setOpenFilter(!openFilter)} type='button'>
+                  <h6>Filter by</h6>
+                  <ArrowDropDownIcon/>
+                  </div>
+                
+                  <div>
+                  <h5>Search Author</h5>
+                  <div className="search__items__input__collapse ">
+                    <input />
+                    <div className="search__items__icon__div">
+                      <SearchIcon
+                        type="button"
+                        onClick={""}
+                        id="search__items__icon"
+                      />
+                    </div>
+                  </div>
+                  </div>
+                  </div>
+                
                 </div>
 
                 {/*  Language */}
@@ -140,7 +165,7 @@ function SearchResult() {
                     Language
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>English</p>
@@ -164,7 +189,7 @@ function SearchResult() {
                     Format
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>Paperback</p>
@@ -189,7 +214,7 @@ function SearchResult() {
                     Filter By Price
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>Low - High</p>
@@ -205,16 +230,16 @@ function SearchResult() {
 
                 <Dropdown id="search__dropdown">
                   <Dropdown.Toggle variant="none" id="dropdown-basic">
-                    Filter By Price
+                  By Date
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
-                        <input type="checkbox" /> <p>Low - High</p>
+                        <input type="checkbox" /> <p>New - Old</p>
                       </div>
                       <div className="search__item__row">
-                        <input type="checkbox" /> <p>High - Low</p>
+                        <input type="checkbox" /> <p>Old - New</p>
                       </div>
                     </div>
                   </Dropdown.Menu>
@@ -227,7 +252,7 @@ function SearchResult() {
                     By Reviews
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>5 Star</p>
@@ -255,7 +280,7 @@ function SearchResult() {
                     By Publisher
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>DC BOOKS</p>
@@ -384,7 +409,7 @@ function SearchResult() {
               </div>
             </Col>
           </Row>
-        </Container>
+        {/* </Container> */}
       </div>
 
       <PopularList />

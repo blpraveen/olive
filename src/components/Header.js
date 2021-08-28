@@ -31,8 +31,8 @@ function Header() {
   };
   return (
     <div className="header">
-      <div className="header__section__one">
-        <div className="  header_first__row">
+      <div className="header__section__one ">
+        <div className="  header_first__row container">
           <div className="  header_first__row__div">
             <MenuSharpIcon
               onClick={() => setOpen(!open)}
@@ -41,7 +41,10 @@ function Header() {
 
             <div className="header__logo__div ">
               <div className="logo__input">
+                <Link to='/'>
                 <img className="header__logo " src={logo} alt="logo" />
+                </Link>
+              
 
                 <div className="header__input__div      ">
                   <span className="header__serach__p">
@@ -109,9 +112,9 @@ function Header() {
           </div>
         </div>
       </div>
-      <div className="header__second__row"></div>
+      <div className="header__second__row ">
 
-      <div className="navbars">
+      <div className="navbars container">
         <div className="nav__items">
           <NavLink
             strict
@@ -151,6 +154,9 @@ function Header() {
           </NavLink>
         </div>
       </div>
+
+      </div>
+
       <Collapse in={open}>
         <div className="navbar__collpase">
           <div className="collpse__first__row">

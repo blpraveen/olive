@@ -1,12 +1,10 @@
 import "./../style/css/justArrived.css";
-import arrived1 from "../images/arrived/arrived1.png";
-import arrived2 from "../images/arrived/arrived2.png";
-import arrived3 from "../images/arrived/arrived3.png";
-import arrived4 from "../images/arrived/arrived4.png";
-import arrived5 from "../images/arrived/arrived5.png";
-import arrived6 from "../images/arrived/arrived6.png";
-import sample from "../images/arrived/review.png";
-import paulo from "../images/arrived/paulo.png";
+import pop1 from "../images/popular/pop1.jpg";
+import pop2 from "../images/popular/pop2.jpg";
+import pop3 from "../images/popular/pop3.jpg";
+import pop4 from "../images/popular/pop4.jpg";
+import pop6 from "../images/popular/pop6.jpg";
+import pop8 from "../images/popular/pop8.jpg";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
@@ -16,6 +14,8 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
+import { Button } from "bootstrap";
+import { ButtonGroup } from "@material-ui/core";
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -35,50 +35,86 @@ const responsive = {
 };
 function JustArrived() {
   const [show, setShow] = useState(false);
+  const CustomButtonGroup = ({ next, previous, goToSlide, carouselState }) => {
+    const { totalItems, currentSlide } = carouselState;
+    return (
+      <div className="custom-button-group">
+        <div>Current slide is {currentSlide}</div>
+        <button onClick={() => previous()}>Previous slide</button>
+        <button onClick={() => next()}>Next slide</button>
+        <button
+          onClick={() => goToSlide(Math.floor(Math.random() * totalItems + 1))}
+        >
+          Go to a random slide
+        </button>
+      </div>
+    );
+  };
   const [arrived, setArrived] = useState([
     {
-      image: paulo,
+      image: pop8,
       name: "Rising Like a Stome",
       author: "Tanaz Bhathena",
       cutPrice: "234",
       price: "165",
     },
     {
-      image: arrived2,
+      image: pop1,
       name: "Sinbad and theTrump...",
       author: "Kevin Missal",
       cutPrice: "234",
       price: "157",
     },
     {
-      image: arrived3,
+      image: pop8,
+      name: "Rising Like a Stome",
+      author: "Tanaz Bhathena",
+      cutPrice: "234",
+      price: "165",
+    },
+    {
+      image: pop1,
+      name: "Sinbad and theTrump...",
+      author: "Kevin Missal",
+      cutPrice: "234",
+      price: "157",
+    },
+    {
+      image: pop6,
       name: "Notes of AR Rahman",
       author: "Krishna Trilok",
       cutPrice: "675",
       price: "675",
     },
     {
-      image: arrived4,
+      image: pop3,
       name: "1971 IAN cardoz",
       author: "Vivan Marwaha",
       cutPrice: "432",
       price: "321",
     },
     {
-      image: arrived5,
+      image: pop2,
       name: "Hisila Yami",
       author: "Hisila Yami",
       cutPrice: "987",
       price: "879",
     },
     {
-      image: arrived6,
+      image: pop4,
       name: "Conflicts of Interest",
       author: "Sunitha Narain",
       cutPrice: "432",
       price: "765",
     },
   ]);
+
+  // const CustomRightArrow = ({ onClick, ...rest }) => {
+  
+  
+  //   return <button > helooooooooo</button>;
+
+  // };
   return (
     <div className="arrived">
       <div className="arrived__head__row ">
@@ -132,7 +168,7 @@ function JustArrived() {
                  </Alert> :''} */}
 
       {/* <<<<<<<<< WRONG ALERT >>>>>>>>> */}
-      {/* {show? 
+       {/* {show?  
                  <Alert variant="danger" id='danger__alert'>
                   
                  
@@ -147,28 +183,30 @@ function JustArrived() {
                 
                  
                 
-                 </Alert> :''
-              }  */}
+       </Alert> :''  */}
 
       <div className="arrived__row">
         <Carousel
           swipeable={true}
           draggable={false}
-          //   showDots={true}
+            // showDots={true}
           responsive={responsive}
           ssr={true} // means to render carousel on server-side.
           infinite={true}
           autoPlay={false}
           // autoPlaySpeed={1000}
           keyBoardControl={true}
-          // customTransition="all .5"
-          // transitionDuration={2000}
+       
           customTransition={"ease 1000ms"}
           containerClass="carousel-container"
+          // containerClass="container-padding-bottom"
           // removeArrowOnDeviceType={[ "mobile"]}
-          //   deviceType={this.props.deviceType}
+
           dotListClass="custom-dot-list-style"
           itemClass="popular__ani"
+          // customRightArrow={<AddShoppingCartIcon />}
+          customButtonGroup={<CustomButtonGroup />}
+          arrows={false}
         >
           {arrived.map((data) => {
             return (
@@ -212,5 +250,18 @@ function JustArrived() {
     </div>
   );
 }
-
+const CustomButtonGroup = ({ next, previous, goToSlide, carouselState }) => {
+  const { totalItems, currentSlide } = carouselState;
+  return (
+    <div className="custom-button-group">
+      <div>Current slide is {currentSlide}</div>
+      <button onClick={() => previous()}>Previous slide</button>
+      <button onClick={() => next()}>Next slide</button>
+      <button
+        onClick={() => goToSlide(Math.floor(Math.random() * totalItems + 1))}
+      >
+        Go to a random slide
+      </button>
+    </div>
+  );}
 export default JustArrived;

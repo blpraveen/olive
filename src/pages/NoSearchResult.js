@@ -11,7 +11,7 @@ import "../style/css/searchResult.css";
 function NoSearchResult() {
   return (
     <div className="no__result container">
-      <Container>
+      {/* <Container> */}
         <Row>
           <Col className="search__items_col" md="3">
             {/* SEARCH OPTIONS LEFT OF THE PAGE */}
@@ -189,7 +189,7 @@ function NoSearchResult() {
             </div>
           </Col>
         </Row>
-      </Container>
+      {/* </Container> */}
 
       <Featur />
     </div>

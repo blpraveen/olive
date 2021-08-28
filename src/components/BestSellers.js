@@ -1,13 +1,13 @@
 import "./../style/css/bestSellers.css";
 import "./../style/css/justArrived.css";
-import best1 from "../images/best/best1.png";
-import best2 from "../images/best/best2.png";
-import best3 from "../images/best/best3.png";
-import best4 from "../images/best/best4.png";
-import best5 from "../images/best/best5.png";
-import best6 from "../images/best/best6.png";
-import best7 from "../images/best/best7.png";
-import best8 from "../images/best/best8.png";
+import best1 from "../images/best/img1.jpg";
+import best2 from "../images/best/img2.jpg";
+import best3 from "../images/best/img3.jpg";
+import best4 from "../images/best/img4.jpg";
+import best5 from "../images/best/img5.jpg";
+import best6 from "../images/best/img6.jpg";
+import best7 from "../images/best/img7.jpg";
+import best8 from "../images/best/img8.jpg";
 import banner1 from "../images/best/banner1.png";
 import banner2 from "../images/best/banner2.png";
 import Carousel from "react-multi-carousel";
@@ -17,9 +17,9 @@ import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import sample from "../images/arrived/review.png";
-import paulo from "../images/arrived/paulo.png";
-
+// import sample from "../images/arrived/review.png";
+// import paulo from "../images/arrived/paulo.png";
+// import pbest1 from "../images/arrived/paulo.png";
 import Alert from "react-bootstrap/Alert";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
@@ -46,14 +46,14 @@ function BestSellers() {
   const [show, setShow] = useState(false);
   const [bestSeller, setbestSeller] = useState([
     {
-      image: sample,
+      image: best1,
       name: "My family ",
       author: "Mahadevi Varma",
       cutPrice: "654",
       price: "456",
     },
     {
-      image: paulo,
+      image: best2,
       name: "That night",
       author: "Nidhi Updhyay",
       cutPrice: "123",

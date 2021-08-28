@@ -1,12 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import Featur from "../components/Featur";
 import "../style/css/bookTalks.css";
+import talk1 from '../images/talks1.png'
+import talk2 from '../images/talks2.png'
+import talk3 from '../images/talks3.png'
+import talk4 from '../images/talk4.png'
+import talk5 from '../images/talk5.png'
+import talk6 from '../images/talk6.png'
 
 function BookTalks() {
+  const [data] = useState([
+    {
+      image:talk1,
+      caption:'Benefits of Reading How It Can Positively Affect Your Life'
+    },
+    {
+      image:talk2,
+      caption:'The Art of reading, read and lead'
+    },
+    {
+      image:talk3,
+      caption:'Benefits of Reading How It Can Positively Affect Your Life'
+    },
+    {
+      image:talk4,
+      caption:'The Art of reading, read and lead'
+    },
+    {
+      image:talk5,
+      caption:'Benefits of Reading How It Can Positively Affect Your Life'
+    },
+    {
+      image:talk6,
+      caption:'The Art of reading, read and lead'
+    },
+   
+  ])
   return (
     <div>
       <div className="body">
-        <div className="Books-container">
+        <div className="Books-container container">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <div className="book-talks">
@@ -15,80 +48,26 @@ function BookTalks() {
             </div>
           </div>
           <div className="row">
-            <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
-              <div className="book">
-                <img
-                  className="image"
-                  src={process.env.PUBLIC_URL + "/images/image1.png"}
-                  alt="image1"
-                />
-                <p className="date">10 April 2021 | Admin</p>
-                <p className="book-text">
-                  Benefits of Reading How It Can Positively Affect Your Life
-                </p>
+
+            {data.map((data)=>{
+              return(
+                <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                <div className="book">
+                  <img
+                    className="image"
+                    src={data.image}
+                    alt="image1"
+                  />
+                  <p className="date">10 April 2021 | Admin</p>
+                  <p className="book-text">
+                   {data.caption}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
-              <div className="book">
-                <img
-                  className="image"
-                  src={process.env.PUBLIC_URL + "/images/image2.png"}
-                  alt="image1"
-                />
-                <p className="date">10 April 2021 | Admin</p>
-                <p className="book-text">The Art of reading, read and lead</p>
-              </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
-              <div className="book">
-                <img
-                  className="image"
-                  src={process.env.PUBLIC_URL + "/images/image3.png"}
-                  alt="image3"
-                />
-                <p className="date">10 April 2021 | Admin</p>
-                <p className="book-text">
-                  Benefits of Reading How It Can Positively Affect Your Life
-                </p>
-              </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
-              <div className="book">
-                <img
-                  className="image"
-                  src={process.env.PUBLIC_URL + "/images/image4.png"}
-                  alt="image3"
-                />
-                <p className="date">10 April 2021 | Admin</p>
-                <p className="book-text">
-                  Benefits of Reading How It Can Positively Affect Your Life
-                </p>
-              </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
-              <div className="book">
-                <img
-                  className="image"
-                  src={process.env.PUBLIC_URL + "/images/image5.png"}
-                  alt="image3"
-                />
-                <p className="date">10 April 2021 | Admin</p>
-                <p className="book-text">The Art of reading, read and lead</p>
-              </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
-              <div className="book">
-                <img
-                  className="image"
-                  src={process.env.PUBLIC_URL + "/images/image6.png"}
-                  alt="image3"
-                />
-                <p className="date">10 April 2021 | Admin</p>
-                <p className="book-text">
-                  Benefits of Reading How It Can Positively Affect Your Life
-                </p>
-              </div>
-            </div>
+              )
+            })}
+           
+            
           </div>
         </div>
       </div>

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import "./../style/css/malayalam.css";
 import "./../style/css/justArrived.css";
-import malayalam1 from "../images/malayalam/malayalm1.png";
-import malayalam2 from "../images/malayalam/malayalm2.png";
-import malayalam3 from "../images/malayalam/malayalm3.png";
-import malayalam4 from "../images/malayalam/malayalm4.png";
-import malayalam5 from "../images/malayalam/malayalm5.png";
-import malayalam6 from "../images/malayalam/malayalm6.png";
+import malayalam1 from "../images/malayalam/mal1.jpg";
+import malayalam2 from "../images/malayalam/mal2.jpg";
+import malayalam3 from "../images/malayalam/mal3.jpg";
+import malayalam4 from "../images/malayalam/mal4.jpg";
+import malayalam5 from "../images/malayalam/mal5.jpg";
+import malayalam6 from "../images/malayalam/mal6.jpeg";
+import malayalam7 from "../images/malayalam/mal7.jpg";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
@@ -40,14 +41,14 @@ function Malayalam() {
   const [show, setShow] = useState(false);
   const [arrived, setArrived] = useState([
     {
-      image: sample,
+      image: malayalam1,
       name: "കളക്ടർ ബ്രോ",
       author: "പ്രശാന്ത് നായർ",
       cutPrice: "666",
       price: "334",
     },
     {
-      image: paulo,
+      image: malayalam2,
       name: "ഒറിജിൻ",
       author: "ഡാൻ ബ്രൗൺ",
       cutPrice: "654",
@@ -76,6 +77,13 @@ function Malayalam() {
     },
     {
       image: malayalam6,
+      name: "നമ്പാടന്റെ നമ്പറുകൾ",
+      author: "ലോനപ്പൻ",
+      cutPrice: "199",
+      price: "115",
+    },
+    {
+      image: malayalam7,
       name: "നമ്പാടന്റെ നമ്പറുകൾ",
       author: "ലോനപ്പൻ",
       cutPrice: "199",

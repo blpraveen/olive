@@ -30,12 +30,13 @@ import Error from './pages/Error';
 import JustArrived from './pages/JustArrived';
 import BestSeller from './pages/BestSeller';
 import Classic from './pages/Classic';
+import ScrollToTop from './components/ScrollToTop';
 function App() {
   return (
     <div className="App">
    
     <Router>
-       
+    <ScrollToTop/>
     <Header/>
     <Switch>
     <Route path='/classic'>

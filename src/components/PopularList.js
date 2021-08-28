@@ -1,19 +1,17 @@
 import "./../style/css/popularList.css";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import self from "../images/popular/self.png";
-import scifi from "../images/popular/scifi.png";
-// import fiction from '../images/popular/fiction.png'
-import self1 from "../images/popular/self1.png";
-import westerns from "../images/popular/westerns.png";
-import thriller from "../images/popular/thriller.png";
-import fiction1 from "../images/popular/fiction1.png";
-import romance from "../images/popular/romance.png";
-import fiction from "../images/popular/fiction.png";
-import dystopian from "../images/popular/dystopian.png";
-import mystri from "../images/popular/mystri.png";
-import sample from "../images/popular/single.png";
+
+
 import review from "../images/popular/review.png";
+import pop1 from "../images/popular/pop1.jpg";
+import pop2 from "../images/popular/pop2.jpg";
+import pop3 from "../images/popular/pop3.jpg";
+import pop4 from "../images/popular/pop4.jpg";
+import pop5 from "../images/popular/pop5.jpg";
+import pop6 from "../images/popular/pop6.jpg";
+import pop7 from "../images/popular/pop7.jpg";
+import pop8 from "../images/popular/pop8.jpg";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -22,7 +20,7 @@ import { Link } from "react-router-dom";
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 8,
+    items: 10,
     //   slidesToSlide: 3
   },
   tablet: {
@@ -45,52 +43,61 @@ function PopularList() {
     },
     {
       category: "Westerns",
-      image: westerns,
+      image: pop1,
     },
     {
       category: "Thriller",
-      image: thriller,
+      image: pop2,
     },
     {
       category: "Mystery",
-      image: mystri,
+      image: pop3,
     },
     {
       category: "Fiction",
-      image: fiction1,
+      image: pop4,
     },
     {
       category: "Mystery",
-      image: mystri,
+      image: pop5,
     },
     {
       category: "Self Help",
-      image: self,
+      image: pop6,
     },
     {
       category: "Westerns",
-      image: westerns,
+      image: pop7,
     },
     {
       category: "Thriller",
-      image: thriller,
+      image: pop8,
     },
     {
       category: "Mystery",
-      image: mystri,
+      image: pop2,
     },
     {
       category: "Fiction",
-      image: fiction1,
+      image: pop1,
     },
     {
       category: "Mystery",
-      image: mystri,
+      image: pop5,
+    },
+   
+    {
+      category: "Fiction",
+      image:  pop6,
+    },
+    {
+      category: "Mystery",
+      image:pop3,
     },
   ]);
   return (
     <div className="popular__list ">
-      <Container>
+      {/* <Container> */}
         <Row>
           <Col lg="1">
             <div className="popular__list__title">
@@ -171,7 +178,7 @@ function PopularList() {
             </Carousel>
           </Col>
         </Row>
-      </Container>
+      {/* </Container> */}
     </div>
   );
 }

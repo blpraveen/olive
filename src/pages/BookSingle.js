@@ -18,6 +18,10 @@ import best1 from "../images/author/best1.png";
 import best2 from "../images/author/best2.png";
 import best3 from "../images/author/best3.png";
 import best4 from "../images/author/best4.png";
+import pop4 from "../images/popular/pop4.jpg";
+import pop6 from "../images/popular/pop6.jpg";
+import pop8 from "../images/popular/pop8.jpg";
+import prebook from "../images/prebook.png";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Featur from "../components/Featur";
 import PopularList from "../components/PopularList";
@@ -116,22 +120,25 @@ function BookSingle() {
       <div className="book__single__content">
         <Container>
           <Row>
-            <Col id="book__single__img__col" xm="12" md="3">
-              <Carousel fade controls={true} indicators={false}>
-                <Carousel.Item>
-                  <img className=" col-12 col-md-10" src={book} />
+            <Col id="book__single__img__col" md='3'  >
+              {/* <div className='book__single__img__div'> */}
 
-                  <Carousel.Caption></Carousel.Caption>
+              
+              <Carousel fade  controls={true} indicators={true} id='book__single__carousel' >
+                <Carousel.Item>
+                  <img className='col-12' src={book} />
+
+                </Carousel.Item>
+                {/* <Carousel.Item>
+                  <img  src={prebook} />
                 </Carousel.Item>
                 <Carousel.Item>
-                  <img className=" col-7 col-md-10" src={book} />
-                </Carousel.Item>
-                <Carousel.Item>
-                  <img className=" col-7 col-md-10" src={book} />
-                </Carousel.Item>
+                  <img  src={book} />
+                </Carousel.Item> */}
               </Carousel>
+              {/* </div> */}
             </Col>
-            <Col md="7" className="book__description__col">
+            <Col md='7'  className="book__description__col">
               <div className="book__description">
                 <h2>Rising Like a Storm</h2>
                 <div className="book__description__star__row">

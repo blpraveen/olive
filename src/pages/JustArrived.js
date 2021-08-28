@@ -21,8 +21,10 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 function JustArrived() {
   const [show, setShow] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false)
   const [item] = useState([
     {
       image: best1,
@@ -120,162 +122,184 @@ function JustArrived() {
     </div>
 
     <div className="categories__content">
-      <Container>
+      {/* <Container> */}
         <Row>
-          <Col className="search__items_col" md="3">
-            {/* SEARCH OPTIONS LEFT OF THE PAGE */}
-            <div className="search__items">
-              <div className="search__items__head">
-                <h5>Search Author</h5>
-                <div className="search__items__input ">
-                  <input />
-                  <div className="search__items__icon__div">
-                    <SearchIcon
-                      type="button"
-                      onClick={""}
-                      id="search__items__icon"
-                    />
+        <Col className="search__items_col" lg="3">
+              {/*<<<<<<<<<<< SEARCH OPTIONS LEFT OF THE PAGE >>>>>>>>*/}
+              <div className={openFilter ? 'search__items__open' : 'search__items'}>
+                <div className="search__items__head">
+                  <h5 className='outer__search__text'>Search Author</h5>
+                  <div className="search__items__input ">
+                    <input />
+                    <div className="search__items__icon__div">
+                      <SearchIcon
+                        type="button"
+                        onClick={""}
+                        id="search__items__icon"
+                      />
+                    </div>
                   </div>
+                  <div className='filter__div__outer' >
+                  
+                  <div className='filter__div' onClick={()=>setOpenFilter(!openFilter)} type='button'>
+                  <h6>Filter by</h6>
+                  <ArrowDropDownIcon/>
+                  </div>
+                
+                  <div>
+                  <h5>Search Author</h5>
+                  <div className="search__items__input__collapse ">
+                    <input />
+                    <div className="search__items__icon__div">
+                      <SearchIcon
+                        type="button"
+                        onClick={""}
+                        id="search__items__icon"
+                      />
+                    </div>
+                  </div>
+                  </div>
+                  </div>
+                
                 </div>
+
+                {/*  Language */}
+                <Dropdown id="search__dropdown">
+                  <Dropdown.Toggle variant="none" id="dropdown-basic">
+                    Language
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu id='dropdown__menu'>
+                    <div className="search__item">
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>English</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>Malayalam</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>Hindi</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>Hindi</p>
+                      </div>
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
+
+                {/* FORMAT */}
+                <Dropdown id="search__dropdown">
+                  <Dropdown.Toggle variant="none" id="dropdown-basic">
+                    Format
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu id='dropdown__menu'>
+                    <div className="search__item">
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>Paperback</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>Hard cover</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>E books</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>Audio Books</p>
+                      </div>
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
+
+                {/* FILTER BY PRICE */}
+
+                <Dropdown id="search__dropdown">
+                  <Dropdown.Toggle variant="none" id="dropdown-basic">
+                    Filter By Price
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu id='dropdown__menu'>
+                    <div className="search__item">
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>Low - High</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>High - Low</p>
+                      </div>
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
+
+                {/* BY DATE */}
+
+                <Dropdown id="search__dropdown">
+                  <Dropdown.Toggle variant="none" id="dropdown-basic">
+                  By Date
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu id='dropdown__menu'>
+                    <div className="search__item">
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>New - Old</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>Old - New</p>
+                      </div>
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
+
+                {/* BY REVIEW */}
+
+                <Dropdown id="search__dropdown">
+                  <Dropdown.Toggle variant="none" id="dropdown-basic">
+                    By Reviews
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu id='dropdown__menu'>
+                    <div className="search__item">
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>5 Star</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>4 Star</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>3 Star</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>2 Star</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>1 Star</p>
+                      </div>
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
+
+                {/* BY PUBLISHER */}
+
+                <Dropdown id="search__dropdown">
+                  <Dropdown.Toggle variant="none" id="dropdown-basic">
+                    By Publisher
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu id='dropdown__menu'>
+                    <div className="search__item">
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>DC BOOKS</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>PUBLISHER 1</p>
+                      </div>
+                      <div className="search__item__row">
+                        <input type="checkbox" /> <p>PUBLISHER 3</p>
+                      </div>
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
               </div>
-
-              {/*  Language */}
-              <Dropdown id="search__dropdown">
-                <Dropdown.Toggle variant="none" id="dropdown-basic">
-                  Language
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <div className="search__item">
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>English</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>Malayalam</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>Hindi</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>Hindi</p>
-                    </div>
-                  </div>
-                </Dropdown.Menu>
-              </Dropdown>
-
-              {/* FORMAT */}
-              <Dropdown id="search__dropdown">
-                <Dropdown.Toggle variant="none" id="dropdown-basic">
-                  Format
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <div className="search__item">
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>Paperback</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>Hard cover</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>E books</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>Audio Books</p>
-                    </div>
-                  </div>
-                </Dropdown.Menu>
-              </Dropdown>
-
-              {/* FILTER BY PRICE */}
-
-              <Dropdown id="search__dropdown">
-                <Dropdown.Toggle variant="none" id="dropdown-basic">
-                  Filter By Price
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <div className="search__item">
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>Low - High</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>High - Low</p>
-                    </div>
-                  </div>
-                </Dropdown.Menu>
-              </Dropdown>
-
-              {/* BY DATE */}
-
-              <Dropdown id="search__dropdown">
-                <Dropdown.Toggle variant="none" id="dropdown-basic">
-                  Filter By Price
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <div className="search__item">
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>Low - High</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>High - Low</p>
-                    </div>
-                  </div>
-                </Dropdown.Menu>
-              </Dropdown>
-
-              {/* BY REVIEW */}
-
-              <Dropdown id="search__dropdown">
-                <Dropdown.Toggle variant="none" id="dropdown-basic">
-                  By Reviews
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <div className="search__item">
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>5 Star</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>4 Star</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>3 Star</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>2 Star</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>1 Star</p>
-                    </div>
-                  </div>
-                </Dropdown.Menu>
-              </Dropdown>
-
-              {/* BY PUBLISHER */}
-
-              <Dropdown id="search__dropdown">
-                <Dropdown.Toggle variant="none" id="dropdown-basic">
-                  By Publisher
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <div className="search__item">
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>DC BOOKS</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>PUBLISHER 1</p>
-                    </div>
-                    <div className="search__item__row">
-                      <input type="checkbox" /> <p>PUBLISHER 3</p>
-                    </div>
-                  </div>
-                </Dropdown.Menu>
-              </Dropdown> 
-            </div>
-          </Col>
+            </Col>
 
           {/* Categries right Column */}
           <Col md="8">
@@ -388,7 +412,7 @@ function JustArrived() {
             </Row>
           </Col>
         </Row>
-      </Container>
+      {/* </Container> */}
     </div>
     <PopularList />
 

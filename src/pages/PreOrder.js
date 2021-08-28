@@ -118,17 +118,17 @@ function PreOrder() {
         <Container>
           <Row>
             <Col id="book__single__img__col" xm="12" md="3">
-              <Carousel fade controls={true} indicators={false}>
+              <Carousel fade controls={true} indicators={false} style={{margin:'auto'}}>
                 <Carousel.Item>
-                  <img className=" col-12 col-md-10" src={prebook} />
+                  <img className="col-12 col-md-12" src={prebook} />
 
-                  <Carousel.Caption></Carousel.Caption>
+                  
                 </Carousel.Item>
                 <Carousel.Item>
-                  <img className=" col-12 col-md-10" src={prebook} />
+                  <img className="col-12 col-md-12" src={prebook} />
                 </Carousel.Item>
                 <Carousel.Item>
-                  <img className=" col-12 col-md-10" src={prebook} />
+                  <img className="col-12 col-md-12" src={prebook} />
                 </Carousel.Item>
               </Carousel>
             </Col>
@@ -223,7 +223,7 @@ function PreOrder() {
         </Container>
         <Container>
           <Row>
-            <Col>
+            <Col >
               <div className="book__detailes">
                 <div className="book__detailes__head">
                   <div className="book__detailes__head__content">

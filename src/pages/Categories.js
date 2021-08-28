@@ -13,6 +13,12 @@ import best1 from "../images/author/best1.png";
 import best2 from "../images/author/best2.png";
 import best3 from "../images/author/best3.png";
 import best4 from "../images/author/best4.png";
+import pop1 from "../images/popular/pop1.jpg";
+import pop2 from "../images/popular/pop2.jpg";
+import pop3 from "../images/popular/pop3.jpg";
+import pop4 from "../images/popular/pop4.jpg";
+import pop6 from "../images/popular/pop6.jpg";
+import pop8 from "../images/popular/pop8.jpg";
 import PopularList from "../components/PopularList";
 import UsePagination from "../components/Pagination";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -21,94 +27,96 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
-
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 function Categories() {
   const [show, setShow] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false)
   const [item] = useState([
     {
-      image: best1,
+      image: pop1,
       name: "My family",
       author: "Mahadevi Varma  ",
       cutPrice: "654",
       price: "456",
     },
     {
-      image: best2,
+      image: pop2,
       name: "That night",
       author: "Nidhi Updhyay",
       cutPrice: "123",
       price: "321",
     },
     {
-      image: best3,
+      image: pop3,
       name: "The family firm",
       author: "Emily Oster",
       cutPrice: "777",
       price: "765",
     },
     {
-      image: best4,
+      image: pop4,
       name: "The best couple ever",
       author: "The best couple ever",
       cutPrice: "321",
       price: "321",
     },
     {
-      image: best1,
+      image: pop6,
       name: "My family",
       author: "Mahadevi Varma",
       cutPrice: "654",
       price: "456",
     },
     {
-      image: best2,
+      image: pop8,
       name: "That night",
       author: "Nidhi Updhyay",
       cutPrice: "123",
       price: "321",
     },
     {
-      image: best3,
+      image: pop6,
       name: "The family firm",
       author: "Emily Oster",
       cutPrice: "777",
       price: "765",
     },
     {
-      image: best4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
-      price: "321",
-    },
-    {
-      image: best1,
+      image: pop6,
       name: "My family",
       author: "Mahadevi Varma",
       cutPrice: "654",
       price: "456",
     },
     {
-      image: best2,
+      image: pop8,
       name: "That night",
       author: "Nidhi Updhyay",
       cutPrice: "123",
       price: "321",
     },
     {
-      image: best3,
+      image: pop6,
       name: "The family firm",
       author: "Emily Oster",
       cutPrice: "777",
       price: "765",
     },
     {
-      image: best4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
+      image: pop2,
+      name: "That night",
+      author: "Nidhi Updhyay",
+      cutPrice: "123",
       price: "321",
     },
+    {
+      image: pop3,
+      name: "The family firm",
+      author: "Emily Oster",
+      cutPrice: "777",
+      price: "765",
+    },
+   
   ]);
   return (
     <div className="categories container">
@@ -121,13 +129,13 @@ function Categories() {
       </div>
 
       <div className="categories__content">
-        <Container>
+        {/* <Container> */}
           <Row>
-            <Col className="search__items_col" md="3">
-              {/* SEARCH OPTIONS LEFT OF THE PAGE */}
-              <div className="search__items">
+            <Col className="search__items_col" lg="3">
+              {/*<<<<<<<<<<< SEARCH OPTIONS LEFT OF THE PAGE >>>>>>>>*/}
+              <div className={openFilter ? 'search__items__open' : 'search__items'}>
                 <div className="search__items__head">
-                  <h5>Search Author</h5>
+                  <h5 className='outer__search__text'>Search Author</h5>
                   <div className="search__items__input ">
                     <input />
                     <div className="search__items__icon__div">
@@ -138,6 +146,28 @@ function Categories() {
                       />
                     </div>
                   </div>
+                  <div className='filter__div__outer' >
+                  
+                  <div className='filter__div' onClick={()=>setOpenFilter(!openFilter)} type='button'>
+                  <h6>Filter by</h6>
+                  <ArrowDropDownIcon/>
+                  </div>
+                
+                  <div>
+                  <h5>Search Author</h5>
+                  <div className="search__items__input__collapse ">
+                    <input />
+                    <div className="search__items__icon__div">
+                      <SearchIcon
+                        type="button"
+                        onClick={""}
+                        id="search__items__icon"
+                      />
+                    </div>
+                  </div>
+                  </div>
+                  </div>
+                
                 </div>
 
                 {/*  Language */}
@@ -146,7 +176,7 @@ function Categories() {
                     Language
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>English</p>
@@ -170,7 +200,7 @@ function Categories() {
                     Format
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>Paperback</p>
@@ -195,7 +225,7 @@ function Categories() {
                     Filter By Price
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>Low - High</p>
@@ -211,16 +241,16 @@ function Categories() {
 
                 <Dropdown id="search__dropdown">
                   <Dropdown.Toggle variant="none" id="dropdown-basic">
-                    Filter By Price
+                  By Date
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
-                        <input type="checkbox" /> <p>Low - High</p>
+                        <input type="checkbox" /> <p>New - Old</p>
                       </div>
                       <div className="search__item__row">
-                        <input type="checkbox" /> <p>High - Low</p>
+                        <input type="checkbox" /> <p>Old - New</p>
                       </div>
                     </div>
                   </Dropdown.Menu>
@@ -233,7 +263,7 @@ function Categories() {
                     By Reviews
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>5 Star</p>
@@ -261,7 +291,7 @@ function Categories() {
                     By Publisher
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id='dropdown__menu'>
                     <div className="search__item">
                       <div className="search__item__row">
                         <input type="checkbox" /> <p>DC BOOKS</p>
@@ -279,7 +309,7 @@ function Categories() {
             </Col>
 
             {/* Categries right Column */}
-            <Col md="8">
+            <Col lg="8">
               <div className="categories__right">
                 <img className="col-12" src={book} />
 
@@ -389,7 +419,7 @@ function Categories() {
               </Row>
             </Col>
           </Row>
-        </Container>
+        {/* </Container> */}
       </div>
       <PopularList />
 
