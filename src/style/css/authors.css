@@ -1,12 +1,7 @@
-.authors{
- 
-    max-width: 1200px;
-    margin: auto;
-}
 
 .authors__head{
 margin: auto;
-margin-top: 50px;
+margin-top: 5px;
 }
 .authors__head h3{
     text-align: center;
@@ -23,14 +18,12 @@ color: #212223;
 .author__search__col{
     display: flex;
     flex-direction: row;
-    margin: auto;
-    /* border: saddlebrown solid; */
-    display: flex;
-    justify-content: center;
+    justify-content: space-between;
+  
 }
 .author__search__col P{
     color: #888888;
-  padding: 15px;
+  padding-top: 15px;
   font: normal normal normal 15px/31px DM Sans;
   font-family: 'DM Sans', sans-serif;
   cursor: pointer;
@@ -42,14 +35,12 @@ color: #212223;
 
 
 .authors__item{
-    /* border: saddlebrown solid; */
+   
     max-width: 150px;
     padding: 25px;
     margin: auto;
  cursor: pointer;
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center; */
+  
     cursor: pointer;
     overflow:hidden; 
     white-space:nowrap; 
@@ -83,8 +74,8 @@ color: #888888;
     display: flex;
     justify-content: center;
     margin-top: 90px;
-    /* border-bottom: 2px solid #f1eeee ; */
-    padding-bottom: 60px;
+    
+    padding-bottom: 10px;
 }
 #author__load__button{
     font: normal normal normal 12px/11px DM Sans;
@@ -102,7 +93,10 @@ width: 150px;
 opacity: .5;
 }
 
-
+.authors__row{
+    margin: auto;
+  
+}
 
 #author__search__button{
     font: normal normal normal 12px/11px DM Sans;
@@ -122,14 +116,12 @@ opacity: .5;
       margin: auto;
     }
     .authors__item{
-        /* border: saddlebrown solid; */
+       
         max-width: 150px;
         padding: 10px;
         margin: auto;
      
-        /* display: flex;
-        flex-direction: column;
-        justify-content: center; */
+       
     }
     .author__load{
         display: flex;

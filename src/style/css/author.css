@@ -9,14 +9,11 @@
     margin-bottom: 70px;
 }
 .author__img__col{
-/* border-right: 1px solid gray; */
-/* display: flex; */
-/* justify-content: center; */
-/* padding-right: ; */
+
 margin-top: 30px;
 }
 .author__img__col img{
-    /* border-right: 1px solid gray    ; */
+   
     padding-right: 20px;
 }
 .author__data__col{
@@ -31,7 +28,7 @@ letter-spacing: 0.45px;
 color: #001E43;
 }
 .author__data{
-/* border: solid green; */
+
 max-width: 85%;
 margin: auto;
 
@@ -42,7 +39,7 @@ margin: auto;
     justify-content: space-between;
     align-items: center ;
     margin-top: 10px;
-    /* padding-left:5px; */
+   
 }
 .author__data__row h5{
     text-align: left;
@@ -50,7 +47,7 @@ margin: auto;
     font-family: 'DM Sans', sans-serif;
     letter-spacing: 0.18px;
     color: #9CA0A4;
-    /* text-transform: uppercase;    */
+    
 }
 .author__data__row h6{
     text-align: left;
@@ -68,15 +65,15 @@ margin: auto;
    border-right: 1px solid gray;
  margin-right: -11px;
 
- /* border: solid red; */
+ 
 }
 
 .author__text p{
     font: normal normal normal 15px/28px DM Sans;
     font-family: 'DM Sans', sans-serif;
-/* letter-spacing: 0.16px; */
+
 color: #333333;
-/* padding-right: 20px; */
+
 padding: 10px;
 }
 
@@ -87,13 +84,9 @@ padding: 10px;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        border-bottom: 1px solid rgb(231, 231, 231);
+        border-bottom: 1px solid #f3ecec ;
         margin-top: 30px;
-       
-/* border: solid green; */
-        /* overflow:hidden; 
-        white-space:nowrap; 
-        text-overflow: ellipsis; */
+   
     }
     .book__item:hover{
         opacity: 0.9;
@@ -106,16 +99,16 @@ padding: 10px;
         box-shadow: 0px 3px 6px #00000026;
     }
     .book__item__name{
-        /* border: solid red; */
+       
         overflow:hidden; 
     white-space:nowrap; 
     text-overflow: ellipsis;
-    /* text-overflow: "........."; */
+  
       max-width: 120px;
         margin: auto;
     }
     .book__item__name h6{
-        font: normal normal normal 14px/10px DM Sans; 
+        font: normal normal normal 15px/15px DM Sans; 
          font-family: 'DM Sans', sans-serif; 
         text-align: center;
        
@@ -125,20 +118,21 @@ padding: 10px;
     }
     .book__item__name p{
         text-align: center;
-        font: normal normal normal 13px/5px DM Sans;
+        font: normal normal normal 13px/10px DM Sans;
         font-family: 'DM Sans', sans-serif;
         letter-spacing: 0px;
         color: #5E5E5E;
+        
     }
     .book__item__price__div{
         display: flex;
         flex-direction: row;
         padding-left: 10px;
         margin: auto;
-        /* border: solid red; */
+      
         margin-top: -5px;
         justify-content: space-between;
-        /* align-items: center; */
+       
         width: 120px;
        
     }
@@ -146,11 +140,11 @@ padding: 10px;
         display: flex;
         flex-direction: row;
        
-        /* border: solid red; */
+        
         align-items: center;
     }
     .book__item__cut__price{
-        /* text-align: center; */
+     
         text-decoration: line-through;
         font: normal normal normal 12px/16px DM Sans;
         font-family: 'DM Sans', sans-serif;
@@ -175,7 +169,7 @@ padding: 10px;
     .author__books{
         margin: auto;
         margin-top: 0px;
-        /* border-left: 1px solid gray; */
+        
     }
 
     .author__books h3{
@@ -193,7 +187,7 @@ padding: 10px;
        border: none;
          }
          .author__data{
-            /* border: solid green; */
+         
             max-width: 100%;
             margin: auto;
             padding: 10px;
@@ -205,9 +199,7 @@ padding: 10px;
             }
             .author__img__col{
                 /* border-right: 1px solid gray; */
-                /* display: flex; */
-                /* justify-content: center; */
-                /* padding-right: ; */
+               
                 margin-top: 10px;
                 }
                 .author__text{
@@ -215,7 +207,7 @@ padding: 10px;
                    
                   margin-right: -11px;
                  
-                  /* border: solid red; */
+                
                  }
                  .author__data__col{
                

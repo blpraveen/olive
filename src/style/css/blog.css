@@ -1,37 +1,4 @@
 
-/* .blog-container{
-    width: 80%;
-    margin: auto;
-    margin-top: 30px;
-   
-   
-}
-.blog-img{
-    width: 100%;
-    max-height: 450px;
-}
-.top-layer{
-    width: 70%;
-   
-    background-color: #F8F8F8;
-    margin: auto;
-    border-radius: 20px;
- 
-    position: relative;
-    
-   
-    padding: 50px;
-    margin-top: -160px;
-   
-} */
-/* .blog-title{
-    width: 85%;
-    margin: auto;
-    margin-top: 7%;
-    margin-bottom: 5%;
-    font-size: 30px;
-    color: #001E43;
-} */
 .text-container  span{
     font-weight: 700;
 }
@@ -63,38 +30,34 @@ letter-spacing: 0.18px;
 color: #424344;
 }   
 .buynow{
-    /* width: 85%; */
+ 
     margin: auto;
     background-color:  #FFFFFF;
 
     margin-bottom: 7%;
-    /* padding-bottom: 40px; */
+  
     border-radius: 5px;
     box-shadow: 1px 1px 5px rgb(218, 217, 217);
     display: flex;
-    /* border: red solid; */
+
     padding: 30px;
 }
 .buy-book{
-    /* width: 35%; */
-    
-    /* padding-top: 5%; */
-    /* padding-bottom: 5%; */
-    /* border: solid green; */
+   
     display: flex;
     flex-direction: column;
     justify-content: center;
     
 }
 .book-front{
-    /* width: 60%; */
+ 
     max-width: 150px;
     border-radius: 3px;
-    /* border: solid yellowgreen; */
+ 
     margin: auto;
 }
 .buy-btn{
-    /* width: 60%; */
+   
     width: 150px;
     margin: auto;
     height: 2.5vw;
@@ -112,40 +75,27 @@ color: #424344;
     transform: scale(0.9);
     transition: 0.2s;
 }
-.description{
-    /* width: 65%; */
-    /* padding: 5% 5% 0 0; */
-    /* text-align: start; */
-    /* text-align: justify; */
-    /* overflow: hidden; */
-}
+
 .book-title{
     font-size: 24px;
     margin-bottom: 0;
-    /* background-color: wheat; */
+   
 }
 .rating{
     display: flex;
     align-items: center;
-    /* border: solid yellowgreen; */
-    /* height: 35px; */
+  
 }
 .rating div{
     padding-right: 20px;
 }
-/* .voter{
-    font-size: 12px;
-    color: grey;
-}
-.author{
-    font-size: 12px;
-} */
+
 
 .fa-star{
     color: rgb(255, 217, 0);
     font-size: 12px;
     padding-right: 5px;
-    /* background-color: violet; */
+    
     margin-bottom: 10px;
 }
 .star-icon input{
@@ -202,100 +152,6 @@ margin-left: 10px;
     margin-left: 5px;
     margin-bottom: -1px;
 }
-/* @media (max-width:600px){
-    .blog-container{
-        width: 100%;
-        margin-top: 0;
-    }
-    .top-layer{
-        width: 80%;
-        top: 14%;
-        left: 10%;
-        right: 10%;
-    }
- 
-    .rating{
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        margin-bottom: 10px;
-    }
-
-    .fa-star{
-        font-size: 10px;
-    }
-    .buynow{
-        text-align: center;
-        flex-direction: column;
-     
-        padding: 10%;
-    }
-    .buy-book{
-        width: 100%;
-    }
-    .buy-btn{
-        height: 24px;
-        font-size: 10px;
-    }
-    .description{
-        width: 100%;
-        text-align: justify;
-    }
-    .book-title{
-        font-size: 16px;
-    }
-    .book-price{
-        font-size: 14px;
-    }
-} */
-
-/* @media (min-width: 600px) and (max-width: 980px){
-    .blog-container{
-        width: 100%;
-        margin-top: 0;
-    }
-    .top-layer{
-        width: 80%;
-        top: 14%;
-        left: 10%;
-        right: 10%;
-    }
-    .blog-title{
-        font-size: 28px;
-    }
-    .rating{
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        margin-bottom: 10px;
-    }
-    .fa-star{
-        font-size: 12px;
-    }
-    .buynow{
-        text-align: center;
-        padding: 5%;
-    }
-    .buy-book{
-        width: 100%;
-    }
-    .buy-btn{
-        height: 24px;
-        font-size: 12px;
-    }
-    .description{
-        width: 100%;
-        text-align: justify;
-    }
-    .book-title{
-        font-size: 16px;
-    }
-    .book-price{
-        font-size: 14px;
-    }
-} */
 
       
 
@@ -304,7 +160,7 @@ margin-left: 10px;
         width: 90%;
         margin: auto;
         margin-top: 30px;
-        /* border: solid green; */
+      
        
     }
     .blog-img{
@@ -313,38 +169,36 @@ margin-left: 10px;
     }
     .top-layer{
         width: 80%;
-        /* min-height: fit-content; */
+       
         background-color: #F8F8F8;
         margin: auto;
         border-radius: 20px;
      
         position: relative;
         
-        /* border: solid red; */
+       
         padding: 50px;
         margin-top: -160px;
-        /* z-index: 1; */
-        /* opacity: 1; */
-        /* position: absolute; */
+      
     }
 }
 @media   (max-width: 1150px){
     .buynow{
-        /* width: 85%; */
+     
         margin: auto;
         background-color: white;
         margin-bottom: 7%;
-        /* padding-bottom: 40px; */
+       
         border-radius: 5px;
         box-shadow: 1px 1px 5px rgb(218, 217, 217);
         display: block;
-        /* border: red solid; */
+        
     }
     .buy-book{
         width: 100%;
         padding-top: 5%;
         padding-bottom: 5%;
-        /* border: solid green; */
+       
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -354,7 +208,7 @@ margin-left: 10px;
         width: 90%;
         margin: auto;
         margin-top: 30px;
-        /* border: solid green; */
+       
        
     }
     .blog-img{
@@ -363,19 +217,17 @@ margin-left: 10px;
     }
     .top-layer{
         width: 90%;
-        /* min-height: fit-content; */
+        
         background-color: #F8F8F8;
         margin: auto;
         border-radius: 20px;
      
         position: relative;
         
-        /* border: solid red; */
+       
         padding: 10px;
         margin-top: -60px;
-        /* z-index: 1; */
-        /* opacity: 1; */
-        /* position: absolute; */
+        
     }
     .text-container h2{
         text-align: center;
@@ -393,14 +245,13 @@ margin-left: 10px;
     .rating{
         display: grid;
         align-items: center;
-        /* border: solid yellowgreen; */
-        /* height: 35px; */
+       
     }
     .blog-container{
         width: 95%;
         margin: auto;
         margin-top: 30px;
-        /* border: solid green; */
+       
        
     }
     .text-container h2{
@@ -413,16 +264,16 @@ margin-left: 10px;
         margin-top: 5px;
     }
     .buynow{
-        /* width: 85%; */
+       
         margin: auto;
         background-color:  #FFFFFF;
     
         margin-bottom: 7%;
-        /* padding-bottom: 40px; */
+        
         border-radius: 5px;
         box-shadow: 1px 1px 5px rgb(218, 217, 217);
         display: flex;
-        /* border: red solid; */
+        
         padding: 10px;
     }
 }

@@ -2,10 +2,11 @@ import "../style/css/allOrder.css";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
+
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { useState } from "react";
 import Featur from "../components/Featur";
+import { Link } from "react-router-dom";
 function AllOrder() {
   const [active] = useState([
     {
@@ -83,11 +84,23 @@ function AllOrder() {
   return (
     <div className="all__order container">
       <div className="path ">
-        <p>Home </p>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <p>Home </p>
+        </Link>
         <ArrowForwardIosIcon id="path__icon" />
-        <p>Dashboard </p>
+        <Link
+          to="dashboard"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <p>Dashboard</p>
+        </Link>
         <ArrowForwardIosIcon id="path__icon" />
-        <p> Myorders</p>
+        <Link
+          to="allOrders"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <p> Myorders</p>
+        </Link>
       </div>
 
       <div className="all__order__content">
@@ -129,9 +142,13 @@ function AllOrder() {
                             Total: ₹<span>{data.total}</span>
                           </h6>
                         </div>
-                        {/* <div> */}
-                        <ArrowForwardIcon id="order__arrow" />
-                        {/* </div> */}
+
+                        <Link
+                          to="/orderDownload"
+                          style={{ textDecoration: "none", color: "inherit" }}
+                        >
+                          <ArrowForwardIcon id="order__arrow" />
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -175,9 +192,12 @@ function AllOrder() {
                             Total: ₹<span>{data.total}</span>
                           </h6>
                         </div>
-                        {/* <div> */}
-                        <ArrowForwardIcon id="order__arrow" />
-                        {/* </div> */}
+                        <Link
+                          to="/orderDownload"
+                          style={{ textDecoration: "none", color: "inherit" }}
+                        >
+                          <ArrowForwardIcon id="order__arrow" />
+                        </Link>
                       </div>
                     </div>
                   </div>

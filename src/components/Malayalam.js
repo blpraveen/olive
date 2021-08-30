@@ -24,17 +24,17 @@ const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
     items: 6,
-    //   slidesToSlide: 3
+   
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
     items: 3,
-    //   slidesToSlide: 2
+   
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 2,
-    //   slidesToSlide: 1
+    breakpoint: { max: 500, min: 0 },
+    items: 1,
+  
   },
 };
 function Malayalam() {
@@ -94,7 +94,7 @@ function Malayalam() {
     <div className="malayalam">
       <div className="malayalam__head__row ">
         <h5>Popular Malayalam Books</h5>
-        {/* <p>View all</p> */}
+      
       </div>
       {/* CART ALERTS */}
 
@@ -169,8 +169,8 @@ function Malayalam() {
           transitionDuration={2000}
           customTransition={"ease 2000ms"}
           containerClass="carousel-container"
-          // removeArrowOnDeviceType={[ "mobile"]}
-          //   deviceType={this.props.deviceType}
+          removeArrowOnDeviceType={[ "mobile"]}
+          centerMode={true}
           dotListClass="custom-dot-list-style"
           itemClass="popular__ani"
         >

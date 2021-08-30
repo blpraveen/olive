@@ -1,12 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import Featur from "../components/Featur";
 import "../style/css/confirm.css";
 import { Link } from "react-router-dom";
+import cart1 from "../images/cart/cart1.png";
+import cart2 from "../images/cart/cart2.png";
+import cart3 from "../images/cart/cart3.png";
+import sample1 from "../images/cart/review.png";
+import sample2 from "../images/cart/paulo.png";
 function Confirm() {
+  const [review] = useState([
+    {
+      name: "Rising Like a Storm ",
+      author: "Tanaz Bhathena",
+      image: sample1,
+      price: 450,
+      quantity: 1,
+      total: 450,
+    },
+    {
+      name: "Conflicts of Intrest",
+      author: "Sunita Narain",
+      image: sample2,
+      price: 150,
+      quantity: 2,
+      total: 300,
+    },
+    {
+      name: "Right Between the Ears",
+      author: "Sandeep Dayal",
+      image: cart2,
+      price: 510,
+      quantity: 1,
+      total: 510,
+    },
+  ]);
   return (
-    <div>
+    <div className="container">
       <div className="fullbody">
-        <div className="total-container">
+        <div className="total-container container">
           <div className="review-container">
             <div className="review-list">
               <img
@@ -16,58 +47,44 @@ function Confirm() {
               />
               <p className="review-title">Review Products</p>
             </div>
-            <div className="all-books">
-              <div className="first-book">
-                <img
-                  className="book-icon"
-                  src={process.env.PUBLIC_URL + "/images/review1.svg"}
-                  alt="book_icon"
-                />
-                <div className="about-item">
-                  <p className="item-title">Rising Like a Storm</p>
-                  <p className="author-created">Tanaz Bhathena</p>
-                </div>
+            <div className="cart__table">
+              <table>
+                <tr className="table__row">
+                  <th id="product__th">Product</th>
+                  <th id="price__th">Price</th>
+                  <th id="qty__th">Qty</th>
+                  <th id="total__th">Total</th>
+                </tr>
 
-                <p className="price1">₹ 450</p>
-                <p className="nos-quantity">1</p>
-                <p className="price-total">₹ 450</p>
-              </div>
-            </div>
-
-            <div className="all-books">
-              <div className="first-book">
-                <img
-                  className="book-icon"
-                  src={process.env.PUBLIC_URL + "/images/review2.svg"}
-                  alt="book_icon"
-                />
-                <div className="about-item">
-                  <p className="item-title">Rising Like a Storm</p>
-                  <p className="author-created">Tanaz Bhathena</p>
-                </div>
-
-                <p className="price1">₹ 450</p>
-                <p className="nos-quantity">1</p>
-                <p className="price-total">₹ 450</p>
-              </div>
-            </div>
-
-            <div className="all-books">
-              <div className="first-book">
-                <img
-                  className="book-icon"
-                  src={process.env.PUBLIC_URL + "/images/review3.svg"}
-                  alt="book_icon"
-                />
-                <div className="about-item">
-                  <p className="item-title">Rising Like a Storm</p>
-                  <p className="author-created">Tanaz Bhathena</p>
-                </div>
-
-                <p className="price1">₹ 450</p>
-                <p className="nos-quantity">1</p>
-                <p className="price-total">₹ 450</p>
-              </div>
+                {review.map((data) => {
+                  return (
+                    <tr>
+                      <td id="cart__td">
+                        <div className="cart__item">
+                          <img src={data.image} />
+                          <div className="cart__item__name">
+                            <h6>{data.name}</h6>
+                            <p>{data.author}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td id="table__td">
+                        <h6>
+                          ₹<span>{data.price}</span>{" "}
+                        </h6>
+                      </td>
+                      <td id="table__td">
+                        <h6>{data.quantity}</h6>
+                      </td>
+                      <td id="table__td">
+                        <h6>
+                          ₹<span>{data.total}</span>
+                        </h6>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </table>
             </div>
           </div>
 
@@ -90,23 +107,23 @@ function Confirm() {
               <div className="name-header">
                 <div className="name-container">
                   <p className="name">Joseph P</p>
-                </div>
-                <div className="icon-container">
-                  <Link to="/editAdress">
-                    <img
-                      className="edit-icon"
-                      src={process.env.PUBLIC_URL + "/images/edit_icon.png"}
-                      alt="edit-icon"
-                    />
-                  </Link>
+                  <div className="icon-container">
+                    <Link to="/editAdress">
+                      <img
+                        className="edit-icon"
+                        src={process.env.PUBLIC_URL + "/images/edit_icon.png"}
+                        alt="edit-icon"
+                      />
+                    </Link>
 
-                  <a href="#">
-                    <img
-                      className="delete-icon"
-                      src={process.env.PUBLIC_URL + "/images/delete_icon.png"}
-                      alt="delete-icon"
-                    />
-                  </a>
+                    <a href="#">
+                      <img
+                        className="delete-icon"
+                        src={process.env.PUBLIC_URL + "/images/delete_icon.png"}
+                        alt="delete-icon"
+                      />
+                    </a>
+                  </div>{" "}
                 </div>
               </div>
               <div className="data-box2">
@@ -160,7 +177,7 @@ function Confirm() {
               <br></br>
 
               <input type="radio" name="mode" id="online"></input>
-              <label for="online">ONLINE</label>
+              <label for="online">Online</label>
             </div>
           </div>
 
@@ -174,7 +191,7 @@ function Confirm() {
               </button>
             </Link>
           </div>
-        </div>{" "}
+        </div>
       </div>
       <Featur />
     </div>

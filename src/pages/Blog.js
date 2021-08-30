@@ -19,9 +19,6 @@ function Blog() {
             />
           </div>
           <div className="top-layer">
-            {/* <div className="blog-title"> */}
-
-            {/* </div> */}
             <div className="text-container">
               <h2>
                 Why should you read <span>The Alchemist</span>
@@ -29,7 +26,6 @@ function Blog() {
 
               <h6>1. Prevents Alzheimer’s and Dementia </h6>
               <p>
-                {" "}
                 Studies have shown that reading the book daily keeps the mind
                 mentally stimulated, reducing the likelihood of Alzheimer’s and
                 dementia.Because your brain remains active, it prevents your
@@ -60,7 +56,6 @@ function Blog() {
 
               <h6>4. Memory Booster</h6>
               <p>
-                {" "}
                 We all see and read many things in daily life. But you cannot
                 remember everyone.But people who read books more, memory is
                 better and stronger. Which helps in remembering small things.
@@ -114,7 +109,6 @@ function Blog() {
                           <ReactStars
                             id="review__stars"
                             count={5}
-                            // onChange={4}
                             value={5}
                             size={24}
                             activeColor="#ffd700"
@@ -139,12 +133,11 @@ function Blog() {
                           tyranny.
                         </p>
                         <p>
-                          {" "}
                           With King Lohar dead and a usurper queen in power, Gul
                           and Cavas face a new tyrannical government that is
                           bent on killing them both. Their roles in King Lohar's
                           death have not gone unnoticed, and the new queen is
-                          out for blood. What she doesn't know is that Gul......{" "}
+                          out for blood. What she doesn't know is that Gul......
                           <button className="read-more">Read More</button>
                         </p>
                       </div>

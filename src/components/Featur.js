@@ -10,39 +10,37 @@ function Featur() {
   return (
     <div>
       <div className="feature__row">
-        {/* <Container> */}
-          <Row>
-            <Col className="feature__col" xs="6" md="3">
-              <img src={icon1} />
-              <div className="feature__right">
-                <h6>Free Delivery</h6>
-                <p>Orders above ₹500</p>
-              </div>
-            </Col>
+        <Row>
+          <Col className="feature__col" xs="6" md="3">
+            <img src={icon1} />
+            <div className="feature__right">
+              <h6>Free Delivery</h6>
+              <p>Orders above ₹500</p>
+            </div>
+          </Col>
 
-            <Col className="feature__col" xs="6" md="3">
-              <img src={icon2} />
-              <div className="feature__right">
-                <h6>Secure Payments</h6>
-                <p>Orders above ₹500</p>
-              </div>
-            </Col>
-            <Col className="feature__col" xs="6" md="3">
-              <img src={icon3} />
-              <div className="feature__right">
-                <h6>Easy Return</h6>
-                <p>Orders above ₹500</p>
-              </div>
-            </Col>
-            <Col className="feature__col" xs="6" md="3">
-              <img className="col" src={icon4} />
-              <div className="feature__right">
-                <h6>Any time support</h6>
-                <p>Orders above ₹500</p>
-              </div>
-            </Col>
-          </Row>
-        {/* </Container> */}
+          <Col className="feature__col" xs="6" md="3">
+            <img src={icon2} />
+            <div className="feature__right">
+              <h6>Secure Payments</h6>
+              <p>Orders above ₹500</p>
+            </div>
+          </Col>
+          <Col className="feature__col" xs="6" md="3">
+            <img src={icon3} />
+            <div className="feature__right">
+              <h6>Easy Return</h6>
+              <p>Orders above ₹500</p>
+            </div>
+          </Col>
+          <Col className="feature__col" xs="6" md="3">
+            <img className="col" src={icon4} />
+            <div className="feature__right">
+              <h6>Any time support</h6>
+              <p>Orders above ₹500</p>
+            </div>
+          </Col>
+        </Row>
       </div>
     </div>
   );

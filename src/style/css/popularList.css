@@ -76,16 +76,19 @@
     .popular__list{
         max-width: 1150px;
         margin: auto;
-        margin-top: 10px;
+        margin-top: 0px;
         /* border: saddlebrown solid; */
         /* display: flex; */
         flex-direction: row;
         align-items: center;
         padding-left: 10px;
     }
+    .popular__list__title{
+        margin-top: 15px;
+    }
     .popular__list__title h6{
         text-align: left;
-        font: normal normal normal 13px/20px DM Sans;
+        font: normal normal normal 13px/10px DM Sans;
         font-family: 'DM Sans', sans-serif;
         letter-spacing: 0.15px;
         color: #232324;
@@ -93,9 +96,11 @@
     .popular__img__div{
         /* border: saddlebrown solid; */
        max-width: 60px;
+      
     }
     .popular__img__div img{
         margin: auto;
-        max-width: 60px;
+        max-width: 50px;
+        max-height: 50px;
     }
 }

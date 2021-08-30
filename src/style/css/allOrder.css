@@ -1,22 +1,18 @@
 .all__order__content{
-    /* margin-top: 0px; */
+ 
     margin-bottom: 100px;
 }
 .all__order__header h3{
-    text-align: left;
-    font: normal normal normal 26px/31px DM Sans;
+    text-align: center;
+    font: normal normal normal 26px/11px DM Sans;
     font-family: 'DM Sans', sans-serif;
     letter-spacing: 0.3px;
     color: #212223;
 }
 
-@media screen and (min-width: 800px) {
-    /* .all__order__content{
-        padding-left: 5%;
-    } */
-}
+
 .active__order{
-    margin-top: 20px;
+    margin-top: 30px;
 }
 .active__order h5{
     text-align: left;
@@ -30,14 +26,14 @@ margin-bottom: -40px;
 .order__box{
 border: 1px solid #f0f0f0;
 border-radius: 10px;
-/* opacity: 0.16; */
+
 max-width: 250px;
 
-/* margin: auto; */
+
 margin-top: 60px;
 }
 .order__box__content{
-    padding: 20px;
+    padding: 30px;
 }
 .order__box__first__row{
     display: flex;
@@ -45,8 +41,7 @@ margin-top: 60px;
     justify-content: space-between;
 }
 .order__box__first__row__left{
-    /* padding-left: 15px;
-    padding-top: 15px; */
+   
 }
 .order__box__first__row__left p{
     text-align: left;
@@ -132,7 +127,7 @@ margin-bottom: -40px;
         margin-bottom: 20px;
     }
     .all__order__header h3{
-        /* text-align: center; */
+    
         font: normal normal normal 20px/21px DM Sans;
         font-family: 'DM Sans', sans-serif;
         letter-spacing: 0.3px;
@@ -142,19 +137,23 @@ margin-bottom: -40px;
         margin-top: 10px;
     }
     .active__order h5{
-        text-align:center;
-    font: normal normal normal 17px/31px DM Sans;
+        text-align:left;
+    font: normal normal normal 16px/21px DM Sans;
     font-family: 'DM Sans', sans-serif;
     letter-spacing: 0.25px;
     color: #001E43;
     margin-bottom: 0px;
+    /* padding-left: 10px; */
+    margin-bottom: -10px;
+    border-bottom: 1px solid #f3ecec ;
+    padding-bottom: 5px;
     }
     
 .order__box{
     border: 1px solid #f0f0f0;
     border-radius: 10px;
-    /* opacity: 0.16; */
-    max-width: 250px;
+   
+    min-width: 100%;
     
     margin: auto;
     margin-top: 20px;
@@ -163,12 +162,16 @@ margin-bottom: -40px;
         margin-top: 30px;
     }
     .past__order h5{
-        text-align: center;
-    font: normal normal normal 18px/11px DM Sans;
+        text-align: left;
+    font: normal normal normal 16px/21px DM Sans;
     font-family: 'DM Sans', sans-serif;
     letter-spacing: 0.25px;
     color: #001E43;
     margin-bottom: 0px;
+    /* padding-left: 10px; */
+    margin-bottom: -10px;
+    border-bottom: 1px solid #f3ecec ;
+    padding-bottom: 5px;
     }
     
 }

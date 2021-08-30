@@ -2,15 +2,10 @@ import React, { useState } from "react";
 import "../style/css/header.css";
 import logo from "../images/logo.png";
 import SearchIcon from "@material-ui/icons/Search";
-import AccountBoxOutlinedIcon from "@material-ui/icons/AccountBoxOutlined";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
-import { HiOutlineUserCircle } from "react-icons/hi";
-import ListIcon from "@material-ui/icons/List";
 import Collapse from "react-bootstrap/Collapse";
 import { Link, NavLink } from "react-router-dom";
-import Signup from "./Signup";
 import Modal from "react-bootstrap/Modal";
-import { Button } from "bootstrap";
 import "./signup.css";
 import "./login.css";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
@@ -41,12 +36,11 @@ function Header() {
 
             <div className="header__logo__div ">
               <div className="logo__input">
-                <Link to='/'>
-                <img className="header__logo " src={logo} alt="logo" />
+                <Link to="/" id="logo__link">
+                  <img className="header__logo " src={logo} alt="logo" />
                 </Link>
-              
 
-                <div className="header__input__div      ">
+                <div className="header__input__div">
                   <span className="header__serach__p">
                     <p>All Categories</p>
                   </span>
@@ -87,7 +81,7 @@ function Header() {
                   <h5>My Account</h5>
                 </div>
               </div>
-              {/* <Link to='/'> */}
+
               <div className="header__login">
                 <Link
                   to="/cart"
@@ -106,68 +100,58 @@ function Header() {
                   </div>
                 </Link>
               </div>
-              {/* </Link> */}
             </div>
-            {/* <ListIcon onClick={() => setOpen(!open)} id="header__list__icon" /> */}
           </div>
         </div>
       </div>
       <div className="header__second__row ">
+        <div className="navbars container">
+          <div className="nav__items">
+            <NavLink
+              strict
+              to="/"
+              isActive={checkActive}
+              activeClassName="nav__active"
+              id="navLink"
+            >
+              <h5>Home</h5>
+            </NavLink>
+            <NavLink
+              strict
+              to="/categories"
+              activeClassName="nav__active"
+              id="navLink"
+            >
+              <h5>Categories</h5>
+            </NavLink>
+            <NavLink to="/preorder" activeClassName="nav__active" id="navLink">
+              <h5>Pre-order</h5>
+            </NavLink>
+            <NavLink to="/error" activeClassName="nav__active" id="navLink">
+              <h5>Languages</h5>
+            </NavLink>
+            <NavLink to="/error" activeClassName="nav__active" id="navLink">
+              <h5>IMPRINTs</h5>
+            </NavLink>
 
-      <div className="navbars container">
-        <div className="nav__items">
-          <NavLink
-            strict
-            to="/"
-            isActive={checkActive}
-            activeClassName="nav__active"
-            id="navLink"
-          >
-            <h5>Home</h5>
-          </NavLink>
-          <NavLink
-            strict
-            to="/categories"
-            activeClassName="nav__active"
-            id="navLink"
-          >
-            <h5>Categories</h5>
-          </NavLink>
-          <NavLink to="/preorder" activeClassName="nav__active" id="navLink">
-            <h5>Pre-order</h5>
-          </NavLink>
-          <NavLink to="/error" activeClassName="nav__active" id="navLink">
-            <h5>Languages</h5>
-          </NavLink>
-          <NavLink to="/error" activeClassName="nav__active" id="navLink">
-            <h5>IMPRINTs</h5>
-          </NavLink>
-
-          <NavLink to="/error" activeClassName="nav__active" id="navLink">
-            <h5>Web magazine</h5>
-          </NavLink>
-          <NavLink to="/authors" activeClassName="nav__active" id="navLink">
-            <h5>Authors List</h5>
-          </NavLink>
-          <NavLink to="/offerZone" activeClassName="nav__active" id="navLink">
-            <h5>OFFERSZONE</h5>
-          </NavLink>
+            <NavLink to="/error" activeClassName="nav__active" id="navLink">
+              <h5>Web magazine</h5>
+            </NavLink>
+            <NavLink to="/authors" activeClassName="nav__active" id="navLink">
+              <h5>Authors List</h5>
+            </NavLink>
+            <NavLink to="/offerZone" activeClassName="nav__active" id="navLink">
+              <h5>OFFERSZONE</h5>
+            </NavLink>
+          </div>
         </div>
       </div>
 
-      </div>
 
+{/* <<<<<<<<<<<<<<<<<<< NAVBAR COLLAPSE >>>>>>>>>>>>>>>>>>>>>>>>>>>> */}
       <Collapse in={open}>
         <div className="navbar__collpase">
           <div className="collpse__first__row">
-            {/* <div className="collpase__input__div     ">
-             
-              <input type="text" placeholder="Search for books by key word" />
-              <span className="collpase__serach__span">
-                <SearchIcon type="button" />
-              </span>
-            
-            </div> */}
             <NavLink
               strict
               to="/"
@@ -181,23 +165,16 @@ function Header() {
             <div
               className="collpase__login"
               type="button"
-              onClick={() => setShowLoginupModal(true)}
+              onClick={() => setOpen(!open)}
             >
-              <PermIdentityIcon id="collpase__login__icon" />
+              <PermIdentityIcon
+                id="collpase__login__icon"
+                onClick={() => setShowLoginupModal(true)}
+              />
               <p>{user ? "Sign Out" : "Sign In"} </p>
             </div>
           </div>
 
-          {/* <NavLink
-            strict
-            to="/"
-            isActive={checkActive}
-            activeClassName="nav__active__collapse"
-            id="navLink"
-            onClick={() => setOpen(!open)}
-          >
-            <h6>Home</h6>
-          </NavLink> */}
           <NavLink
             strict
             to="/categories"
@@ -268,11 +245,10 @@ function Header() {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton onClick={() => setShowSignupModal(false)}>
-          {/* {/* <Modal.Title id="contained-modal-title-vcenter" > */}
-          {/* Modal heading */}
-          {/* </Modal.Title> */}
-        </Modal.Header>
+        <Modal.Header
+          closeButton
+          onClick={() => setShowSignupModal(false)}
+        ></Modal.Header>
         <Modal.Body id="signup-model">
           <div className="body">
             <div className="container2">
@@ -314,7 +290,7 @@ function Header() {
                     SIGN UP
                   </button>
                 </div>
-                {/* <hr className="signup-line"></hr> */}
+
                 <div className="link-container">
                   <p className="have-account" type="button">
                     Already have an account ?{" "}
@@ -349,9 +325,6 @@ function Header() {
             </div>
           </div>
         </Modal.Body>
-        {/* <Modal.Footer>
-        <button onClick={() => setShowModal(false)}>Close</button>
-      </Modal.Footer> */}
       </Modal>
 
       {/* <<<<<<<<<<<<<< LOGIN MODAL >>>>>>>>>>>>>>>>>>>>>>> */}
@@ -383,7 +356,6 @@ function Header() {
                 />
                 <div className="text-containere">
                   <p className="login__text">
-                
                     To review and adjust your security settings and get
                     recommendations to help you keep your
                   </p>
@@ -415,7 +387,7 @@ function Header() {
                     </Link>
                   </div>
                 </div>
-                {/* <hr className="signup-line"></hr> */}
+
                 <div className="link-container2">
                   <p className="have-account">
                     Don't have an account ?{" "}

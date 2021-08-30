@@ -1,13 +1,4 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'DM Sans', sans-serif;
-}
-.body{
-    width: 100%;
-    overflow-x: hidden;
-}
+
 .container7{
     /* width: 80%; */
     margin: auto;
@@ -30,12 +21,12 @@
     color: rgb(204, 201, 201);
 }
 .image-box{
-    position: relative;
-    /* background-color: lightcoral; */
+    /* position: relative; */
+   
     position: absolute;
     right: 10%;
     top: 5%;
-    z-index: 15;
+    z-index: 0;
 }
 .right-image{
     width: 240px;

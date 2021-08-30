@@ -20,36 +20,19 @@ const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
     items: 6,
-    //   slidesToSlide: 3
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
     items: 3,
-    //   slidesToSlide: 2
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 2,
-    //   slidesToSlide: 1
+    breakpoint: { max: 500, min: 0 },
+    items: 1,
   },
 };
 function JustArrived() {
   const [show, setShow] = useState(false);
-  const CustomButtonGroup = ({ next, previous, goToSlide, carouselState }) => {
-    const { totalItems, currentSlide } = carouselState;
-    return (
-      <div className="custom-button-group">
-        <div>Current slide is {currentSlide}</div>
-        <button onClick={() => previous()}>Previous slide</button>
-        <button onClick={() => next()}>Next slide</button>
-        <button
-          onClick={() => goToSlide(Math.floor(Math.random() * totalItems + 1))}
-        >
-          Go to a random slide
-        </button>
-      </div>
-    );
-  };
+
   const [arrived, setArrived] = useState([
     {
       image: pop8,
@@ -109,12 +92,6 @@ function JustArrived() {
     },
   ]);
 
-  // const CustomRightArrow = ({ onClick, ...rest }) => {
-  
-  
-  //   return <button > helooooooooo</button>;
-
-  // };
   return (
     <div className="arrived">
       <div className="arrived__head__row ">
@@ -168,7 +145,7 @@ function JustArrived() {
                  </Alert> :''} */}
 
       {/* <<<<<<<<< WRONG ALERT >>>>>>>>> */}
-       {/* {show?  
+      {/* {show?  
                  <Alert variant="danger" id='danger__alert'>
                   
                  
@@ -189,24 +166,17 @@ function JustArrived() {
         <Carousel
           swipeable={true}
           draggable={false}
-            // showDots={true}
           responsive={responsive}
           ssr={true} // means to render carousel on server-side.
           infinite={true}
           autoPlay={false}
-          // autoPlaySpeed={1000}
           keyBoardControl={true}
-       
           customTransition={"ease 1000ms"}
           containerClass="carousel-container"
-          // containerClass="container-padding-bottom"
-          // removeArrowOnDeviceType={[ "mobile"]}
-
+          removeArrowOnDeviceType={["mobile"]}
+          centerMode={true}
           dotListClass="custom-dot-list-style"
           itemClass="popular__ani"
-          // customRightArrow={<AddShoppingCartIcon />}
-          customButtonGroup={<CustomButtonGroup />}
-          arrows={false}
         >
           {arrived.map((data) => {
             return (
@@ -250,18 +220,5 @@ function JustArrived() {
     </div>
   );
 }
-const CustomButtonGroup = ({ next, previous, goToSlide, carouselState }) => {
-  const { totalItems, currentSlide } = carouselState;
-  return (
-    <div className="custom-button-group">
-      <div>Current slide is {currentSlide}</div>
-      <button onClick={() => previous()}>Previous slide</button>
-      <button onClick={() => next()}>Next slide</button>
-      <button
-        onClick={() => goToSlide(Math.floor(Math.random() * totalItems + 1))}
-      >
-        Go to a random slide
-      </button>
-    </div>
-  );}
+
 export default JustArrived;

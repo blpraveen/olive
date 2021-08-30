@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Featur from "../components/Featur";
 import "../style/css/address.css";
-
+import { Link } from "react-router-dom";
 function Address() {
   const [name, setName] = useState("");
   const [house, setHouseNo] = useState("");
@@ -166,7 +166,12 @@ function Address() {
                 <button className="help-btn">Get Help</button>
               </div>
               <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                <button className="save-btn">Save & Continue</button>
+                <Link
+                  to="/dashboard"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <button className="save-btn">Save & Continue</button>
+                </Link>
               </div>
             </div>
           </div>

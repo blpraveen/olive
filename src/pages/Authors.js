@@ -1,9 +1,7 @@
 import "../style/css/authors.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import author1 from "../images/authors/author1.png";
-import author2 from "../images/authors/author2.png";
+
 import author3 from "../images/authors/author3.png";
 import author4 from "../images/authors/author4.png";
 import author5 from "../images/authors/author5.png";
@@ -27,6 +25,7 @@ import { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Featur from "../components/Featur";
 import { Link } from "react-router-dom";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 function Authors() {
   const [authors] = useState([
     { image: author19 },
@@ -48,14 +47,29 @@ function Authors() {
     { image: author16 },
     { image: author17 },
     { image: author18 },
+    { image: author16 },
+    { image: author17 },
+    { image: author18 },
   ]);
   return (
-    <div className="authors">
+    <div className="authors container">
+
+        <div className="path ">
+      <Link to='/' style={{textDecoration:"none", color:'inherit'}}>
+        <p>Home </p>
+        </Link>
+        <ArrowForwardIosIcon id="path__icon" />
+        <Link to='/preorder' style={{textDecoration:"none", color:'inherit'}}>
+        <p>Authors </p>
+        </Link>
+     
+      </div>
+      <div></div>
       <div className="authors__head">
         <h3>Authors List</h3>
 
         <div className="author__search">
-          <Container>
+      
             <Row>
               <Col md className="author__search__col">
                 <p style={{ textDecoration: "underline" }}>ALL</p>
@@ -92,11 +106,11 @@ function Authors() {
                 <p>Z</p>
               </Col>
             </Row>
-          </Container>
+         
         </div>
 
         <div className="authors__row">
-          <Container>
+         
             <Row>
               {authors.map((data) => {
                 return (
@@ -115,7 +129,7 @@ function Authors() {
                 );
               })}
             </Row>
-          </Container>
+         
         </div>
       </div>
       <div className="author__load">

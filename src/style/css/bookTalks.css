@@ -17,16 +17,17 @@
 .book-talks{
     /* width: 95%; */
     margin: auto;
-    margin-top: 30px;
-    border-width: 0 0 1px 0;
-    border-style: solid;
-    border-color: rgb(196, 194, 194);
+    margin-top: 20px;
+    /* border-width: 0 0 1px 0; */
+    /* border-style: solid; */
+    /* border-color: rgb(196, 194, 194); */
     margin-bottom: 25px;
     /* background-color: aqua;  */
+    border-bottom: 1px solid #f3ecec ;
 }
 
 .title{
-    font-size: 30px;
+    font-size: 20px;
     font-family: 'DM Sans', sans-serif;
     color: #343434;
 }
@@ -38,7 +39,7 @@
     height: 250px;
     /* background-color: lightcoral; */
     margin-top: 0;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     margin-left: auto;
     margin-right: auto;
     border-radius: 5px;
@@ -48,15 +49,23 @@
     height: 180px;
 }
 .date{
-    font-size: 12px;
+    font-size: 13px;
     color: #313131;
-    margin-bottom: 8px;
+    margin-top: 5px;
+    margin-bottom: 4px;
     
 }
 .book-text{
     font-size: 14px;
     color: #313131;
     font-family: 'DM Sans', sans-serif;
+    /* border: solid red; */
+    /* overflow:hidden; 
+    white-space:nowrap; 
+    text-overflow: ellipsis;
+    letter-spacing: 0.3px;
+    max-width: 300px; */
+    
 }
 
 

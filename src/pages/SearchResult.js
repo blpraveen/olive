@@ -1,11 +1,8 @@
 import "../style/css/searchResult.css";
 import "../style/css/categories.css";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import SearchIcon from "@material-ui/icons/Search";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Dropdown from "react-bootstrap/Dropdown";
 import best1 from "../images/author/best1.png";
 import best2 from "../images/author/best2.png";
 import best3 from "../images/author/best3.png";
@@ -19,11 +16,10 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-
+import FilterSearch from "../components/FilterSearch";
 function SearchResult() {
   const [show, setShow] = useState(false);
-  const [openFilter, setOpenFilter] = useState(false)
+  const [openFilter, setOpenFilter] = useState(false);
   const [item] = useState([
     {
       image: best1,
@@ -118,217 +114,42 @@ function SearchResult() {
         <p>Search </p>
       </div>
       <div className="search__content">
-        {/* <Container> */}
-          <Row>
-          <Col className="search__items_col" lg="3">
-              {/*<<<<<<<<<<< SEARCH OPTIONS LEFT OF THE PAGE >>>>>>>>*/}
-              <div className={openFilter ? 'search__items__open' : 'search__items'}>
-                <div className="search__items__head">
-                  <h5 className='outer__search__text'>Search Author</h5>
-                  <div className="search__items__input ">
-                    <input />
-                    <div className="search__items__icon__div">
-                      <SearchIcon
-                        type="button"
-                        onClick={""}
-                        id="search__items__icon"
-                      />
-                    </div>
-                  </div>
-                  <div className='filter__div__outer' >
-                  
-                  <div className='filter__div' onClick={()=>setOpenFilter(!openFilter)} type='button'>
-                  <h6>Filter by</h6>
-                  <ArrowDropDownIcon/>
-                  </div>
-                
-                  <div>
-                  <h5>Search Author</h5>
-                  <div className="search__items__input__collapse ">
-                    <input />
-                    <div className="search__items__icon__div">
-                      <SearchIcon
-                        type="button"
-                        onClick={""}
-                        id="search__items__icon"
-                      />
-                    </div>
-                  </div>
-                  </div>
-                  </div>
-                
+        <Row>
+          <FilterSearch />
+
+          <Col className="search__right__col">
+            <div className="search__head__row">
+              <h5>
+                Search result for "
+                <span style={{ color: "#46CE04" }}>Rising Like a Storm</span>"
+              </h5>
+              <p>5 Books Found</p>
+            </div>
+            {/* <<<<<<<< CART ADDED ALERT >>>>>>>>>> */}
+            {show ? (
+              <Alert variant="success" id="alert">
+                <CheckCircleIcon id="alert__success__icon" />
+
+                <div className="alert__success__text">
+                  <p>Product added to your cart</p>
+                  <Link to="/cart" style={{ textDecoration: "none" }}>
+                    <h6>CHECKOUT NOW</h6>
+                  </Link>
                 </div>
 
-                {/*  Language */}
-                <Dropdown id="search__dropdown">
-                  <Dropdown.Toggle variant="none" id="dropdown-basic">
-                    Language
-                  </Dropdown.Toggle>
+                <CloseIcon
+                  type="button"
+                  onClick={() => setShow(false)}
+                  id="alert__close__icon"
+                />
+              </Alert>
+            ) : (
+              ""
+            )}
 
-                  <Dropdown.Menu id='dropdown__menu'>
-                    <div className="search__item">
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>English</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>Malayalam</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>Hindi</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>Hindi</p>
-                      </div>
-                    </div>
-                  </Dropdown.Menu>
-                </Dropdown>
+            {/* <<<<<<<< LOGIN ALERT >>>>>>>>>> */}
 
-                {/* FORMAT */}
-                <Dropdown id="search__dropdown">
-                  <Dropdown.Toggle variant="none" id="dropdown-basic">
-                    Format
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu id='dropdown__menu'>
-                    <div className="search__item">
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>Paperback</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>Hard cover</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>E books</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>Audio Books</p>
-                      </div>
-                    </div>
-                  </Dropdown.Menu>
-                </Dropdown>
-
-                {/* FILTER BY PRICE */}
-
-                <Dropdown id="search__dropdown">
-                  <Dropdown.Toggle variant="none" id="dropdown-basic">
-                    Filter By Price
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu id='dropdown__menu'>
-                    <div className="search__item">
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>Low - High</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>High - Low</p>
-                      </div>
-                    </div>
-                  </Dropdown.Menu>
-                </Dropdown>
-
-                {/* BY DATE */}
-
-                <Dropdown id="search__dropdown">
-                  <Dropdown.Toggle variant="none" id="dropdown-basic">
-                  By Date
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu id='dropdown__menu'>
-                    <div className="search__item">
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>New - Old</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>Old - New</p>
-                      </div>
-                    </div>
-                  </Dropdown.Menu>
-                </Dropdown>
-
-                {/* BY REVIEW */}
-
-                <Dropdown id="search__dropdown">
-                  <Dropdown.Toggle variant="none" id="dropdown-basic">
-                    By Reviews
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu id='dropdown__menu'>
-                    <div className="search__item">
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>5 Star</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>4 Star</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>3 Star</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>2 Star</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>1 Star</p>
-                      </div>
-                    </div>
-                  </Dropdown.Menu>
-                </Dropdown>
-
-                {/* BY PUBLISHER */}
-
-                <Dropdown id="search__dropdown">
-                  <Dropdown.Toggle variant="none" id="dropdown-basic">
-                    By Publisher
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu id='dropdown__menu'>
-                    <div className="search__item">
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>DC BOOKS</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>PUBLISHER 1</p>
-                      </div>
-                      <div className="search__item__row">
-                        <input type="checkbox" /> <p>PUBLISHER 3</p>
-                      </div>
-                    </div>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            </Col>
-            <Col className="search__right__col">
-              <div className="search__head__row">
-                <h5>
-                  Search result for "
-                  <span style={{ color: "#46CE04" }}>Rising Like a Storm</span>"
-                </h5>
-                <p>5 Books Found</p>
-              </div>
-              {/* <<<<<<<< CART ADDED ALERT >>>>>>>>>> */}
-              {show ? (
-                <Alert variant="success" id="alert">
-                  <CheckCircleIcon id="alert__success__icon" />
-
-                  <div className="alert__success__text">
-                    <p>Product added to your cart</p>
-                    <Link to="/cart" style={{ textDecoration: "none" }}>
-                      <h6>CHECKOUT NOW</h6>
-                    </Link>
-                  </div>
-
-                  <CloseIcon
-                    type="button"
-                    onClick={() => setShow(false)}
-                    id="alert__close__icon"
-                  />
-                </Alert>
-              ) : (
-                ""
-              )}
-
-              {/* <<<<<<<< LOGIN ALERT >>>>>>>>>> */}
-
-              {/* {show ? 
+            {/* {show ? 
                  <Alert variant="primary" id='login__alert'>
                   
                  
@@ -343,8 +164,8 @@ function SearchResult() {
                
                  </Alert> :''} */}
 
-              {/* <<<<<<<<< WRONG ALERT >>>>>>>>> */}
-              {/* {show? 
+            {/* <<<<<<<<< WRONG ALERT >>>>>>>>> */}
+            {/* {show? 
                  <Alert variant="danger" id='danger__alert'>
                   
                  
@@ -361,55 +182,54 @@ function SearchResult() {
                 
                  </Alert> :''
               }  */}
-              <div className="search__content__row">
-                <Row>
-                  {item.map((data) => {
-                    return (
-                      <Col xs="6" sm="4" md="3">
-                        <div className="book__item">
+            <div className="search__content__row">
+              <Row>
+                {item.map((data) => {
+                  return (
+                    <Col xs="6" sm="4" md="3">
+                      <div className="book__item">
                         <Link
-                        to="/bookSingle"
-                        style={{
-                          textDecoration: "none",
-                          color: "inherit",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <img src={data.image} />
-                      </Link>
-                      <Link
-                        to="/bookSingle"
-                        style={{ textDecoration: "none", color: "inherit" }}
-                      >
+                          to="/bookSingle"
+                          style={{
+                            textDecoration: "none",
+                            color: "inherit",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <img src={data.image} />
+                        </Link>
+                        <Link
+                          to="/bookSingle"
+                          style={{ textDecoration: "none", color: "inherit" }}
+                        >
                           <div className="book__item__name">
                             <h6>{data.name}</h6>
                             <p>{data.author}</p>
                           </div>
-                          </Link>
-                          <div className="book__item__price__div">
-                            <div className="book__item__price__left">
-                              <p className="book__item__cut__price">
-                                ₹{data.cutPrice}
-                              </p>
-                              <p className="book__item__price">₹{data.price}</p>
-                            </div>
-
-                            <AddShoppingCartIcon
-                              type="button"
-                              onClick={() => setShow(true)}
-                              id="book__item___cart__icon"
-                            />
+                        </Link>
+                        <div className="book__item__price__div">
+                          <div className="book__item__price__left">
+                            <p className="book__item__cut__price">
+                              ₹{data.cutPrice}
+                            </p>
+                            <p className="book__item__price">₹{data.price}</p>
                           </div>
+
+                          <AddShoppingCartIcon
+                            type="button"
+                            onClick={() => setShow(true)}
+                            id="book__item___cart__icon"
+                          />
                         </div>
-                      </Col>
-                    );
-                  })}
-                </Row>
-              </div>
-            </Col>
-          </Row>
-        {/* </Container> */}
+                      </div>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </div>
+          </Col>
+        </Row>
       </div>
 
       <PopularList />

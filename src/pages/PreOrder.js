@@ -33,7 +33,10 @@ function PreOrder() {
   const [bookMark, setBookMark] = useState(false);
   const [details, setDetails] = useState(true);
   const [review, setReview] = useState(false);
-
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
   const [data] = useState([
     {
       tittle: "Great Story! You Love it",
@@ -106,361 +109,365 @@ function PreOrder() {
       price: "321",
     },
   ]);
+
+  const text = `  In the concluding installment to the Wrath of Ambar duology
+  from masterful author Tanaz Bhathena, Gul and Cavas must
+  unite their magical forces―and hold onto their growing
+  romance―to save their kingdom from tyranny. 
+  In the concluding installment to the Wrath of Ambar duology
+  from masterful author Tanaz Bhathena, Gul and Cavas must
+  unite their magical forces―and hold onto their growing
+  romance―to save their kingdom from tyranny. 
+
+  With King Lohar dead and a usurper queen in power, Gul and
+  Cavas face a new tyrannical government that is bent on
+  killing them both. Their roles in King Lohar's death have
+  not gone unnoticed, and the new queen is out for blood. 
+`;
   return (
     <div className="preOrder container">
       <div className="path ">
-        <p>Home </p>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <p>Home </p>
+        </Link>
         <ArrowForwardIosIcon id="path__icon" />
-        <p>Pre-order </p>
+        <Link
+          to="/preorder"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <p>Pre-order </p>
+        </Link>
       </div>
 
       <div className="book__single__content">
-        <Container>
-          <Row>
-            <Col id="book__single__img__col" xm="12" md="3">
-              <Carousel fade controls={true} indicators={false} style={{margin:'auto'}}>
-                <Carousel.Item>
-                  <img className="col-12 col-md-12" src={prebook} />
-
-                  
-                </Carousel.Item>
-                <Carousel.Item>
-                  <img className="col-12 col-md-12" src={prebook} />
-                </Carousel.Item>
-                <Carousel.Item>
-                  <img className="col-12 col-md-12" src={prebook} />
-                </Carousel.Item>
-              </Carousel>
-            </Col>
-            <Col md="7" className="book__description__col">
-              <div className="book__description">
-                <h2>DARK LANDS</h2>
-                <div className="book__description__star__row">
-                  <div className="book__description__star__left">
-                    <StarIcon id="book__star" />
-                    <StarIcon id="book__star" />
-                    <StarIcon id="book__star" />
-                    <StarIcon id="book__star" />
-                    <StarIcon id="book__star" />
-                    <p>(274)</p>
-                  </div>
-                  <div className="book__description__star__right">
-                    <p>By</p>
-                    <h6>Tanaz Bhathena</h6>
-                  </div>
+        {/* <Container> */}
+        <Row>
+          <Col id="book__single__img__col" xm="12" md="3">
+            <Carousel
+              fade
+              controls={true}
+              indicators={true}
+              id="book__single__carousel"
+            >
+              <Carousel.Item>
+                <img className="col-12 " src={prebook} />
+              </Carousel.Item>
+              <Carousel.Item>
+                <img className="col-12 " src={prebook} />
+              </Carousel.Item>
+              <Carousel.Item>
+                <img className="col-12 " src={prebook} />
+              </Carousel.Item>
+            </Carousel>
+          </Col>
+          <Col md="7" className="book__description__col">
+            <div className="book__description">
+              <h2>DARK LANDS</h2>
+              <div className="book__description__star__row">
+                <div className="book__description__star__left">
+                  <StarIcon id="book__star" />
+                  <StarIcon id="book__star" />
+                  <StarIcon id="book__star" />
+                  <StarIcon id="book__star" />
+                  <StarIcon id="book__star" />
+                  <p>(274)</p>
                 </div>
-
-                <div className="book__description__price">
-                  <h5>₹450</h5>
-                  <p>
-                    Book Format:
-                    <span style={{ paddingLeft: "5px" }}>Paperback</span>
-                  </p>
-                </div>
-                <div className="book__description__text">
-                  <p>
-                    In the concluding installment to the Wrath of Ambar duology
-                    from masterful author Tanaz Bhathena, Gul and Cavas must
-                    unite their magical forces―and hold onto their growing
-                    romance―to save their kingdom from tyranny. <br />
-                    <br />
-                    With King Lohar dead and a usurper queen in power, Gul and
-                    Cavas face a new tyrannical government that is bent on
-                    killing them both. Their roles in King Lohar's death have
-                    not gone unnoticed, and the new queen is out for blood. What
-                    she doesn't know is that Gul......
-                    <span style={{ color: "#46CE04", cursor: "pointer" }}>
-                      Read More
-                    </span>{" "}
-                  </p>
-                </div>
-
-                <div className="book__description__button__row">
-                  <div className="book__description_increment">
-                    {/* <AddIcon id="increment__icon" /> */}
-                    <Button onClick={""} id="add__button">
-                      +
-                    </Button>
-                    <p>1</p>
-                    <Button onClick={""} id="add__button">
-                      -
-                    </Button>
-                    {/* <MinimizeIcon */}
-                    {/* onClick={""}
-                      type="button"
-                      id="decrement__icon"
-                    /> */}
-                  </div>
-                  <Button
-                    onClick={""}
-                    type="button"
-                    id="book__add__button"
-                    style={{ background: "#46CE04" }}
-                  >
-                    PREORDER
-                  </Button>
-                </div>
-
-                <div className="book__share__row">
-                  <div
-                    className="book__book__mark"
-                    onClick={() => setBookMark(!bookMark)}
-                  >
-                    <BookmarkBorderIcon
-                      id="book__bookmark__icon"
-                      className={bookMark ? "bookMark" : "book__bookmark__icon"}
-                    />
-                    <p>ADD TO BOOKMARK</p>
-                  </div>
-                  <div className="book__share">
-                    <ShareOutlinedIcon id="book__share__icon" />
-                    <p>SHARE</p>
-                  </div>
+                <div className="book__description__star__right">
+                  <p>By</p>
+                  <h6>Tanaz Bhathena</h6>
                 </div>
               </div>
-            </Col>
-          </Row>
-        </Container>
-        <Container>
-          <Row>
-            <Col >
-              <div className="book__detailes">
-                <div className="book__detailes__head">
-                  <div className="book__detailes__head__content">
-                    <h6
-                      onClick={() => setDetails(true)}
-                      className={
-                        details
-                          ? "book__detailes__active"
-                          : "book__detailes__head__h6"
-                      }
-                    >
-                      Product Details
-                    </h6>
-                    <h6
-                      onClick={() => setDetails(false)}
-                      className={
-                        !details
-                          ? "book__detailes__active"
-                          : "book__detailes__head__h6"
-                      }
-                    >
-                      Reviews (12)
-                    </h6>
-                  </div>
+
+              <div className="book__description__price">
+                <h5>₹450</h5>
+                <p>
+                  Book Format:
+                  <span style={{ paddingLeft: "5px" }}>Paperback</span>
+                </p>
+              </div>
+              <div className="book__description__text">
+                <p>
+                  {isReadMore ? text.slice(0, 550) : text}
+                  <span
+                    onClick={toggleReadMore}
+                    style={{ color: "#46CE04", cursor: "pointer" }}
+                  >
+                    {isReadMore ? "...read more" : " show less"}
+                  </span>
+                </p>
+              </div>
+
+              <div className="book__description__button__row">
+                <div className="book__description_increment">
+                  <Button onClick={""} id="add__button">
+                    +
+                  </Button>
+                  <p>1</p>
+                  <Button onClick={""} id="add__button">
+                    -
+                  </Button>
                 </div>
-                {details ? (
-                  <Container>
+                <Button
+                  onClick={""}
+                  type="button"
+                  id="book__add__button"
+                  style={{ background: "#46CE04" }}
+                >
+                  PREORDER
+                </Button>
+              </div>
+
+              <div className="book__share__row">
+                <div
+                  className="book__book__mark"
+                  onClick={() => setBookMark(!bookMark)}
+                >
+                  <BookmarkBorderIcon
+                    id="book__bookmark__icon"
+                    className={bookMark ? "bookMark" : "book__bookmark__icon"}
+                  />
+                  <p>ADD TO BOOKMARK</p>
+                </div>
+                <div className="book__share">
+                  <ShareOutlinedIcon id="book__share__icon" />
+                  <p>SHARE</p>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col>
+            <div className="book__detailes">
+              <div className="book__detailes__head">
+                <div className="book__detailes__head__content">
+                  <h6
+                    onClick={() => setDetails(true)}
+                    className={
+                      details
+                        ? "book__detailes__active"
+                        : "book__detailes__head__h6"
+                    }
+                  >
+                    Product Details
+                  </h6>
+                  <h6
+                    onClick={() => setDetails(false)}
+                    className={
+                      !details
+                        ? "book__detailes__active"
+                        : "book__detailes__head__h6"
+                    }
+                  >
+                    Reviews (12)
+                  </h6>
+                </div>
+              </div>
+              {details ? (
+                <Row>
+                  <Col>
+                    <div className="book__detailes__content col-md-10">
+                      <div className="book__detailes__row">
+                        <h6>AUTHOR</h6>
+                        <div className="book__detailes__row__right ">
+                          <p>Tanaz Bhathena</p>
+                        </div>
+                      </div>
+                      <div className="book__detailes__row">
+                        <h6>CATEGORY</h6>
+                        <div className="book__detailes__row__right ">
+                          <p>Novel</p>
+                        </div>
+                      </div>
+                      <div className="book__detailes__row">
+                        <h6>PUBLISHING DATE</h6>
+                        <div className="book__detailes__row__right ">
+                          {" "}
+                          <p>2019, March</p>
+                        </div>
+                      </div>
+                      <div className="book__detailes__row">
+                        <h6>EDITION</h6>
+                        <div className="book__detailes__row__right ">
+                          {" "}
+                          <p>1</p>
+                        </div>
+                      </div>
+                      <div className="book__detailes__row">
+                        <h6>BINDING</h6>
+                        <div className="book__detailes__row__right ">
+                          {" "}
+                          <p>Normal</p>
+                        </div>
+                      </div>
+                      <div className="book__detailes__row">
+                        <h6>NUMBER OF PAGES</h6>
+                        <div className="book__detailes__row__right ">
+                          {" "}
+                          <p>386</p>
+                        </div>
+                      </div>
+                      <div className="book__detailes__row">
+                        <h6>PUBLISHER</h6>
+                        <div className="book__detailes__row__right ">
+                          {" "}
+                          <p>DC BOOKS</p>
+                        </div>
+                      </div>
+                      <div className="book__detailes__row">
+                        <h6>MULTIMEDIA</h6>
+                        <div className="book__detailes__row__right ">
+                          <p>Not Available</p>
+                        </div>
+                      </div>
+                      <div className="book__detailes__row">
+                        <h6>LANGAGE</h6>
+                        <div className="book__detailes__row__right ">
+                          <p>ENGLISH</p>
+                        </div>
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+              ) : (
+                <div className="book__review">
+                  <div className="book__review__first__row">
                     <Row>
-                      <Col>
-                        <div className="book__detailes__content col-md-10">
-                          <div className="book__detailes__row">
-                            <h6>AUTHOR</h6>
-                            <div className="book__detailes__row__right ">
-                              <p>Tanaz Bhathena</p>
+                      <Col md="3">
+                        <div className="book__review__first__row__left">
+                          <h4>Customer Reviews</h4>
+                          <div className="book__review__rating">
+                            <h1>4.7</h1>
+                            <div className="book__review__rating__right">
+                              <p>285 Reviews</p>
+                              <div className="book__review__rating__star">
+                                <StarIcon id="book__star" />
+                                <StarIcon id="book__star" />
+                                <StarIcon id="book__star" />
+                                <StarIcon id="book__star" />
+                                <StarIcon id="book__star" />
+                              </div>
                             </div>
                           </div>
-                          <div className="book__detailes__row">
-                            <h6>CATEGORY</h6>
-                            <div className="book__detailes__row__right ">
-                              <p>Novel</p>
-                            </div>
+
+                          <button id="review__button">Write a Review</button>
+                        </div>
+                      </Col>
+                      <Col id="progress__col">
+                        <div className="book__progress__div">
+                          <div className="book__progress">
+                            <p>5 Star</p>
+
+                            <ProgressBar
+                              className="progress__bar"
+                              variant="warning"
+                              now={80}
+                            />
+
+                            <p>200</p>
                           </div>
-                          <div className="book__detailes__row">
-                            <h6>PUBLISHING DATE</h6>
-                            <div className="book__detailes__row__right ">
-                              {" "}
-                              <p>2019, March</p>
-                            </div>
+                          <div className="book__progress">
+                            <p>4 Star</p>
+
+                            <ProgressBar
+                              className="progress__bar"
+                              variant="warning"
+                              now={60}
+                            />
+
+                            <p>50</p>
                           </div>
-                          <div className="book__detailes__row">
-                            <h6>EDITION</h6>
-                            <div className="book__detailes__row__right ">
-                              {" "}
-                              <p>1</p>
-                            </div>
+                          <div className="book__progress">
+                            <p>5 Star</p>
+
+                            <ProgressBar
+                              className="progress__bar"
+                              variant="warning"
+                              now={40}
+                            />
+
+                            <p>200</p>
                           </div>
-                          <div className="book__detailes__row">
-                            <h6>BINDING</h6>
-                            <div className="book__detailes__row__right ">
-                              {" "}
-                              <p>Normal</p>
-                            </div>
+                          <div className="book__progress">
+                            <p>3 Star</p>
+
+                            <ProgressBar
+                              className="progress__bar"
+                              variant="warning"
+                              now={30}
+                            />
+
+                            <p>14</p>
                           </div>
-                          <div className="book__detailes__row">
-                            <h6>NUMBER OF PAGES</h6>
-                            <div className="book__detailes__row__right ">
-                              {" "}
-                              <p>386</p>
-                            </div>
+                          <div className="book__progress">
+                            <p>2 Star</p>
+
+                            <ProgressBar
+                              className="progress__bar"
+                              variant="warning"
+                              now={15}
+                            />
+
+                            <p>20</p>
                           </div>
-                          <div className="book__detailes__row">
-                            <h6>PUBLISHER</h6>
-                            <div className="book__detailes__row__right ">
-                              {" "}
-                              <p>DC BOOKS</p>
-                            </div>
-                          </div>
-                          <div className="book__detailes__row">
-                            <h6>MULTIMEDIA</h6>
-                            <div className="book__detailes__row__right ">
-                              <p>Not Available</p>
-                            </div>
-                          </div>
-                          <div className="book__detailes__row">
-                            <h6>LANGAGE</h6>
-                            <div className="book__detailes__row__right ">
-                              <p>ENGLISH</p>
-                            </div>
+                          <div className="book__progress">
+                            <p>1 Star</p>
+
+                            <ProgressBar
+                              className="progress__bar"
+                              variant="warning"
+                              now={10}
+                            />
+
+                            <p>8</p>
                           </div>
                         </div>
                       </Col>
                     </Row>
-                  </Container>
-                ) : (
-                  <div className="book__review">
-                    <div className="book__review__first__row">
-                      <Container>
-                        <Row>
-                          <Col md="3">
-                            <div className="book__review__first__row__left">
-                              <h4>Customer Reviews</h4>
-                              <div className="book__review__rating">
-                                <h1>4.7</h1>
-                                <div className="book__review__rating__right">
-                                  <p>285 Reviews</p>
-                                  <div className="book__review__rating__star">
-                                    <StarIcon id="book__star" />
-                                    <StarIcon id="book__star" />
-                                    <StarIcon id="book__star" />
-                                    <StarIcon id="book__star" />
-                                    <StarIcon id="book__star" />
-                                  </div>
-                                </div>
-                              </div>
-
-                              <button id="review__button">
-                                Write a Review
-                              </button>
-                            </div>
-                          </Col>
-                          <Col id="progress__col">
-                            <div className="book__progress__div">
-                              <div className="book__progress">
-                                <p>5 Star</p>
-
-                                <ProgressBar
-                                  className="progress__bar"
-                                  variant="warning"
-                                  now={80}
-                                />
-
-                                <p>200</p>
-                              </div>
-                              <div className="book__progress">
-                                <p>4 Star</p>
-
-                                <ProgressBar
-                                  className="progress__bar"
-                                  variant="warning"
-                                  now={60}
-                                />
-
-                                <p>50</p>
-                              </div>
-                              <div className="book__progress">
-                                <p>5 Star</p>
-
-                                <ProgressBar
-                                  className="progress__bar"
-                                  variant="warning"
-                                  now={40}
-                                />
-
-                                <p>200</p>
-                              </div>
-                              <div className="book__progress">
-                                <p>3 Star</p>
-
-                                <ProgressBar
-                                  className="progress__bar"
-                                  variant="warning"
-                                  now={30}
-                                />
-
-                                <p>14</p>
-                              </div>
-                              <div className="book__progress">
-                                <p>2 Star</p>
-
-                                <ProgressBar
-                                  className="progress__bar"
-                                  variant="warning"
-                                  now={15}
-                                />
-
-                                <p>20</p>
-                              </div>
-                              <div className="book__progress">
-                                <p>1 Star</p>
-
-                                <ProgressBar
-                                  className="progress__bar"
-                                  variant="warning"
-                                  now={10}
-                                />
-
-                                <p>8</p>
-                              </div>
-                            </div>
-                          </Col>
-                        </Row>
-                      </Container>
-                    </div>
-
-                    <div className="book__review__content">
-                      <Container>
-                        <Row>
-                          <Col xs="12" md="8">
-                            {data.map((data) => {
-                              return (
-                                <div>
-                                  <div className="review__content__head">
-                                    <h6>{data.tittle}</h6>
-                                    <div className="review__stars__div">
-                                      <ReactStars
-                                        id="review__stars"
-                                        count={5}
-                                        // onChange={4}
-                                        value={data.stars}
-                                        size={24}
-                                        activeColor="#ffd700"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="review__text">
-                                    <p>{data.text}</p>
-                                    <div className="review__date">
-                                      <h6>{data.date}</h6>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
-
-                            <div className="review__more">
-                              <h5 type="text">View All Reviews</h5>
-                            </div>
-                          </Col>
-                        </Row>
-                      </Container>
-                    </div>
                   </div>
-                )}
-              </div>
-            </Col>
-          </Row>
-        </Container>
+
+                  <div className="book__review__content">
+                    <Row>
+                      <Col xs="12" md="8">
+                        {data.map((data) => {
+                          return (
+                            <div>
+                              <div className="review__content__head">
+                                <h6>{data.tittle}</h6>
+                                <div className="review__stars__div">
+                                  <ReactStars
+                                    id="review__stars"
+                                    count={5}
+                                    // onChange={4}
+                                    value={data.stars}
+                                    size={24}
+                                    activeColor="#ffd700"
+                                  />
+                                </div>
+                              </div>
+                              <div className="review__text">
+                                <p>{data.text}</p>
+                                <div className="review__date">
+                                  <h6>{data.date}</h6>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+
+                        <div className="review__more">
+                          <h5 type="text">View All Reviews</h5>
+                        </div>
+                      </Col>
+                    </Row>
+                  </div>
+                </div>
+              )}
+            </div>
+          </Col>
+        </Row>
+
         {/* <<<<<<<<<<< ALSO BROUGHT BOOKS */}
 
         <div className="also__brought">

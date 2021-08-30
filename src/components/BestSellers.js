@@ -16,32 +16,27 @@ import { useState } from "react";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-// import sample from "../images/arrived/review.png";
-// import paulo from "../images/arrived/paulo.png";
-// import pbest1 from "../images/arrived/paulo.png";
 import Alert from "react-bootstrap/Alert";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
+
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 4,
-    //   slidesToSlide: 3
+    items: 3,
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
     items: 3,
-    //   slidesToSlide: 2
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 2,
-    //   slidesToSlide: 1
+    breakpoint: { max: 500, min: 0 },
+    items: 1,
   },
 };
+
 function BestSellers() {
   const [show, setShow] = useState(false);
   const [bestSeller, setbestSeller] = useState([
@@ -111,8 +106,7 @@ function BestSellers() {
         <h5>Best Sellers</h5>
         <Link
           to="/bestSeller"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+          style={{ textDecoration: "none", color: "inherit" }}>
           <p>View all</p>
         </Link>
       </div>
@@ -134,17 +128,15 @@ function BestSellers() {
                 ssr={true} // means to render carousel on server-side.
                 infinite={true}
                 autoPlay={false}
-                // autoPlaySpeed={1000}
                 keyBoardControl={true}
                 // customTransition="all .5"
                 // transitionDuration={2000}
                 customTransition={"ease 1000ms"}
                 containerClass="carousel-container"
-                // removeArrowOnDeviceType={[ "mobile"]}
-                //   deviceType={this.props.deviceType}
+                removeArrowOnDeviceType={["mobile"]}
+                centerMode={true}
                 dotListClass="custom-dot-list-style"
-                itemClass="popular__ani"
-              >
+                itemClass="popular__ani"  >
                 {bestSeller.map((data) => {
                   return (
                     <div className="best__item">
@@ -271,8 +263,8 @@ function BestSellers() {
                 // transitionDuration={2000}
                 customTransition={"ease 1000ms"}
                 containerClass="carousel-container"
-                // removeArrowOnDeviceType={[ "mobile"]}
-                //   deviceType={this.props.deviceType}
+                removeArrowOnDeviceType={["mobile"]}
+                centerMode={true}
                 dotListClass="custom-dot-list-style"
                 itemClass="popular__ani"
               >

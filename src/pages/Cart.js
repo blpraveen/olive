@@ -13,9 +13,10 @@ import { Button, ButtonBase } from "@material-ui/core";
 import Featur from "../components/Featur";
 import { Link } from "react-router-dom";
 function Cart() {
+  const [promoCode, setPromocode] = useState(false);
   const [cart] = useState([
     {
-      name: "Rising Like a Storm",
+      name: "Rising Like a Storm ",
       author: "Tanaz Bhathena",
       image: sample1,
       price: 450,
@@ -42,9 +43,13 @@ function Cart() {
   return (
     <div className="cart container">
       <div className="path ">
-        <p>Home </p>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <p>Home </p>
+        </Link>
         <ArrowForwardIosIcon id="path__icon" />
-        <p>Cart </p>
+        <Link to="/cart" style={{ textDecoration: "none", color: "inherit" }}>
+          <p>Cart </p>
+        </Link>
       </div>
       <div className="cart__content">
         <div className="cart__header">
@@ -65,7 +70,7 @@ function Cart() {
             {cart.map((data) => {
               return (
                 <tr>
-                  <td id='cart__td'>
+                  <td id="cart__td">
                     <div className="cart__item">
                       <img src={data.image} />
                       <div className="cart__item__name">
@@ -98,7 +103,7 @@ function Cart() {
         <div className="total__section">
           <Container>
             <Row>
-              <Col md="5"></Col>
+              <Col md="4"></Col>
               <Col id="total__col">
                 <div className="cart__total">
                   <div className="total__row">
@@ -135,11 +140,17 @@ function Cart() {
                   </div>
 
                   <div className="promo__code">
-                    <p>Do you have a promo code ?</p>
-                    <div className="promo__child">
-                      <input placeholder="ENTER CODE" />
-                      <Button id="promo__apply__button">APPLY</Button>
-                    </div>
+                    <p onClick={() => setPromocode(!promoCode)} type="button">
+                      Do you have a promo code ?
+                    </p>
+                    {promoCode ? (
+                      <div className="promo__child">
+                        <input placeholder="ENTER CODE" />
+                        <Button id="promo__apply__button">APPLY</Button>
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </Col>
@@ -149,11 +160,10 @@ function Cart() {
 
         <div className="cart__order">
           <Row>
-            <Col id="button__col" md={{ order: "first" }} sm>
-              {" "}
+            <Col id="button__col" sm>
               <button id="help__button">Get Help</button>
             </Col>
-            <Col id="button__col" xs={{ order: "first" }} sm>
+            <Col id="button__col" sm>
               <Link
                 to="/confirm"
                 style={{ textDecoration: "none", color: "inherit" }}

@@ -7,7 +7,6 @@ import best1 from "../images/author/best1.png";
 import best2 from "../images/author/best2.png";
 import best3 from "../images/author/best3.png";
 import best4 from "../images/author/best4.png";
-
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Featur from "../components/Featur";
 import { useState } from "react";
@@ -117,19 +116,13 @@ function Author() {
                 <h2>Paulo Coelho</h2>
                 <div className="author__data__row">
                   <h5>Born</h5>
-                  {/* <div className='author__data__row__right'> */}
+
                   <h6>24-07-1947</h6>
-                  {/* </div> */}
                 </div>
                 <div className="author__data__row">
                   <h5>Genre</h5>
-                  {/* <div className='author__data__row__right'> */}
-                  <h6>Drama, ‎romance</h6>
-                  {/* </div> */}
 
-                  {/* <div className='author__data__row__right'>
-                              
-                          </div> */}
+                  <h6>Drama, ‎romance</h6>
                 </div>
                 <div className="author__data__row">
                   <h5>Language</h5>
@@ -154,7 +147,63 @@ function Author() {
               </div>
             </Col>
           </Row>
+          {/* <<<<<<<< CART ADDED ALERT >>>>>>>>>> */}
+          {show ? (
+            <Alert variant="success" id="alert">
+              <CheckCircleIcon id="alert__success__icon" />
 
+              <div className="alert__success__text">
+                <p>Product added to your cart</p>
+                <Link to="/cart" style={{ textDecoration: "none" }}>
+                  <h6>CHECKOUT NOW</h6>
+                </Link>
+              </div>
+
+              <CloseIcon
+                type="button"
+                onClick={() => setShow(false)}
+                id="alert__close__icon"
+              />
+            </Alert>
+          ) : (
+            ""
+          )}
+
+          {/* <<<<<<<< LOGIN ALERT >>>>>>>>>> */}
+          {/* 
+                {show ? 
+                 <Alert variant="primary" id='login__alert'>
+                  
+                 
+                   <InfoIcon id='alert__success__icon'/>
+                   
+                 
+                 <p>Please Login</p>
+            
+                 <h6 type='button' onClick={()=>setShow(false)}>OK</h6>
+                 
+              
+               
+                 </Alert> :''} */}
+
+          {/* <<<<<<<<< WRONG ALERT >>>>>>>>> */}
+          {/* {show? 
+                 <Alert variant="danger" id='danger__alert'>
+                  
+                 
+                   <CheckCircleIcon id='alert__success__icon'/>
+                   
+               
+                 <p>Somthing went wrong</p>
+               
+                 <h6 type='button' onClick={()=>setShow(false)} >Refresh</h6>
+                 
+              
+                
+                 
+                
+                 </Alert> :''
+              }  */}
           <Row>
             <Col sm="12" md="4">
               <div className="author__text">
@@ -190,66 +239,10 @@ function Author() {
                 </p>
               </div>
             </Col>
+
             <Col className="author__books" md="7">
               <h3>Books of Coelho</h3>
               <Row>
-                {/* <<<<<<<< CART ADDED ALERT >>>>>>>>>> */}
-                {show ? (
-                  <Alert variant="success" id="alert">
-                    <CheckCircleIcon id="alert__success__icon" />
-
-                    <div className="alert__success__text">
-                      <p>Product added to your cart</p>
-                      <Link to="/cart" style={{ textDecoration: "none" }}>
-                        <h6>CHECKOUT NOW</h6>
-                      </Link>
-                    </div>
-
-                    <CloseIcon
-                      type="button"
-                      onClick={() => setShow(false)}
-                      id="alert__close__icon"
-                    />
-                  </Alert>
-                ) : (
-                  ""
-                )}
-
-                {/* <<<<<<<< LOGIN ALERT >>>>>>>>>> */}
-
-                {/* {show ? 
-                 <Alert variant="primary" id='login__alert'>
-                  
-                 
-                   <InfoIcon id='alert__success__icon'/>
-                   
-                 
-                 <p>Please Login</p>
-            
-                 <h6 type='button' onClick={()=>setShow(false)}>OK</h6>
-                 
-              
-               
-                 </Alert> :''} */}
-
-                {/* <<<<<<<<< WRONG ALERT >>>>>>>>> */}
-                {/* {show? 
-                 <Alert variant="danger" id='danger__alert'>
-                  
-                 
-                   <CheckCircleIcon id='alert__success__icon'/>
-                   
-               
-                 <p>Somthing went wrong</p>
-               
-                 <h6 type='button' onClick={()=>setShow(false)} >Refresh</h6>
-                 
-              
-                
-                 
-                
-                 </Alert> :''
-              }  */}
                 {item.map((data) => {
                   return (
                     <Col xs="6" sm="4" md="3">

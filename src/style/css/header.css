@@ -1,6 +1,6 @@
 .header__section__one{
    background-color: #001E43; 
-   height: 90px;
+   height: 70px;
    width: 100%;
 }
 .header__logo{
@@ -9,7 +9,10 @@
    margin-left: -5px;
   
 }
-
+#logo__link{
+/* border: solid red; */
+display: flex;
+}
 #navLink{
    text-decoration: none;
    color: inherit;
@@ -35,15 +38,16 @@
    border: none;
    outline: none;
    /* margin-left: -60px; */
-   border-left: solid 1px#737d8a;
+   border-left: solid 1px#d2d8e0;
    padding-left: 15px;
-   font: normal normal normal 12px/14px DM Sans;
+   font: normal normal normal 13px/14px DM Sans;
    font-family: 'DM Sans', sans-serif;
 letter-spacing: 0px;
-color: #9A9C9F;
+color: #acafb4;
 width: 300px;
 padding-right: 10px;
 height: 30px;
+
   
 }
 .header_first__row__div{
@@ -272,13 +276,10 @@ margin-top: 10px;
     /* border: solid yellow; */
  }
  @media screen and (max-width: 990px) {
-   /* .header__input__div {
-      display: none;
-   } */
+ 
    .header__logo__div{
       display: flex;
-      /* flex-direction: column; */
-      /* border: solid red; */
+    
       width: 100%;
    }
    .logo__input{
@@ -302,10 +303,16 @@ margin-top: 10px;
       margin: auto;
       /* margin-left: 15%; */
       /* margin-top: -3px; */
-      height: 37px;
+      height: 30px;
       /* border: solid red; */
       margin-top: 10px;
       margin-bottom: 10px;
+   }
+   .header__serach__span{
+    
+
+
+  height: 30px;
    }
    .header__input__div input{
       border: none;

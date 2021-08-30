@@ -37,7 +37,9 @@ function OrderDownload() {
       <div className="order__down__content">
         <div className="order__down__product">
           <div className="order__down__head">
-            <span className="order__down__round">1</span>
+            <span className="order__down__round">
+              <p>1</p>
+            </span>
             <h5>Products</h5>
           </div>
 
@@ -87,7 +89,9 @@ function OrderDownload() {
 
         <div className="order__down__address">
           <div className="order__down__head">
-            <span className="order__down__round">2</span>
+            <span className="order__down__round">
+              <p>2</p>
+            </span>
             <h5>Address</h5>
           </div>
 
@@ -105,7 +109,9 @@ function OrderDownload() {
         {/* <<<<<<<<< Amount Breakdown >>>>>>>> */}
         <div className="order__down__amount">
           <div className="order__down__head">
-            <span className="order__down__round">3</span>
+            <span className="order__down__round">
+              <p>3</p>
+            </span>
             <h5>Amount Breakdown</h5>
           </div>
 
@@ -151,7 +157,9 @@ function OrderDownload() {
 
         <div className="order__down__status">
           <div className="order__down__head">
-            <span className="order__down__round">4</span>
+            <span className="order__down__round">
+              <p>4</p>
+            </span>
             <h5>Status</h5>
           </div>
 

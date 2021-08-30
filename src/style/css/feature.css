@@ -1,14 +1,14 @@
 .feature__row{
-    /* max-width: 1200px; */
+  
     margin: auto;
-    margin-top: 50px;
-    /* border: saddlebrown solid; */
-    border-top: 2px solid #f1eeee ;
-    padding-top: 30px;
+    margin-top: 20px;
+   
+    border-top: 1px solid #f3ecec ;
+    padding-top: 20px;
     
   }
   .feature__col{
-      /* border: solid green; */
+     
       display: flex;
       justify-content: center;
       margin-top: 20px;

@@ -1,20 +1,8 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'DM Sans', sans-serif;
-}
-.body{
-    width: 100%;
-    overflow-x: hidden;  
-}
+
 .dashboard-container{
-    /* width: 80%; */
- 
-    /* min-height: 100vh; */
-    /* background-color: antiquewhite; */
+   
     margin: auto;
-    margin-top: 40px;
+    margin-top: 5px;
 }
 
 .dashboard-title{
@@ -23,7 +11,7 @@
     text-align: center;
 }
 .dashboard-title p{
-    font-size: 30px;
+    font-size: 25px;
     color: #343434;
     margin-bottom: 0;
 }
@@ -48,6 +36,9 @@
     justify-content: center;
     align-items: center;
     
+}
+.dashboard-box:hover{
+    opacity: 0.8;
 }
 .dashboard-box img{
     position: absolute;

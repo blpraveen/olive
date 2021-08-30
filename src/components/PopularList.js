@@ -21,17 +21,17 @@ const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
     items: 10,
-    //   slidesToSlide: 3
+    
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
     items: 6,
-    //   slidesToSlide: 2
+  
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
     items: 4,
-    //   slidesToSlide: 1
+
   },
 };
 
@@ -97,7 +97,7 @@ function PopularList() {
   ]);
   return (
     <div className="popular__list ">
-      {/* <Container> */}
+     
         <Row>
           <Col lg="1">
             <div className="popular__list__title">
@@ -138,47 +138,11 @@ function PopularList() {
                 );
               })}
 
-              {/* <div className='popular__img__div'>
-                <img src={self} />
-                <p>Self Help</p>
-              </div>
-              <div className='popular__img__div'>
-                <img src={westerns} />
-                <p>Westerns</p>
-              </div>
-              <div className='popular__img__div'>
-                <img src={thriller} />
-                <p>Thriller</p>
-              </div>
-              <div className='popular__img__div'>
-                <img src={mystri} />
-                <p>Mystery</p>
-              </div>
             
-              <div className='popular__img__div'>
-                <img src={fiction1} />
-                <p>Fiction</p>
-              </div>
-              <div className='popular__img__div'>
-                <img src={romance} />
-                <p>Romance</p>
-              </div>
-              <div className='popular__img__div'>
-                <img src={dystopian} />
-                <p>Dystopian</p>
-              </div>
-              <div className='popular__img__div'>
-                <img src={self1} />
-                <p>Self Help</p>
-              </div>
-              <div className='popular__img__div'>
-                <img src={fiction} />
-                <p>Fiction</p>
-              </div> */}
             </Carousel>
           </Col>
         </Row>
-      {/* </Container> */}
+     
     </div>
   );
 }

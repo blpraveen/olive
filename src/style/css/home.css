@@ -2,7 +2,7 @@
   /* border: solid red; */
   /* height: 300px; */
   margin: auto;
-  margin-top: 20px;
+  margin-top: 10px;
 width: 100%;
   /* max-width: 1200px; */
   /* max-width: 80%; */
@@ -269,6 +269,14 @@ margin-top: 30px;
     justify-content: center;
 
   }
+  .home__month__row{
+    
+    margin: auto;
+    
+    margin-top: 0px;
+   
+    }
+    
 }
 
 /* <<<<<<<<< BOOK TALKS >>>>>>>>> */
@@ -281,7 +289,7 @@ margin-top: 30px;
 }
 
 .home__talks__head__row  {
-  border-bottom: 2px solid #f1eeee ;
+  border-bottom: 1px solid #f3ecec ;
 
   height: 30px;
   margin: auto;
@@ -306,12 +314,11 @@ font: normal normal normal 13px/29px DM Sans;
 font-family: 'DM Sans', sans-serif;
 letter-spacing: 0.15px;
 color: #313131;
-/* height: 30px; */
+
 
 }
 .home__talks__head__row  p:hover{
-  font: normal normal normal 14px/29px DM Sans;
-font-family: 'DM Sans', sans-serif;
+  color: #46CE04;
 }
 .home__talks__date{
   display: flex;
@@ -327,7 +334,7 @@ font-family: 'DM Sans', sans-serif;
   padding: 3px;
 }
 
-.home__talks h5 {
+.home__talks__div h5 {
   text-align: left;
 font: normal normal normal 17px/20px DM Sans;
 font-family: 'DM Sans', sans-serif;
@@ -355,23 +362,6 @@ margin-top: -10px;
 }
 
 
-.home__talks__head__row h5{
-  text-align: left;
-  font: normal normal normal 19px/40px DM Sans;
-  font-family: 'DM Sans', sans-serif;
-  letter-spacing: 0.3px;
-  color: #343434; 
-  
-}
-.home__talks__head__row p{
-  text-align: left;
-font: normal normal normal 14px/20px DM Sans;
-font-family: 'DM Sans', sans-serif;
-letter-spacing: 0.15px;
-color: #313131;
-height: 30px;
-
-}
 
 
 @media screen and (max-width: 800px) {
@@ -379,12 +369,23 @@ height: 30px;
    
       margin: auto;
       margin-top: 20px;
-      padding: 10px;
+      /* padding: 10px; */
      
   }
+  .home__talks__head__row  {
+    border-bottom: 1px solid #f3ecec ;
+  
+    height: 30px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 30px;
+
+  }
+  
   .home__talks__head__row h5{
       text-align: left;
-      font: normal normal normal  17px/35px DM Sans;
+      font: normal normal normal  17px/25px DM Sans;
       font-family: 'DM Sans', sans-serif;
       letter-spacing: 0.3px;
       color: #343434;
@@ -399,6 +400,12 @@ height: 30px;
   height: 30px;
   
   }
+  .home__talks__div{
+    margin: auto;
+  
+    margin: 0px;
+    margin-top: 20px;
+  }
 }
 
 
@@ -408,13 +415,13 @@ height: 30px;
   /* max-width: 1200px; */
   margin: auto;
   margin-top: 30px;
-  
-  /* border-bottom: 2px solid #f1eeee ; */
+  margin-bottom: 30px;
+  /* border: 2px solid red ; */
   /* padding-bottom: 10px; */
 }
 
 .home__discover__head__row  {
-  border-bottom: 2px solid #f1eeee ;
+  border-bottom: 1px solid #f3ecec ;
 
   height: 30px;
   margin: auto;
@@ -443,16 +450,18 @@ height: 30px;
 
 }
 .home__discover__head__row p:hover{
-  font: normal normal normal 14px/29px DM Sans;
-font-family: 'DM Sans', sans-serif;
+  color: #46CE04;
 }
 .home__discover__content{
   margin-top: 10px;
+
+ 
+ 
 }
 .home__discover__content img{
   margin: auto;
   border-radius: 3px;
-  margin-top: 30px;
+  margin-top: 20px;
 max-height: 350px;
 max-width: 250px;
 }
@@ -467,13 +476,22 @@ max-width: 250px;
   .home__discover{
    
       margin: auto;
-      margin-top: 20px;
-      padding: 10px;
+      margin-top: 10px;
+      /* padding: 10px; */
      
+  }
+  .home__discover__head__row  {
+ 
+  
+    height: 30px;
+   
+    padding-bottom: 40px;
+  /* padding-left: 20px; */
+  /* padding-right: 20px; */
   }
   .home__discover__head__row h5{
       text-align: left;
-      font: normal normal normal 17px/35px DM Sans;
+      font: normal normal normal 17px/30px DM Sans;
       font-family: 'DM Sans', sans-serif;
       letter-spacing: 0.3px;
       color: #343434;
