@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import "./../style/css/malayalam.css";
 import "./../style/css/justArrived.css";
 import malayalam1 from "../images/malayalam/mal1.jpg";
@@ -38,6 +38,7 @@ const responsive = {
   },
 };
 function Malayalam() {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [show, setShow] = useState(false);
   const [arrived, setArrived] = useState([
     {
@@ -90,6 +91,31 @@ function Malayalam() {
       price: "115",
     },
   ]);
+  useEffect(async () => { 
+    fetch(apiBaseUrl + 'language_book/2')
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          if(result.data.books.length){
+            let bestSellerBook = [];
+            result.data.books.map((book) => {
+                console.log(book);
+                bestSellerBook.push({
+                  id:book.id,
+                  image: book.featured_image_large,
+                  name: book.title,
+                  author: book.author_name,
+                  cutPrice:book.offer_price,
+                  price:book.sale_price,
+                })
+            });
+            setArrived(bestSellerBook);
+            
+          }
+        } 
+      }); 
+ }, []);
   return (
     <div className="malayalam">
       <div className="malayalam__head__row ">
@@ -178,7 +204,7 @@ function Malayalam() {
             return (
               <div className="malayalam__item">
                 <Link
-                  to="/bookSingle"
+                  to={'/bookSingle/'+ data.id}
                   style={{
                     textDecoration: "none",
                     color: "inherit",
@@ -190,7 +216,7 @@ function Malayalam() {
                 </Link>
 
                 <Link
-                  to="/bookSingle"
+                  to={'/bookSingle/'+ data.id}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <div className="malayalam__item__name">

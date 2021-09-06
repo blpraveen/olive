@@ -8,7 +8,7 @@ import pop8 from "../images/popular/pop8.jpg";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Alert from "react-bootstrap/Alert";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
@@ -31,6 +31,7 @@ const responsive = {
   },
 };
 function JustArrived() {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [show, setShow] = useState(false);
 
   const [arrived, setArrived] = useState([
@@ -91,7 +92,31 @@ function JustArrived() {
       price: "765",
     },
   ]);
+  useEffect(async () => { 
+    fetch(apiBaseUrl + 'recent_books')
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          if(result.data.books.length){
+            let bestSellerBook = [];
+            result.data.books.map((book) => {
 
+                bestSellerBook.push({
+                  id:book.id,
+                  image: book.featured_image_large,
+                  name: book.title,
+                  author: book.author_name,
+                  cutPrice:book.offer_price,
+                  price:book.sale_price,
+                })
+            });
+            setArrived(bestSellerBook);
+            
+          }
+        } 
+      }); 
+ }, []);
   return (
     <div className="arrived">
       <div className="arrived__head__row ">
@@ -182,7 +207,7 @@ function JustArrived() {
             return (
               <div className="arrived__item">
                 <Link
-                  to="/bookSingle"
+                  to={'/bookSingle/'+ data.id}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <div className="arrived__item__off">

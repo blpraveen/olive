@@ -7,7 +7,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import book from "../images/book-read.png";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Featur from "../components/Featur";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import pop1 from "../images/popular/pop1.jpg";
 import pop2 from "../images/popular/pop2.jpg";
 import pop3 from "../images/popular/pop3.jpg";
@@ -19,14 +19,16 @@ import UsePagination from "../components/Pagination";
 import Alert from "react-bootstrap/Alert";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
-import { Link } from "react-router-dom";
+import { Link,useParams } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
 import FilterSearch from "../components/FilterSearch";
 
 function Categories() {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const { id } = useParams();
   const [show, setShow] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
-  const [item] = useState([
+  const [categoryBook,setCategoryBook] = useState([
     {
       image: pop1,
       name: "My family",
@@ -112,6 +114,35 @@ function Categories() {
       price: "765",
     },
   ]);
+  useEffect(async () => { 
+    fetch(apiBaseUrl + `category_book/${id}`)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+
+          if(result.data.books.length){
+            let catBook = [];
+            result.data.books.map((book) => {
+                
+                catBook.push({
+                  id:book.id,
+                  image: book.featured_image_large,
+                  name: book.title,
+                  author: book.author_name,
+                  cutPrice:book.offer_price,
+                  price:book.sale_price,
+                })
+            });
+            setCategoryBook(catBook);
+            
+          } else {
+            setCategoryBook([])
+          }
+          
+        } 
+      }); 
+ }, []);
   return (
     <div className="categories container">
       <div className="path ">
@@ -199,12 +230,12 @@ function Categories() {
               )}
 
               <Row>
-                {item.map((data) => {
+                {categoryBook.map((data) => {
                   return (
                     <Col xs="6" sm="4" md="2">
                       <div className="book__item">
                         <Link
-                          to="/bookSingle"
+                          to={'/bookSingle/'+ data.id}
                           style={{
                             textDecoration: "none",
                             color: "inherit",
@@ -215,7 +246,7 @@ function Categories() {
                           <img src={data.image} />
                         </Link>
                         <Link
-                          to="/bookSingle"
+                          to={'/bookSingle/'+ data.id}
                           style={{ textDecoration: "none", color: "inherit" }}
                         >
                           <div className="book__item__name">

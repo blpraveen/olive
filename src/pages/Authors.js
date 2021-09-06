@@ -21,13 +21,14 @@ import author17 from "../images/authors/author17.png";
 import author18 from "../images/authors/author18.png";
 import author19 from "../images/authors/paulo.png";
 import author20 from "../images/authors/review.png";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Featur from "../components/Featur";
 import { Link } from "react-router-dom";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 function Authors() {
-  const [authors] = useState([
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const [authors,setAuthors] = useState([
     { image: author19 },
     { image: author20 },
     { image: author3 },
@@ -51,6 +52,40 @@ function Authors() {
     { image: author17 },
     { image: author18 },
   ]);
+  useEffect(async () => { 
+    fetch(apiBaseUrl + `authors`)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+
+          if(result.data.authors.length){
+            let authorsData = [];
+            result.data.authors.map((author) => {
+                
+                authorsData.push({
+                  id:author.id,
+                  image: author.featured_image_large,
+                  name: author.title,
+                  author: author.author_name,
+                  description:author.description,
+                  book:author.book,
+                  book_count:author.book_count,
+                  nationality:author.country,
+                  first_book:author.first_book,
+                  last_work:author.last_work,
+                  notable_work:author.notable_work,
+                })
+            });
+            setAuthors(authorsData);
+            
+          } else {
+            setAuthors([])
+          }
+          
+        } 
+      }); 
+ }, []);
   return (
     <div className="authors container">
 
@@ -116,7 +151,7 @@ function Authors() {
                 return (
                   <Col>
                     <Link
-                      to="/author"
+                      to={'/author/'+ data.id}
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
                       <div className="authors__item">

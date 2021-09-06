@@ -11,7 +11,7 @@ import MinimizeIcon from "@material-ui/icons/Minimize";
 import { Button } from "@material-ui/core";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
-import { useState } from "react";
+import { useState,useEffect} from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import ReactStars from "react-rating-stars-component";
 import best1 from "../images/author/best1.png";
@@ -28,9 +28,13 @@ import PopularList from "../components/PopularList";
 import Alert from "react-bootstrap/Alert";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
-import { Link } from "react-router-dom";
+import { Link ,useParams} from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
+import parse from "html-react-parser";
 function BookSingle() {
+  //const { id } = props.match.params;
+  const { id } = useParams();
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [bookMark, setBookMark] = useState(false);
   const [details, setDetails] = useState(true);
   const [review, setReview] = useState(false);
@@ -39,35 +43,56 @@ function BookSingle() {
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
   };
-  const [data] = useState([
-    {
-      tittle: "Great Story! You Love it",
-      text: "Nice book... It should be read by the one who want to learn something to be better in life..... But in this book(think and.....) they have given only their own successful peopl example..Due to which a common man may think about them only except our own successful person....",
-      stars: 4,
-      date: "2021 April 7 | Alex M",
-    },
-    {
-      tittle: "Amazing offer on amazing books",
-      text: `'Ours have the world's greatest epic Shrimad Bhagwad Geeta this book alone can change the life of the man who read this...... It seems like I m exaggerating but trust me whoever read this epic no one could tell that it's not a perfect book..... Even other religious people read and admire this book.....'`,
-      stars: 3,
-      date: "2021 April 7 | Alex M",
-    },
-    {
-      tittle: "Box was damaged, and crumpled",
-      text: "The shipping was ok, but it could be the fault of the handling process. The box had dents and the books as well",
-      stars: 2,
-      date: "2021 April 7 | Alex M",
-    },
-    {
-      tittle:
-        "Waste of time for investors who wants to learn more about investing",
-      text: "Nice book... It should be read by the one who want to learn something to be better in life..... But in this book(think and.....) they have given only their own successful peopl example..Due to which a common man may think about them only except our own successful person....",
-      stars: 3,
-      date: "2021 April 7 | Alex M",
-    },
-  ]);
-
-  const [item] = useState([
+  const [book,setBook] = useState({image:best1,author:'',name:'',cutPrice:'',price:'',description:'',book_type:{author:''}});
+  useEffect(async () => { 
+    fetch(apiBaseUrl + `book/${id}`)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          if(result.data.book){
+            let selectedBook = {};
+            let book_data = result.data.book;
+             selectedBook = {
+                  id:book_data.id,
+                  image: book_data.featured_image_large,
+                  name: book_data.title,
+                  author: book_data.author_name,
+                  cutPrice:book_data.offer_price,
+                  price:book.sale_price,
+                  description:book_data.description,
+                  book_type:book_data.book_type,
+                };
+            
+            setBook(selectedBook);
+            
+          }
+        } 
+      }); 
+      fetch(apiBaseUrl + `customer_related_book`)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          if(result.data.books.length){
+            let relatedBook = [];
+            result.data.books.map((book) => {
+                relatedBook.push({
+                  id:book.id,
+                  image: book.featured_image_large,
+                  name: book.title,
+                  author: book.author_name,
+                  cutPrice:book.offer_price,
+                  price:book.sale_price,
+                })
+            });
+            setRelated(relatedBook);
+            
+          }
+        } 
+      }); 
+ }, []);
+  const [related,setRelated] = useState([
     {
       image: best1,
       name: "My family",
@@ -145,19 +170,19 @@ function BookSingle() {
               id="book__single__carousel"
             >
               <Carousel.Item>
-                <img className="col-12" src={book} />
+                <img className="col-12" src={book.image} />
               </Carousel.Item>
               <Carousel.Item>
-                <img className="col-12" src={prebook} />
+                <img className="col-12" src={book.image} />
               </Carousel.Item>
               <Carousel.Item>
-                <img className="col-12" src={book} />
+                <img className="col-12" src={book.image} />
               </Carousel.Item>
             </Carousel>
           </Col>
           <Col md="7" className="book__description__col">
             <div className="book__description">
-              <h2>Rising Like a Storm</h2>
+              <h2>{book.title}</h2>
               <div className="book__description__star__row">
                 <div className="book__description__star__left">
                   <StarIcon id="book__star" />
@@ -169,12 +194,12 @@ function BookSingle() {
                 </div>
                 <div className="book__description__star__right">
                   <p>By</p>
-                  <h6>Tanaz Bhathena</h6>
+                  <h6>{book.author}</h6>
                 </div>
               </div>
 
               <div className="book__description__price">
-                <h5>₹450</h5>
+                <h5>₹{book.cutPrice}</h5>
                 <p>
                   Book Format:
                   <span style={{ paddingLeft: "5px" }}>Paperback</span>
@@ -182,7 +207,7 @@ function BookSingle() {
               </div>
               <div className="book__description__text">
                 <p>
-                  {isReadMore ? text.slice(0, 550) : text}
+                {parse(book.description)}
                   <span
                     onClick={toggleReadMore}
                     style={{ color: "#46CE04", cursor: "pointer" }}
@@ -261,55 +286,55 @@ function BookSingle() {
                       <div className="book__detailes__row">
                         <h6>AUTHOR</h6>
                         <div className="book__detailes__row__right ">
-                          <p>Tanaz Bhathena</p>
+                          <p>{book.book_type.author}</p>
                         </div>
                       </div>
                       <div className="book__detailes__row">
                         <h6>CATEGORY</h6>
                         <div className="book__detailes__row__right ">
-                          <p>Novel</p>
+                          <p>{book.book_type.category}</p>
                         </div>
                       </div>
                       <div className="book__detailes__row">
                         <h6>PUBLISHING DATE</h6>
                         <div className="book__detailes__row__right ">
-                          <p>2019, March</p>
+                          <p>{book.book_type.publishing_date}</p>
                         </div>
                       </div>
                       <div className="book__detailes__row">
                         <h6>EDITION</h6>
                         <div className="book__detailes__row__right ">
-                          <p>1</p>
+                          <p>{book.book_type.edition}</p>
                         </div>
                       </div>
                       <div className="book__detailes__row">
                         <h6>BINDING</h6>
                         <div className="book__detailes__row__right ">
-                          <p>Normal</p>
+                          <p>{book.book_type.binding}</p>
                         </div>
                       </div>
                       <div className="book__detailes__row">
                         <h6>NUMBER OF PAGES</h6>
                         <div className="book__detailes__row__right ">
-                          <p>386</p>
+                          <p>{book.book_type.number_of_pages}</p>
                         </div>
                       </div>
                       <div className="book__detailes__row">
                         <h6>PUBLISHER</h6>
                         <div className="book__detailes__row__right ">
-                          <p>DC BOOKS</p>
+                          <p>{book.book_type.publisher}</p>
                         </div>
                       </div>
                       <div className="book__detailes__row">
                         <h6>MULTIMEDIA</h6>
                         <div className="book__detailes__row__right ">
-                          <p>Not Available</p>
+                          <p>{book.book_type.multimedia}</p>
                         </div>
                       </div>
                       <div className="book__detailes__row">
                         <h6>LANGAGE</h6>
                         <div className="book__detailes__row__right ">
-                          <p>ENGLISH</p>
+                          <p>{book.book_type.language}</p>
                         </div>
                       </div>
                     </div>
@@ -415,7 +440,7 @@ function BookSingle() {
                   <div className="book__review__content">
                     <Row>
                       <Col xs="12" md="8">
-                        {data.map((data) => {
+                        {related.map((data) => {
                           return (
                             <div>
                               <div className="review__content__head">
@@ -520,12 +545,12 @@ function BookSingle() {
           </div>
 
           <Row>
-            {item.map((data) => {
+            {related.map((data) => {
               return (
                 <Col xs="6" sm="4" md="2">
                   <div className="book__item">
                     <Link
-                      to="/bookSingle"
+                      to={'/bookSingle/'+ data.id}
                       style={{
                         textDecoration: "none",
                         color: "inherit",
@@ -536,7 +561,7 @@ function BookSingle() {
                       <img src={data.image} />
                     </Link>
                     <Link
-                      to="/bookSingle"
+                      to={'/bookSingle/'+ data.id}
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
                       <div className="book__item__name">

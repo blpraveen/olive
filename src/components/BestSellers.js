@@ -12,7 +12,7 @@ import banner1 from "../images/best/banner1.png";
 import banner2 from "../images/best/banner2.png";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -37,8 +37,8 @@ const responsive = {
   },
 };
 
+
 function BestSellers() {
-  const [show, setShow] = useState(false);
   const [bestSeller, setbestSeller] = useState([
     {
       image: best1,
@@ -69,6 +69,35 @@ function BestSellers() {
       price: "321",
     },
   ]);
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const [show, setShow] = useState(false);
+  useEffect(async () => { 
+    fetch(apiBaseUrl + 'best_sellers')
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          if(result.data.books.length){
+            let bestSellerBook = [];
+            result.data.books.map((book) => {
+                console.log(book);
+                bestSellerBook.push({
+                  id:book.id,
+                  image: book.featured_image_large,
+                  name: book.title,
+                  author: book.author_name,
+                  cutPrice:book.offer_price,
+                  price:book.sale_price,
+                })
+            });
+            setbestSeller(bestSellerBook);
+            setbestSellerTwo(bestSellerBook);
+            
+          }
+        } 
+      }); 
+ }, []);
+  
 
   const [bestSellerTwo, setbestSellerTwo] = useState([
     {
@@ -141,7 +170,7 @@ function BestSellers() {
                   return (
                     <div className="best__item">
                       <Link
-                        to="/bookSingle"
+                        to={'/bookSingle/'+ data.id}
                         style={{
                           textDecoration: "none",
                           color: "inherit",
@@ -152,7 +181,7 @@ function BestSellers() {
                         <img src={data.image} />
                       </Link>
                       <Link
-                        to="/bookSingle"
+                        to={'/bookSingle/'+ data.id}
                         style={{ textDecoration: "none", color: "inherit" }}
                       >
                         <div className="best__item__name">
@@ -272,7 +301,7 @@ function BestSellers() {
                   return (
                     <div className="best__item">
                       <Link
-                        to="/bookSingle"
+                        to={'/bookSingle/'+ data.id}
                         style={{
                           textDecoration: "none",
                           color: "inherit",
@@ -283,7 +312,7 @@ function BestSellers() {
                         <img src={data.image} />
                       </Link>
                       <Link
-                        to="/bookSingle"
+                        to={'/bookSingle/'+ data.id}
                         style={{ textDecoration: "none", color: "inherit" }}
                       >
                         <div className="best__item__name">

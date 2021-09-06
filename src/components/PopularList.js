@@ -15,7 +15,7 @@ import pop8 from "../images/popular/pop8.jpg";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 const responsive = {
   desktop: {
@@ -36,7 +36,8 @@ const responsive = {
 };
 
 function PopularList() {
-  const [data] = useState([
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const [popularCategory,setPopularCategory] = useState([
     {
       category: "Self ",
       image: review,
@@ -95,6 +96,28 @@ function PopularList() {
       image:pop3,
     },
   ]);
+  useEffect(async () => { 
+    fetch(apiBaseUrl + 'categories')
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          if(result.data.categories.length){
+            let popularCategory = [];
+            result.data.categories.map((category) => {
+                console.log(category);
+                popularCategory.push({
+                  id: category.id,
+                  category: category.name,
+                  image: category.featured_image_small,
+                })
+            });
+            setPopularCategory(popularCategory);
+            
+          }
+        } 
+      }); 
+ }, []);
   return (
     <div className="popular__list ">
      
@@ -124,10 +147,10 @@ function PopularList() {
               dotListClass="custom-dot-list-style"
               itemClass="popular__ani"
             >
-              {data.map((data) => {
+              {popularCategory.map((data) => {
                 return (
                   <Link
-                    to="/categories"
+                    to={'/category/'+ data.id}
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <div className="popular__img__div">

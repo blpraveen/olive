@@ -99,10 +99,10 @@ function App() {
       <Route path='/preorder'>
       <PreOrder/>
       </Route>
-    <Route path='/booksingle'>
+    <Route path='/booksingle/:id' >
       <BookSingle/>
       </Route>
-    <Route path='/categories'>
+    <Route path='/category/:id'>
       <Categories/>
       </Route>
       <Route path='/search'>
@@ -111,7 +111,7 @@ function App() {
     <Route path='/authors'>
       <Authors/>
       </Route>
-      <Route path='/author'>
+      <Route path='/author/:id'>
       <Author/>
       </Route>
       <Route path='/'>
