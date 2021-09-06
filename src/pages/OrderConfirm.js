@@ -102,7 +102,7 @@ function OrderConfirm() {
                           id="confirm__book__mark__icon"
                           className="book__bookmark__not"
                         />
-                        <h5 type="button">ADD TO BOOKMARK</h5>
+                        <h5 >ADD TO BOOKMARK</h5>
                       </div>
                     </div>
                   </Col>
