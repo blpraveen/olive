@@ -66,8 +66,7 @@ function Authors() {
                 authorsData.push({
                   id:author.id,
                   image: author.featured_image_large,
-                  name: author.title,
-                  author: author.author_name,
+                  name: author.name,
                   description:author.description,
                   book:author.book,
                   book_count:author.book_count,
@@ -156,8 +155,8 @@ function Authors() {
                     >
                       <div className="authors__item">
                         <img src={data.image} />
-                        <h6>Authors Name</h6>
-                        <p>1352 Books</p>
+                        <h6>{data.name}</h6>
+                        <p>{data.book_count} Books</p>
                       </div>
                     </Link>
                   </Col>

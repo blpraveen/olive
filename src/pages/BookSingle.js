@@ -47,7 +47,7 @@ const BookSingle = props => {
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
   };
-  const [book,setBook] = useState({image:best1,author:'',name:'',cutPrice:'',price:'',description:'',book_type:{author:''}});
+  const [book,setBook] = useState({image:best1,author:'',name:'',cutPrice:'',price:'',description:'',book_type:{author:''},book_all_images:[]});
    function addProduct (product){
     const { cartProducts, updateCart } = props;
     let productAlreadyInCart = false;
@@ -85,6 +85,7 @@ const BookSingle = props => {
                   price:book.sale_price,
                   description:book_data.description,
                   book_type:book_data.book_type,
+                  book_all_images:book_data.all_images,
                 };
             
             setBook(selectedBook);
@@ -190,15 +191,13 @@ const BookSingle = props => {
               indicators={true}
               id="book__single__carousel"
             >
+            {book.book_all_images.map((data) => {
+                          return (
               <Carousel.Item>
-                <img className="col-12" src={book.image} />
+                <img className="col-12" src={data} />
               </Carousel.Item>
-              <Carousel.Item>
-                <img className="col-12" src={book.image} />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img className="col-12" src={book.image} />
-              </Carousel.Item>
+            )
+          })}
             </Carousel>
           </Col>
           <Col md="7" className="book__description__col">

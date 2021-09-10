@@ -14,18 +14,23 @@ import best3 from "../images/author/best3.png";
 import best4 from "../images/author/best4.png";
 import PopularList from "../components/PopularList";
 import UsePagination from "../components/Pagination";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Alert from "react-bootstrap/Alert";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
 import FilterSearch from "../components/FilterSearch";
+import Pagination from "react-js-pagination";
 
 function OfferZone() {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const [active_page , setActivePage] = useState(1);
+  const [total_items , settotalItems] = useState(0);
+  const [books_count , setBookCount] = useState(0);
   const [show, setShow] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
-  const [item] = useState([
+  const [books,setBooks] = useState([
     {
       image: best1,
       name: "My family",
@@ -111,6 +116,40 @@ function OfferZone() {
       price: "321",
     },
   ]);
+   function handlePageChange (pageNumber) {
+    setActivePage(pageNumber);
+  }
+  useEffect(async () => { 
+    fetch(apiBaseUrl + `books`+`?page=${active_page}`)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          setBookCount(result.books_count);
+          settotalItems(result.books_count);
+          if(result.data.books.length){
+            let allbooks = [];
+
+            result.data.books.map((book) => {
+                
+                allbooks.push({
+                  id:book.id,
+                  image: book.featured_image_large,
+                  name: book.title,
+                  author: book.author_name,
+                  cutPrice:book.offer_price,
+                  price:book.sale_price,
+                })
+            });
+            setBooks(allbooks);
+            
+          } else {
+            setBooks([])
+          }
+          
+        } 
+      }); 
+ }, [active_page]);
   return (
     <div className="offer__zone container">
       <div className="path ">
@@ -210,12 +249,12 @@ function OfferZone() {
                  </Alert> :''
               }  */}
             <Row>
-              {item.map((data) => {
+              {books.map((data) => {
                 return (
                   <Col xs="6" sm="4" md="2">
                     <div className="book__item">
                       <Link
-                        to="/bookSingle"
+                         to={'/bookSingle/'+ data.id}
                         style={{
                           textDecoration: "none",
                           color: "inherit",
@@ -226,7 +265,7 @@ function OfferZone() {
                         <img src={data.image} />
                       </Link>
                       <Link
-                        to="/bookSingle"
+                         to={'/bookSingle/'+ data.id}
                         style={{ textDecoration: "none", color: "inherit" }}
                       >
                         <div className="book__item__name">
@@ -253,7 +292,16 @@ function OfferZone() {
                 );
               })}
               <div className="pagination__div">
-                <UsePagination />
+                <Pagination
+                  activePage={active_page}
+                  itemsCountPerPage={10}
+                  totalItemsCount={total_items}
+                  pageRangeDisplayed={5}
+                  prevPageText ='previous'
+                  lastPageText ='next'
+                  innerClass='makeStyles-ul-1'
+                  onChange={(e)=>handlePageChange(e)}
+                />
               </div>
             </Row>
           </Col>
