@@ -21,7 +21,6 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
-
 import FilterSearch from "../components/FilterSearch";
 function BestSeller() {
   const [show, setShow] = useState(false);

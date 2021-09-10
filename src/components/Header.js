@@ -10,8 +10,11 @@ import "./signup.css";
 import "./login.css";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import MenuSharpIcon from "@material-ui/icons/MenuSharp";
+import { connect } from 'react-redux';
+import { loadCart, removeProduct, changeProductQuantity } from '../services/cart/actions';
+import { updateCart } from '../services/total/actions';
 // import Fade from 'react-bootstrap/Fade'
-function Header() {
+const Header = props => {
   const [user, setUser] = useState(false);
   const [open, setOpen] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
@@ -96,7 +99,7 @@ function Header() {
                 >
                   <div className="header__login__div">
                     <h6>My Cart</h6>
-                    <h5>3 Items</h5>
+                    <h5>{props.cartTotal.productQuantity} Items</h5>
                   </div>
                 </Link>
               </div>
@@ -429,4 +432,15 @@ function Header() {
   );
 }
 
-export default Header;
+const mapStateToProps = state => ({
+  cartProducts: state.cart.products,
+  newProduct: state.cart.productToAdd,
+  productToRemove: state.cart.productToRemove,
+  productToChange: state.cart.productToChange,
+  cartTotal: state.total.data
+});
+
+export default connect(
+  mapStateToProps,
+  { loadCart, updateCart, removeProduct, changeProductQuantity }
+)(Header);

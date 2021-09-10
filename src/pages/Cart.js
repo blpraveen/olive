@@ -10,9 +10,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import { Button, ButtonBase } from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
 import Featur from "../components/Featur";
 import { Link } from "react-router-dom";
-function Cart() {
+
+import { connect } from 'react-redux';
+import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
+import { updateCart } from '../services/total/actions';
+const Cart = props => {
   const [promoCode, setPromocode] = useState(false);
   const [cart] = useState([
     {
@@ -40,6 +45,18 @@ function Cart() {
       total: 510,
     },
   ]);
+  function removeProduct (product){
+    const { cartProducts, updateCart} = props;
+
+    const index = cartProducts.findIndex(p => p.id === product.id);
+    if (index >= 0) {
+      cartProducts.splice(index, 1);
+      updateCart(cartProducts);
+    }
+  };
+  //const products = [];
+  let products = props.cartProducts;
+  let cartTotal = props.cartTotal;
   return (
     <div className="cart container">
       <div className="path ">
@@ -54,10 +71,17 @@ function Cart() {
       <div className="cart__content">
         <div className="cart__header">
           <h3>
-            Your Cart <span>3</span> Items
+            Your Cart <span>{products.length }</span> Items
           </h3>
         </div>
-
+        <div className="float-cart__shelf-container">
+            {!products.length && (
+              <p className="shelf-empty">
+                Add some books in the cart <br />
+              </p>
+            )}
+          </div>
+        {products.length && (
         <div className="cart__table">
           <table>
             <tr className="table__row">
@@ -65,9 +89,10 @@ function Cart() {
               <th id="price__th">Price</th>
               <th id="qty__th">Qty</th>
               <th id="total__th">Total</th>
+              <th id="total__th">Action</th>
             </tr>
 
-            {cart.map((data) => {
+            {products.map((data) => {
               return (
                 <tr>
                   <td id="cart__td">
@@ -81,7 +106,7 @@ function Cart() {
                   </td>
                   <td id="table__td">
                     <h6>
-                      ₹<span>{data.price}</span>{" "}
+                      ₹<span>{data.cutPrice}</span>{" "}
                     </h6>
                   </td>
                   <td id="table__td">
@@ -89,17 +114,24 @@ function Cart() {
                   </td>
                   <td id="table__td">
                     <h6>
-                      ₹<span>{data.total}</span>
+                      ₹<span>{data.cutPrice * data.quantity}</span>
                     </h6>
+                  </td>
+                  <td id="table__td">
+                   <DeleteIcon
+                          type="button"
+                          onClick={() => removeProduct(data)}
+                          id="best___cart__icon"
+                        />
                   </td>
                 </tr>
               );
             })}
           </table>
         </div>
-
+        )}
         {/* <<<<<<<<< TOTAL SECTOIN */}
-
+        {products.length && (
         <div className="total__section">
           <Container>
             <Row>
@@ -110,7 +142,7 @@ function Cart() {
                     <h6>Sub Total :</h6>
                     <div className="total__row__right">
                       <h6>
-                        ₹<span>1250</span>
+                        ₹<span>{ cartTotal.totalPrice}</span>
                       </h6>
                     </div>
                   </div>
@@ -157,7 +189,8 @@ function Cart() {
             </Row>
           </Container>
         </div>
-
+        )}
+        {products.length && (
         <div className="cart__order">
           <Row>
             <Col id="button__col" sm>
@@ -173,10 +206,24 @@ function Cart() {
             </Col>
           </Row>
         </div>
+        )}
       </div>
+
       <Featur />
     </div>
   );
 }
 
-export default Cart;
+
+const mapStateToProps = state => ({
+  cartProducts: state.cart.products,
+  newProduct: state.cart.productToAdd,
+  productToRemove: state.cart.productToRemove,
+  productToChange: state.cart.productToChange,
+  cartTotal: state.total.data
+});
+
+export default connect(
+  mapStateToProps,
+  { loadCart, updateCart, removeProduct, changeProductQuantity }
+)(Cart);

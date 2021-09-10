@@ -22,11 +22,19 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Link,useParams } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
 import FilterSearch from "../components/FilterSearch";
-
-function Categories() {
+import { connect } from 'react-redux';
+import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
+import { updateCart } from '../services/total/actions';
+import Pagination from "react-js-pagination";
+const Categories = props => {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const { id } = useParams();
   const [show, setShow] = useState(false);
+  const [catgory_name , setCategoryName] = useState(false);
+  const [active_page , setActivePage] = useState(1);
+  const [total_items , settotalItems] = useState(0);
+  const [books_count , setBookCount] = useState(0);
+  const [category_id, setCategoryId] = useState(id);
   const [openFilter, setOpenFilter] = useState(false);
   const [categoryBook,setCategoryBook] = useState([
     {
@@ -114,15 +122,24 @@ function Categories() {
       price: "765",
     },
   ]);
+  function handlePageChange (pageNumber) {
+    setActivePage(pageNumber);
+  }
+
+
+
   useEffect(async () => { 
-    fetch(apiBaseUrl + `category_book/${id}`)
+    fetch(apiBaseUrl + `category_book/${id}`+`?page=${active_page}`)
       .then(response => {
         return response.json();
       }).then(result => {
         if(result.status){
-
+          setBookCount(result.books_count);
+          settotalItems(result.books_count);
+          setCategoryName(result.category);
           if(result.data.books.length){
             let catBook = [];
+
             result.data.books.map((book) => {
                 
                 catBook.push({
@@ -142,7 +159,7 @@ function Categories() {
           
         } 
       }); 
- }, []);
+ }, [id,active_page]);
   return (
     <div className="categories container">
       <div className="path ">
@@ -159,7 +176,7 @@ function Categories() {
         </Link>
 
         <ArrowForwardIosIcon id="path__icon" />
-        <p> Friction</p>
+        <p> {catgory_name}</p>
       </div>
 
       <div className="categories__content">
@@ -173,8 +190,8 @@ function Categories() {
               <img id="categories__right__img" className="col-12" src={book} />
 
               <div className="categories__head__row ">
-                <h5>Friction</h5>
-                <p>5000 Books</p>
+                <h5>{catgory_name}</h5>
+                <p>{books_count} Books</p>
               </div>
               {/* </div> */}
               {/* CART ALERTS */}
@@ -264,7 +281,7 @@ function Categories() {
 
                           <AddShoppingCartIcon
                             type="button"
-                            onClick={() => setShow(true)}
+                            onClick={() => addProduct(data)}
                             id="book__item___cart__icon"
                           />
                         </div>
@@ -273,7 +290,16 @@ function Categories() {
                   );
                 })}
                 <div className="pagination__div">
-                  <UsePagination />
+                 <Pagination
+                  activePage={active_page}
+                  itemsCountPerPage={10}
+                  totalItemsCount={total_items}
+                  pageRangeDisplayed={5}
+                  prevPageText ='previous'
+                  lastPageText ='next'
+                  innerClass='makeStyles-ul-1'
+                  onChange={(e)=>handlePageChange(e)}
+                />
                 </div>
               </Row>
             </div>
@@ -287,4 +313,15 @@ function Categories() {
   );
 }
 
-export default Categories;
+const mapStateToProps = state => ({
+  cartProducts: state.cart.products,
+  newProduct: state.cart.productToAdd,
+  productToRemove: state.cart.productToRemove,
+  productToChange: state.cart.productToChange,
+  cartTotal: state.total.data
+});
+
+export default connect(
+  mapStateToProps,
+  { loadCart, updateCart, removeProduct, changeProductQuantity }
+)(Categories);

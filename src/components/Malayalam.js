@@ -106,8 +106,8 @@ function Malayalam() {
                   image: book.featured_image_large,
                   name: book.title,
                   author: book.author_name,
-                  cutPrice:book.offer_price,
-                  price:book.sale_price,
+                  cutPrice:book.sale_price,
+                  price:book.offer_price,
                 })
             });
             setArrived(bestSellerBook);

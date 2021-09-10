@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 } */
+.makeStyles-ul-1 {
+    margin: 0;
+    display: flex;
+    padding: 0;
+    background: #FFFFFF;
+    list-style: none;
+}
+.makeStyles-ul-1 li a {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(228, 228, 228);
+    color: rgb(78, 78, 80);
+    padding: 5px;
+    margin: 3px;
+    text-decoration: none;
+}
+
+.makeStyles-ul-1 li.active a{
+    background-color: rgb(70, 206, 4);
+    color: #fff;
+}

@@ -31,7 +31,10 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Link ,useParams} from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
 import parse from "html-react-parser";
-function BookSingle() {
+import { connect } from 'react-redux';
+import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
+import { updateCart } from '../services/total/actions';
+const BookSingle = props => {
   //const { id } = props.match.params;
   const { id } = useParams();
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -45,6 +48,25 @@ function BookSingle() {
     setIsReadMore(!isReadMore);
   };
   const [book,setBook] = useState({image:best1,author:'',name:'',cutPrice:'',price:'',description:'',book_type:{author:''}});
+   function addProduct (product){
+    const { cartProducts, updateCart } = props;
+    let productAlreadyInCart = false;
+
+    cartProducts.forEach(cp => {
+      if (cp.id === product.id) {
+        cp.quantity += quantity;
+        productAlreadyInCart = true;
+      }
+    });
+
+    if (!productAlreadyInCart) {
+      product.quantity = quantity;
+      cartProducts.push(product);
+    }
+    console.log(cartProducts);
+    updateCart(cartProducts);
+    
+  };
   useEffect(async () => { 
     fetch(apiBaseUrl + `book/${id}`)
       .then(response => {
@@ -83,8 +105,8 @@ function BookSingle() {
                   image: book.featured_image_large,
                   name: book.title,
                   author: book.author_name,
-                  cutPrice:book.offer_price,
-                  price:book.sale_price,
+                  cutPrice:book.sale_price,
+                  price:book.offer_price,
                 })
             });
             setRelated(relatedBook);
@@ -156,9 +178,7 @@ function BookSingle() {
       <div className="path ">
         <p>Home </p>
         <ArrowForwardIosIcon id="path__icon" />
-        <p>Categories </p>
-        <ArrowForwardIosIcon id="path__icon" />
-        <p> Friction</p>
+        <p>Books </p>
       </div>
 
       <div className="book__single__content">
@@ -230,7 +250,7 @@ function BookSingle() {
                     +
                   </Button>
                 </div>
-                <Button onClick={""} type="button" id="book__add__button">
+                <Button onClick={() => addProduct(book)} type="button" id="book__add__button">
                   Add to cart
                 </Button>
               </div>
@@ -602,4 +622,16 @@ function BookSingle() {
   );
 }
 
-export default BookSingle;
+const mapStateToProps = state => ({
+  cartProducts: state.cart.products,
+  newProduct: state.cart.productToAdd,
+  productToRemove: state.cart.productToRemove,
+  productToChange: state.cart.productToChange,
+  cartTotal: state.total.data
+});
+
+export default connect(
+  mapStateToProps,
+  { loadCart, updateCart, removeProduct, changeProductQuantity }
+)(BookSingle);
+
