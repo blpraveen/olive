@@ -50,7 +50,7 @@ function Header() {
                   />
                   <Link to="/search">
                     <span className="header__serach__span">
-                      <SearchIcon type="button" />
+                      <SearchIcon  />
                     </span>
                   </Link>
                 </div>
@@ -70,7 +70,7 @@ function Header() {
               <div className="header__login">
                 <PermIdentityIcon
                   onClick={() => setShowLoginupModal(true)}
-                  type="button"
+                  
                   id="login__icon"
                 />
                 <div

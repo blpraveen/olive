@@ -134,13 +134,13 @@ box-shadow: 0px 3px 6px #00000026;
      
         margin: auto;
         margin-top: 0px;
-        padding-left: 10px;
-        padding-right: 10px;
+        /* padding-left: 10px;
+        padding-right: 10px; */
        
     }
     .arrived__head__row h5{
         text-align: left;
-        font: normal normal  17px/20px DM Sans;
+        font: normal normal normal  17px/29px DM Sans;
         font-family: 'DM Sans', sans-serif;
         letter-spacing: 0.3px;
         color: #343434;
@@ -148,7 +148,7 @@ box-shadow: 0px 3px 6px #00000026;
     }
     .arrived__head__row p{
         text-align: left;
-    font: normal normal normal 14px/20px DM Sans;
+    font: normal normal normal 13px/29px DM Sans;
     font-family: 'DM Sans', sans-serif;
     letter-spacing: 0.15px;
     color: #313131;

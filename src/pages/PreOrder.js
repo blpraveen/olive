@@ -29,6 +29,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
 function PreOrder() {
+
+  const [quantity,setQuantity] = useState(1)
   const [show, setShow] = useState(false);
   const [bookMark, setBookMark] = useState(false);
   const [details, setDetails] = useState(true);
@@ -199,12 +201,12 @@ function PreOrder() {
 
               <div className="book__description__button__row">
                 <div className="book__description_increment">
-                  <Button onClick={""} id="add__button">
-                    +
-                  </Button>
-                  <p>1</p>
-                  <Button onClick={""} id="add__button">
+                  <Button onClick={()=>setQuantity(quantity > 0 ? quantity-1 : 0 )}id="add__button">
                     -
+                  </Button>
+                  <p>{quantity}</p>
+                  <Button   onClick={()=>setQuantity(quantity+1)} id="add__button">
+                    +
                   </Button>
                 </div>
                 <Button

@@ -25,6 +25,7 @@ import FilterSearch from "../components/FilterSearch";
 function JustArrived() {
   const [show, setShow] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
+  const styles = {  fontSize: '17px',marginRight: '10px'}
   const [item] = useState([
     {
       image: best1,
@@ -222,7 +223,7 @@ function JustArrived() {
                           </div>
 
                           <AddShoppingCartIcon
-                            type="button"
+                         
                             onClick={() => setShow(true)}
                             id="book__item___cart__icon"
                           />

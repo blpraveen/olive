@@ -368,13 +368,15 @@ margin-top: -10px;
   .home__talks{
    
       margin: auto;
-      margin-top: 20px;
+      margin-top: 30px;
       /* padding: 10px; */
+      /* padding-left: 10px;
+      padding-right: 10px; */
      
   }
   .home__talks__head__row  {
     border-bottom: 1px solid #f3ecec ;
-  
+ 
     height: 30px;
     margin: auto;
     display: flex;
@@ -385,7 +387,7 @@ margin-top: -10px;
   
   .home__talks__head__row h5{
       text-align: left;
-      font: normal normal normal  17px/25px DM Sans;
+      font: normal normal normal  17px/29px DM Sans;
       font-family: 'DM Sans', sans-serif;
       letter-spacing: 0.3px;
       color: #343434;
@@ -393,7 +395,7 @@ margin-top: -10px;
   }
   .home__talks__head__row p{
       text-align: left;
-  font: normal normal normal 14px/20px DM Sans;
+  font: normal normal normal 13px/29px DM Sans;
   font-family: 'DM Sans', sans-serif;
   letter-spacing: 0.15px;
   color: #313131;
@@ -405,6 +407,24 @@ margin-top: -10px;
   
     margin: 0px;
     margin-top: 20px;
+  }
+  .home__talks__date p{
+    font: normal normal normal 13px/10px DM Sans;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.13px;
+    color: #727272;
+    padding: 0;
+    padding-right: 3px;
+  }
+  
+  .home__talks__div h5 {
+    text-align: left;
+  font: normal normal normal 15px/20px DM Sans;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.15px;
+  color: #313131;
+  padding-left: 5px;
+  margin-top: -10px;
   }
 }
 
@@ -476,7 +496,7 @@ max-width: 250px;
   .home__discover{
    
       margin: auto;
-      margin-top: 10px;
+      margin-top: 20px;
       /* padding: 10px; */
      
   }
@@ -491,7 +511,7 @@ max-width: 250px;
   }
   .home__discover__head__row h5{
       text-align: left;
-      font: normal normal normal 17px/30px DM Sans;
+      font: normal normal normal 17px/29px DM Sans;
       font-family: 'DM Sans', sans-serif;
       letter-spacing: 0.3px;
       color: #343434;
@@ -499,7 +519,7 @@ max-width: 250px;
   }
   .home__discover__head__row p{
       text-align: left;
-  font: normal normal normal 14px/30px DM Sans;
+  font: normal normal normal 13px/29px DM Sans;
   font-family: 'DM Sans', sans-serif;
   letter-spacing: 0.15px;
   color: #313131;
