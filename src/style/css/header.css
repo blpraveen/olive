@@ -78,7 +78,28 @@ margin: auto;
 margin: auto;
 margin-left: 20px;
 }
+.App .container {
+   z-index:  10;
+}
+.search_header{
 
+}
+.home__banner,.home__banner .carousel,.home__banner .carousel ,.home__banner .carousel-item {
+   z-index: 10;
+}
+.category-container {
+   height: 40px;
+}
+.category-select__control{
+   display: flex;
+}
+.category-select__menu {
+      z-index: 999999;
+}
+.category-container .category-select__placeholder {
+
+       font: normal normal normal 12px/14px DM Sans;
+}
   .header__serach__span{
      background-color: #46CE04;
      color: #FFFFFF;
@@ -92,8 +113,11 @@ margin-left: 20px;
  justify-content: center;
  align-items: center;
  height: 37px;
+ cursor: pointer;
   }
-
+   .category-select__single-value{
+      font: normal normal normal 12px/14px DM Sans;
+   }
   .header__login{
      color: #FFFFFF;
    

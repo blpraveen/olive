@@ -4,10 +4,16 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Featur from "../components/Featur";
 import { Link } from "react-router-dom";
-function AllOrder() {
+
+import { connect } from 'react-redux';
+const AllOrder = props => {
+
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const [activeOrders, setActiveOrders] = useState([]);
+  const [pastOrders, setPastOrders] = useState([]);
   const [active] = useState([
     {
       id: 23424,
@@ -81,6 +87,22 @@ function AllOrder() {
       total: "1,855.00",
     },
   ]);
+  useEffect(async () => { 
+     const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json','Authorization': 'Bearer '+ props.user.token },
+    };
+    fetch(apiBaseUrl +  'get_orders',requestOptions)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+            setActiveOrders(result.data.orders);
+            setPastOrders(result.data.pastOrders);
+          }
+      });
+    
+ }, []);
   return (
     <div className="all__order container">
       <div className="path ">
@@ -113,7 +135,7 @@ function AllOrder() {
           <h5>Active Orders</h5>
 
           <Row>
-            {active.map((data) => {
+            {activeOrders.map((data) => {
               return (
                 <Col xs="12" sm="" md="4">
                   <div className="order__box">
@@ -124,12 +146,12 @@ function AllOrder() {
                             Order id:<span>{data.id}</span>{" "}
                           </p>
                           <h6>
-                            Date: <span>{data.date}</span>
+                            Date: <span>{data.order_date}</span>
                           </h6>
                         </div>
                         <div className="order__box__first__row__right">
                           <p>Status: </p>
-                          <h6>{data.status}</h6>
+                          <h6>{data.status.name}</h6>
                         </div>
                       </div>
 
@@ -144,7 +166,7 @@ function AllOrder() {
                         </div>
 
                         <Link
-                          to="/orderDownload"
+                          to={'/orderDownload/'+ data.id}
                           style={{ textDecoration: "none", color: "inherit" }}
                         >
                           <ArrowForwardIcon id="order__arrow" />
@@ -163,7 +185,7 @@ function AllOrder() {
           <h5>Past Orders</h5>
 
           <Row>
-            {past.map((data) => {
+            {pastOrders.map((data) => {
               return (
                 <Col xs="12" sm="6" md="5" lg="4" xl="3">
                   <div className="order__box">
@@ -179,7 +201,7 @@ function AllOrder() {
                         </div>
                         <div className="order__box__first__row__right">
                           <p>Status: </p>
-                          <h6>{data.status}</h6>
+                          <h6>{data.status.name}</h6>
                         </div>
                       </div>
 
@@ -213,4 +235,10 @@ function AllOrder() {
   );
 }
 
-export default AllOrder;
+const mapStateToProps = state => ({
+  user:state.user.profile
+});
+
+export default connect(
+  mapStateToProps
+)(AllOrder);

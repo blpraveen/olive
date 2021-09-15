@@ -1,4 +1,5 @@
 import ".././style/css/home.css";
+import { useState,useEffect } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import banner1 from "../images/banner/banner-1.png";
 import school from "../images/banner/schools.png";
@@ -25,6 +26,47 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Featur from "../components/Featur";
 import { Link } from "react-router-dom";
 function Home() {
+
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const [slider, setSlider] = useState([
+    {
+      id:1,
+      title:"Banner 1",
+      image: banner1,
+    },
+    {
+      id:2,
+      title:"Banner 2",
+      image: banner1,
+    },
+    {
+      id:3,
+      title:"Banner 3",
+      image: banner1,
+    },
+  ]);
+   useEffect(async () => { 
+    fetch(apiBaseUrl + 'sliders')
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          if(result.data.sliders.length){
+            let sliders = [];
+            result.data.sliders.map((slider) => {
+
+                sliders.push({
+                  id:slider.id,
+                  title: slider.title,
+                  image: slider.image,
+                })
+            });
+            setSlider(sliders);
+            
+          }
+        } 
+      }); 
+ }, []);
   return (
     <div className="container">
       {/* <<<<<<<<<< MAIN BANNER >>>>>>>>> */}
@@ -32,15 +74,13 @@ function Home() {
         <Row>
           <Col>
             <Carousel fade controls={false} indicators={false}>
+            {slider.map((data) => {
+            return (
               <Carousel.Item>
-                <img className="col-12" src={banner1} />
+                <img className="col-12" src={data.image} />
               </Carousel.Item>
-              <Carousel.Item>
-                <img className="col-12" src={banner1} />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img className="col-12" src={banner1} />
-              </Carousel.Item>
+            );
+          })}
             </Carousel>
           </Col>
 

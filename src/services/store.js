@@ -1,7 +1,6 @@
 import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
-
 export default initialState => {
   initialState =
     JSON.parse(window.localStorage.getItem('state')) || initialState;
@@ -21,7 +20,11 @@ export default initialState => {
     const state = store.getState();
     const persist = {
       cart: state.cart,
-      total: state.total
+      total: state.total,
+      user:state.user,
+      bookmarks:state.bookmarks,
+      categories:state.categories,
+      promocodes:state.promocodes
     };
 
     window.localStorage.setItem('state', JSON.stringify(persist));

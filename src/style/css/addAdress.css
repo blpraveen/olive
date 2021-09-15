@@ -108,7 +108,13 @@ height: 210px;
     }
   
 }
+.address__details .col-md {
+    display: flex;
+}
 
+.address__details .col-md .data-container{
+    flex-grow: 1;
+}
 @media (min-width: 320px) and (max-width: 600px){
     .container1{
         width: 100%;

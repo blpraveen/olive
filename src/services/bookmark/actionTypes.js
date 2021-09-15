@@ -1,0 +1,2 @@
+export const LOAD_BOOKMARK = 'LOAD_BOOKMARK';
+export const UPDATE_BOOKMARK = 'UPDATE_BOOKMARK';

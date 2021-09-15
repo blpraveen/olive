@@ -188,7 +188,6 @@ text-overflow: ellipsis;
 
 display: flex;
 justify-content: space-between;
-width: 100%;
 }
 @media screen and (max-width: 800px) {
     .review-list{

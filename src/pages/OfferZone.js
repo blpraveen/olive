@@ -23,13 +23,18 @@ import InfoIcon from "@material-ui/icons/Info";
 import FilterSearch from "../components/FilterSearch";
 import Pagination from "react-js-pagination";
 
-function OfferZone() {
+import { connect } from 'react-redux';
+
+const OfferZone = props => {
+
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [active_page , setActivePage] = useState(1);
   const [total_items , settotalItems] = useState(0);
   const [books_count , setBookCount] = useState(0);
   const [show, setShow] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
+  const [booksCount, setBooksCount] = useState(0);
+  const [offerCount, setOfferCount] = useState(0);
   const [books,setBooks] = useState([
     {
       image: best1,
@@ -120,7 +125,8 @@ function OfferZone() {
     setActivePage(pageNumber);
   }
   useEffect(async () => { 
-    fetch(apiBaseUrl + `books`+`?page=${active_page}`)
+    setOfferCount(5-props.user.offer_count);
+    fetch(apiBaseUrl + `offer_zone_books`+`?page=${active_page}`)
       .then(response => {
         return response.json();
       }).then(result => {
@@ -129,7 +135,7 @@ function OfferZone() {
           settotalItems(result.books_count);
           if(result.data.books.length){
             let allbooks = [];
-
+            setBooksCount(result.data.books_count);
             result.data.books.map((book) => {
                 
                 allbooks.push({
@@ -176,7 +182,7 @@ function OfferZone() {
                 <img className="col-12 col-md-10" src={offer} />
 
                 <p>
-                  You are <span>3</span> books away from this offer{" "}
+                  You are <span>{offerCount}</span> books away from this offer{" "}
                 </p>
 
                 {/*  if not logd in */}
@@ -188,7 +194,7 @@ function OfferZone() {
               <div className="offerzone__head__row ">
                 <h5>Offerzone</h5>
 
-                <p>5000 Books</p>
+                <p>{booksCount} Books</p>
               </div>
             </div>
 
@@ -314,4 +320,10 @@ function OfferZone() {
   );
 }
 
-export default OfferZone;
+const mapStateToProps = state => ({
+  user:state.user.profile
+});
+
+export default connect(
+  mapStateToProps
+)(OfferZone);

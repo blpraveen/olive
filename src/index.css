@@ -18,6 +18,7 @@ code {
     background: #FFFFFF;
     list-style: none;
 }
+
 .makeStyles-ul-1 li a {
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(228, 228, 228);
@@ -30,4 +31,27 @@ code {
 .makeStyles-ul-1 li.active a{
     background-color: rgb(70, 206, 4);
     color: #fff;
+}
+
+
+.alert-dismissible .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: 1.25rem 1rem;
+}
+.alert-dismissible {
+  text-align: left;
+}
+.alert-dismissible .close {
+    box-sizing: content-box;
+    width: 1em;
+    height: 1em;
+    padding: .25em .25em;
+    color: #000;
+    background: transparent url(data:image/svg+xml,<svgxmlns='http://www.w3.org/2000/svg'viewBox='001616'fill='#000'><pathd='M.293.293a110011.4140L86.58614.293.293a110111.4141.414L9.4148l6.2936.293a11001-1.4141.414L89.414l-6.2936.293a11001-1.414-1.414L6.5868.2931.707a110010-1.414z'/></svg>) center/1em auto no-repeat;
+    border: 0;
+    border-radius: .25rem;
+    opacity: .5;
 }

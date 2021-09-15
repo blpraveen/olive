@@ -9,7 +9,7 @@ import best1 from "../images/author/best1.png";
 import best2 from "../images/author/best2.png";
 import best3 from "../images/author/best3.png";
 import best4 from "../images/author/best4.png";
-import { useState } from "react";
+import { useState,useEffect} from "react";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 
 import Featur from "../components/Featur";
@@ -21,9 +21,21 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
-function BookMark() {
+import { updateBookMark } from '../services/bookmark/actions';
+
+import { connect } from 'react-redux';
+import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
+import { updateCart } from '../services/total/actions';
+import Pagination from "react-js-pagination";
+
+const BookMark = props => {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [show, setShow] = useState(false);
-  const [item] = useState([
+  const [active_page , setActivePage] = useState(1);
+
+  const [total_items , settotalItems] = useState(0);
+  const [books_count , setBookCount] = useState(0);
+  const [markedBook,setMarkedBook] = useState([
     {
       image: best1,
       name: "My family",
@@ -109,6 +121,64 @@ function BookMark() {
       price: "321",
     },
   ]);
+  function addProduct (product){
+    const { cartProducts, updateCart } = props;
+    let productAlreadyInCart = false;
+
+    cartProducts.forEach(cp => {
+      if (cp.id === product.id) {
+        cp.quantity += 1;
+        productAlreadyInCart = true;
+      }
+    });
+
+    if (!productAlreadyInCart) {
+      product.quantity = 1;
+      cartProducts.push(product);
+    }
+    updateCart(cartProducts);
+    
+  };
+  function handlePageChange (pageNumber) {
+    setActivePage(pageNumber);
+  }
+  useEffect(async () => { 
+    let bookmarks = props.bookmarks;
+    if(bookmarks){
+    const data = {
+          book_ids: bookmarks
+        }
+      const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json','Authorization': 'Bearer '+ props.user.token },
+      body: JSON.stringify(data)
+    };
+      fetch(apiBaseUrl + `book_marks_all`+`?page=${active_page}`, requestOptions)
+    .then(response => {
+      return response.json();
+    }).then(result => {if(result.data.books.length){
+            let markBook = [];
+
+            result.data.books.map((book) => {
+                        
+                  setBookCount(result.books_count);
+                  settotalItems(result.books_count);
+                markBook.push({
+                  id:book.id,
+                  image: book.featured_image_large,
+                  name: book.title,
+                  author: book.author_name,
+                  cutPrice:book.offer_price,
+                  price:book.sale_price,
+                })
+            });
+            setMarkedBook(markBook);
+            
+          } else {
+            setMarkedBook([])
+          }});
+    } 
+  },[props.bookmarks,active_page]);
   return (
     <div className="bookmark container">
       <div className="path">
@@ -186,17 +256,30 @@ function BookMark() {
       <div className="bookmark__content">
         <Container>
           <Row>
-            {item.map((data) => {
+            {markedBook.map((data) => {
               return (
                 <Col xs="6" sm="3" md="2">
                   <div className="book__item">
-                    <img src={data.image} />
-
+                    <Link
+                          to={'/bookSingle/'+ data.id}
+                          style={{
+                            textDecoration: "none",
+                            color: "inherit",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <img src={data.image} />
+                        </Link>
+                         <Link
+                          to={'/bookSingle/'+ data.id}
+                          style={{ textDecoration: "none", color: "inherit" }}
+                        >
                     <div className="book__item__name">
                       <h6>{data.name}</h6>
                       <p>{data.author}</p>
                     </div>
-
+                    </Link>
                     <div className="book__item__price__div">
                       <div className="book__item__price__left">
                         <p className="book__item__cut__price">
@@ -207,7 +290,7 @@ function BookMark() {
 
                       <AddShoppingCartIcon
                         type="button"
-                        onClick={() => setShow(true)}
+                        onClick={() => addProduct(data)}
                         id="book__item___cart__icon"
                       />
                     </div>
@@ -216,7 +299,16 @@ function BookMark() {
               );
             })}
             <div className="pagination__div">
-              <UsePagination />
+              <Pagination
+                  activePage={active_page}
+                  itemsCountPerPage={10}
+                  totalItemsCount={total_items}
+                  pageRangeDisplayed={5}
+                  prevPageText ='previous'
+                  lastPageText ='next'
+                  innerClass='makeStyles-ul-1'
+                  onChange={(e)=>handlePageChange(e)}
+                />
             </div>
           </Row>
         </Container>
@@ -226,4 +318,18 @@ function BookMark() {
   );
 }
 
-export default BookMark;
+
+const mapStateToProps = state => ({
+  cartProducts: state.cart.products,
+  newProduct: state.cart.productToAdd,
+  productToRemove: state.cart.productToRemove,
+  productToChange: state.cart.productToChange,
+  cartTotal: state.total.data,
+  user:state.user.profile,
+  bookmarks:state.bookmarks.bookmarks,
+});
+
+export default connect(
+  mapStateToProps,
+  { loadCart,updateCart,removeProduct, changeProductQuantity,updateBookMark}
+)(BookMark);

@@ -20,6 +20,10 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
 import ArrowBackIosSharpIcon from "@material-ui/icons/ArrowBackIosSharp";
+
+import { connect } from 'react-redux';
+import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
+import { updateCart } from '../services/total/actions';
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -37,7 +41,25 @@ const responsive = {
   
   },
 };
-function Malayalam() {
+const Malayalam = props => {
+  function addProduct (product){
+    const { cartProducts, updateCart } = props;
+    let productAlreadyInCart = false;
+
+    cartProducts.forEach(cp => {
+      if (cp.id === product.id) {
+        cp.quantity += 1;
+        productAlreadyInCart = true;
+      }
+    });
+
+    if (!productAlreadyInCart) {
+      product.quantity = 1;
+      cartProducts.push(product);
+    }
+    updateCart(cartProducts);
+    
+  };
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [show, setShow] = useState(false);
   const [arrived, setArrived] = useState([
@@ -106,8 +128,9 @@ function Malayalam() {
                   image: book.featured_image_large,
                   name: book.title,
                   author: book.author_name,
-                  cutPrice:book.sale_price,
-                  price:book.offer_price,
+                  cutPrice:book.offer_price,
+                  price:book.sale_price,
+                  offer_zone:book.offer_zone,
                 })
             });
             setArrived(bestSellerBook);
@@ -233,7 +256,7 @@ function Malayalam() {
 
                   <AddShoppingCartIcon
                     type="button"
-                    onClick={() => setShow(true)}
+                    onClick={() => addProduct(data)}
                     id="malayalam___cart__icon"
                   />
                 </div>
@@ -246,4 +269,15 @@ function Malayalam() {
   );
 }
 
-export default Malayalam;
+const mapStateToProps = state => ({
+  cartProducts: state.cart.products,
+  newProduct: state.cart.productToAdd,
+  productToRemove: state.cart.productToRemove,
+  productToChange: state.cart.productToChange,
+  cartTotal: state.total.data
+});
+
+export default connect(
+  mapStateToProps,
+  { loadCart, updateCart, removeProduct, changeProductQuantity }
+)(Malayalam);

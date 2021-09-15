@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect  } from "react";
 import "../style/css/header.css";
 import logo from "../images/logo.png";
 import SearchIcon from "@material-ui/icons/Search";
@@ -13,13 +13,47 @@ import MenuSharpIcon from "@material-ui/icons/MenuSharp";
 import { connect } from 'react-redux';
 import { loadCart, removeProduct, changeProductQuantity } from '../services/cart/actions';
 import { updateCart } from '../services/total/actions';
+import { loginInit ,logout,loadUser} from '../services/user/actions';
+import { loadCategory } from '../services/categories/actions';
+import { UncontrolledAlert } from 'reactstrap';
+import Select from 'react-select';
 // import Fade from 'react-bootstrap/Fade'
 const Header = props => {
+
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const usernameRef = React.useRef();
+  const passwordRef = React.useRef();
+
+  const nameRef = React.useRef();
+  const emailRef = React.useRef();
+  const passRef = React.useRef();
   const [user, setUser] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [signup_errors, setSignUpErrors] = useState([]);
+  const [login_errors, setLoginErrors] = useState([]);
   const [open, setOpen] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
   const [showLoginModal, setShowLoginupModal] = useState(false);
-
+  const [searchText,setSearchText] = useState('');
+  const [searchCategory,setSearchCategory] = useState('');
+  const [categories,setCategories] =useState([]);
+  const customStyles = {
+  option: (provided, state) => ({
+    ...provided,
+   font: 'normal normal normal 12px/14px DM Sans',
+   fontFamily: "'DM Sans', sans-serif",
+   letterSpacing: '0px',
+   color: '#1C2633',
+    opacity:'0.49',
+    margin: 'auto',
+    marginLeft: '20px',
+    width:'300px'
+  }),
+  control: () => ({
+    // none of react-select's styles are passed to <Control />
+    width: 200,
+  })
+}
   const checkActive = (match, location) => {
     //some additional logic to verify you are in the home URI
     if (!location) return false;
@@ -27,6 +61,162 @@ const Header = props => {
     console.log(pathname);
     return pathname === "/";
   };
+  function searchProduct(){
+       const data = {
+            category: searchText,
+            search: searchCategory
+        };
+        const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    };
+    fetch(apiBaseUrl + 'search', requestOptions)
+      .then(response => {
+        return response.json();
+      }).then(result => {})
+  }
+  function registerUser(){
+
+     const data = {
+            name: nameRef.current.value,
+            email: emailRef.current.value,
+            password: passRef.current.value,
+        };
+
+        const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    };
+    fetch(apiBaseUrl + 'register', requestOptions)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+          if(result.status){
+
+            setShowSuccess(true);
+            passRef.current.value ='';
+             emailRef.current.value = '';
+              nameRef.current.value = '';
+              setTimeout(function(e){
+                  setShowLoginupModal(true);
+                  setShowSignupModal(false);
+                  setShowSuccess(false);
+              },3000);
+          } else {
+              if(result.errors){
+                let error_msg = [];
+                for(let error in result.errors){
+                    error_msg.push(result.errors[error][0])
+                }   
+                setSignUpErrors(error_msg);
+              }
+          }
+    });
+
+  }
+   useEffect(async () => { 
+    if(props.user  &&  props.user.token){
+
+      setUser(true);
+    }
+    fetch(apiBaseUrl + 'categories')
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          if(result.data.categories.length){
+            let category_list = [];
+            result.data.categories.map((category) => {
+                category_list.push({
+                  label: category.name,
+                  value: category.id
+                })
+            });
+            setCategories(category_list);
+            
+          }
+        } 
+      }); 
+  },[props.user])
+   function checkLogin(){
+      if(props.user && props.user.token){
+        const { logout  } = props;
+        let user = props.user;
+          user = {};
+          logout(user);
+          setUser(false);
+      } else {
+          setShowLoginupModal(true);
+      }
+   }
+   function addLogin(user){
+    const { loginInit  } = props;
+    loginInit(user);
+   }
+  function LoginUser(){
+    const data = {
+            email: usernameRef.current.value,
+            password: passwordRef.current.value,
+        };
+
+        const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      };
+        fetch(apiBaseUrl + 'login', requestOptions)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+          if(result.status){
+            let user = result.data;
+            let data = {};
+             data.name= user.name;
+             if(user.gender){
+                data.gender = user.gender;
+             } else {
+              data.gender = ''
+             }
+             data.email = user.email
+             if(user.dob){
+                data.dob = user.dob;
+             } else {
+              data.dob = ''
+             }
+             if(user.type){
+              data.type = user.type;
+             } else {
+              data.type = ''
+             }
+             data.address = user.address;
+             data.offer_count = user.offer_count;
+             data.image = user.profileImage;
+             data.orders = user.orders;
+            data.token= result.token;
+            addLogin(data);
+            setUser(true);
+            usernameRef.current.value ='';
+             passwordRef.current.value = '';              
+             setTimeout(function(e){
+                  setShowLoginupModal(false);
+                  setShowSignupModal(false);
+              },3000);
+          } else {
+              if(result.errors){
+                let error_msg = [];
+                for(let error in result.errors){
+                  console.log(result.errors[error][0]);
+                    error_msg.push(result.errors[error][0])
+                }   
+                setLoginErrors(error_msg);
+              } else {
+                 setLoginErrors(["Login Credentials are wrong!."]);
+              }
+          }
+    });
+  }
   return (
     <div className="header">
       <div className="header__section__one ">
@@ -43,19 +233,20 @@ const Header = props => {
                   <img className="header__logo " src={logo} alt="logo" />
                 </Link>
 
+                
                 <div className="header__input__div">
-                  <span className="header__serach__p">
-                    <p>All Categories</p>
-                  </span>
+
+                <Select  onChange={(event) => setSearchCategory(event.value)} options={categories} styles={customStyles} placeholder="All Categories" className='category-container' classNamePrefix="category-select"/>
+                
                   <input
+                  onChange={(event) => setSearchText(event.target.value)}
                     type="text"
                     placeholder="Search for books by key word"
                   />
-                  <Link to="/search">
-                    <span className="header__serach__span">
+                  
+                    <span className="header__serach__span" onClick={() => searchProduct()}>
                       <SearchIcon  />
                     </span>
-                  </Link>
                 </div>
               </div>
               <Link
@@ -78,10 +269,11 @@ const Header = props => {
                 />
                 <div
                   className="header__login__div"
-                  onClick={() => setShowLoginupModal(true)}
+                  
                 >
-                  <h6>{user ? "Sign Out" : "Sign In"} </h6>
-                  <h5>My Account</h5>
+                  <h6 onClick={() => checkLogin()}>{user ? "Sign Out" : "Sign In"} </h6>
+                  {user && (<h5><Link
+                  to="/dashboard"  style={{ textDecoration: "none", color: "inherit" }}>My Account</Link></h5>)}
                 </div>
               </div>
 
@@ -121,7 +313,7 @@ const Header = props => {
             </NavLink>
             <NavLink
               strict
-              to="/categories"
+              to="/category/1"
               activeClassName="nav__active"
               id="navLink"
             >
@@ -269,11 +461,26 @@ const Header = props => {
                   alt="edit-icon"
                 />
                 <div className="form-container">
+                {signup_errors.map((data) => {
+                  
+            return (
+              <UncontrolledAlert color="danger">
+                {data}!
+              </UncontrolledAlert>
+              );
+          })}
+          {showSuccess && (
+           <UncontrolledAlert color="success">
+                Success!
+              </UncontrolledAlert>)}
+
                   <input
                     className="input"
                     type="text"
                     placeholder="  Name"
                     name="name"
+                    required="required"
+                    ref={nameRef}
                   />
                   <br></br>
                   <input
@@ -281,6 +488,8 @@ const Header = props => {
                     type="email"
                     placeholder="  Email ID"
                     name="email"
+                    required="required"
+                    ref={emailRef}
                   />
                   <br></br>
                   <input
@@ -288,8 +497,11 @@ const Header = props => {
                     type="password"
                     placeholder="  Password"
                     name="password"
+                    required="required"
+                    ref={passRef}
+
                   />
-                  <button className="signup-btn" type="button">
+                  <button className="signup-btn" type="button" onClick={() => registerUser()}>
                     SIGN UP
                   </button>
                 </div>
@@ -363,13 +575,21 @@ const Header = props => {
                     recommendations to help you keep your
                   </p>
                 </div>
-
+                {login_errors.map((data) => {
+                  
+                  return (
+                    <UncontrolledAlert color="danger">
+                      {data}!
+                    </UncontrolledAlert>
+                    );
+                })}
                 <div className="form-container2">
                   <input
                     className="log-input"
                     type="email"
                     placeholder="  Email ID"
                     name="email"
+                    ref={usernameRef}
                   />
                   <br></br>
                   <input
@@ -377,17 +597,16 @@ const Header = props => {
                     type="password"
                     placeholder="  Password"
                     name="password"
+                    ref={passwordRef}
                   />
                   <div className="btn-container">
                     <p>
                       <a href="#">Forgot Password?</a>
                     </p>
 
-                    <Link to="/address">
-                      <button className="signin-btn" type="button">
+                      <button className="signin-btn" type="button" onClick={() => LoginUser()}>
                         LOGIN
                       </button>
-                    </Link>
                   </div>
                 </div>
 
@@ -437,10 +656,11 @@ const mapStateToProps = state => ({
   newProduct: state.cart.productToAdd,
   productToRemove: state.cart.productToRemove,
   productToChange: state.cart.productToChange,
-  cartTotal: state.total.data
+  cartTotal: state.total.data,
+  user:state.user.profile,
 });
 
 export default connect(
   mapStateToProps,
-  { loadCart, updateCart, removeProduct, changeProductQuantity }
+  { loadCart, updateCart, removeProduct, changeProductQuantity,loginInit,logout,loadUser }
 )(Header);

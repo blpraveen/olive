@@ -32,8 +32,11 @@ import { Link ,useParams} from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
 import parse from "html-react-parser";
 import { connect } from 'react-redux';
-import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
+
+import { loadCart, removeProduct, changeProductQuantity,addProduct} from '../services/cart/actions';
 import { updateCart } from '../services/total/actions';
+import { updateBookMark } from '../services/bookmark/actions';
+
 const BookSingle = props => {
   //const { id } = props.match.params;
   const { id } = useParams();
@@ -63,11 +66,33 @@ const BookSingle = props => {
       product.quantity = quantity;
       cartProducts.push(product);
     }
-    console.log(cartProducts);
     updateCart(cartProducts);
     
   };
+  function addBookMark(id) {
+    const { updateBookMark } = props;
+    let bookmarks = props.bookmarks;
+    if(bookMark){
+    bookmarks.forEach((cp,index) => {
+        if (cp === id) {
+          bookmarks.slice(index,1);
+        }
+      });
+    } else {
+      if(props.bookmarks){
+        bookmarks.push(id);
+      } else {
+        bookmarks = [];
+        bookmarks.push(id);
+      }
+    }
+    updateBookMark(bookmarks);
+    setBookMark(!bookMark);
+  }
   useEffect(async () => { 
+    if(props.bookmarks.includes(parseInt(id))){
+       setBookMark(true);
+    }
     fetch(apiBaseUrl + `book/${id}`)
       .then(response => {
         return response.json();
@@ -257,7 +282,7 @@ const BookSingle = props => {
               <div className="book__share__row">
                 <div
                   className="book__book__mark"
-                  onClick={() => setBookMark(!bookMark)}
+                  onClick={() => addBookMark(book.id)}
                 >
                   <BookmarkBorderIcon
                     id="book__bookmark__icon"
@@ -626,11 +651,12 @@ const mapStateToProps = state => ({
   newProduct: state.cart.productToAdd,
   productToRemove: state.cart.productToRemove,
   productToChange: state.cart.productToChange,
-  cartTotal: state.total.data
+  cartTotal: state.total.data,
+  bookmarks:state.bookmarks.bookmarks,
 });
 
 export default connect(
   mapStateToProps,
-  { loadCart, updateCart, removeProduct, changeProductQuantity }
+  { loadCart, updateCart, removeProduct, changeProductQuantity,updateBookMark }
 )(BookSingle);
 

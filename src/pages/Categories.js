@@ -122,6 +122,25 @@ const Categories = props => {
       price: "765",
     },
   ]);
+  function addProduct (product){
+    const { cartProducts, updateCart } = props;
+    let productAlreadyInCart = false;
+
+    cartProducts.forEach(cp => {
+      if (cp.id === product.id) {
+        cp.quantity += 1;
+        productAlreadyInCart = true;
+      }
+    });
+
+    if (!productAlreadyInCart) {
+      product.quantity = 1;
+      cartProducts.push(product);
+    }
+    console.log(cartProducts);
+    updateCart(cartProducts);
+    
+  };
   function handlePageChange (pageNumber) {
     setActivePage(pageNumber);
   }
@@ -149,6 +168,7 @@ const Categories = props => {
                   author: book.author_name,
                   cutPrice:book.offer_price,
                   price:book.sale_price,
+                  offer_zone:book.offer_zone,
                 })
             });
             setCategoryBook(catBook);

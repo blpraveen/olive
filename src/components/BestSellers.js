@@ -21,6 +21,9 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
+import { connect } from 'react-redux';
+import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
+import { updateCart } from '../services/total/actions';
 
 const responsive = {
   desktop: {
@@ -37,8 +40,25 @@ const responsive = {
   },
 };
 
+const BestSellers = props => {
+  function addProduct (product){
+    const { cartProducts, updateCart } = props;
+    let productAlreadyInCart = false;
 
-function BestSellers() {
+    cartProducts.forEach(cp => {
+      if (cp.id === product.id) {
+        cp.quantity += 1;
+        productAlreadyInCart = true;
+      }
+    });
+
+    if (!productAlreadyInCart) {
+      product.quantity = 1;
+      cartProducts.push(product);
+    }
+    updateCart(cartProducts);
+    
+  };
   const [bestSeller, setbestSeller] = useState([
     {
       image: best1,
@@ -88,6 +108,7 @@ function BestSellers() {
                   author: book.author_name,
                   cutPrice:book.sale_price,
                   price:book.offer_price,
+                  offer_zone:book.offer_zone,
                 })
             });
             setbestSeller(bestSellerBook);
@@ -198,7 +219,7 @@ function BestSellers() {
 
                         <AddShoppingCartIcon
                           type="button"
-                          onClick={() => setShow(true)}
+                           onClick={() => addProduct(data)}
                           id="best___cart__icon"
                         />
                       </div>
@@ -329,7 +350,7 @@ function BestSellers() {
 
                         <AddShoppingCartIcon
                           type="button"
-                          onClick={() => setShow(true)}
+                           onClick={() => addProduct(data)}
                           id="best___cart__icon"
                         />
                       </div>
@@ -345,4 +366,15 @@ function BestSellers() {
   );
 }
 
-export default BestSellers;
+const mapStateToProps = state => ({
+  cartProducts: state.cart.products,
+  newProduct: state.cart.productToAdd,
+  productToRemove: state.cart.productToRemove,
+  productToChange: state.cart.productToChange,
+  cartTotal: state.total.data
+});
+
+export default connect(
+  mapStateToProps,
+  { loadCart, updateCart, removeProduct, changeProductQuantity }
+)(BestSellers);

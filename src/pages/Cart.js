@@ -5,20 +5,30 @@ import cart2 from "../images/cart/cart2.png";
 import cart3 from "../images/cart/cart3.png";
 import sample1 from "../images/cart/review.png";
 import sample2 from "../images/cart/paulo.png";
-import { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import { Button, ButtonBase } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
+import CloseIcon from '@material-ui/icons/Close';
 import Featur from "../components/Featur";
 import { Link } from "react-router-dom";
 
 import { connect } from 'react-redux';
 import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
 import { updateCart } from '../services/total/actions';
+import { addPromo,removePromo ,addPromoType} from '../services/promocode/actions';
 const Cart = props => {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [promoCode, setPromocode] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [couponMessage, setCouponMessage] = useState([]);
+  const [couponSuccessMessage, setCouponSuccessMessage] = useState([]);
+  const [promo, setPromo] = useState('');
+  const [appliedPromo,setAppliedPromo] = useState([]);
+  const [shipping,setShipping] = useState(0);
+  const [showPromoCode,setShowPromoCode] = useState(false);
   const [cart] = useState([
     {
       name: "Rising Like a Storm ",
@@ -45,7 +55,77 @@ const Cart = props => {
       total: 510,
     },
   ]);
-  function removeProduct (product){
+  function removePromo(promo) {
+        const { addPromo , promocodes} = props;
+        console.log(promo);
+          let procode = promocodes;
+          let newCode = [];
+          if(procode){
+            for(let item in procode){
+              if(procode[item] == promo){
+                procode.slice(item,1);
+              } else {
+                newCode.push(procode[item]);
+              }
+            }
+            addPromo(newCode);
+            setAppliedPromo(newCode);
+          }
+  }
+  function verifyPromo(){
+    const { addPromo , promocodes,addPromoType} = props;
+          let procod = promocodes;
+          let existsPromo = false;
+          if(promocodes){
+            for(let item in promocodes){
+              if(promocodes[item] == promo){
+                existsPromo = true;
+              }
+            }
+          }
+          if(existsPromo){
+              setCouponMessage(['Coupon already Added']);
+              setTimeout(function(){
+                    setCouponMessage([]);
+                  },5000);
+          } else {
+          const data = {
+                coupon: promo
+            };
+            const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json','Authorization': 'Bearer '+ props.user.token },
+            body: JSON.stringify(data)
+          };
+            fetch(apiBaseUrl + 'verify_coupon', requestOptions)
+          .then(response => {
+            return response.json();
+          }).then(result => {
+            if(result.status){
+                  if(result.data.type && result.data.type == 'offerZone'){
+                      addPromoType(['offerZone']);
+                  }
+                  if(procod){
+                    procod.push(promo);
+                  }
+                  setShowPromoCode(false);
+                  addPromo(procod);
+                  setAppliedPromo(procod);
+                  setCouponSuccessMessage([result.message]);
+                  setTimeout(function(){
+                    setCouponSuccessMessage([]);
+                  },5000);
+               
+            } else {
+                setCouponMessage([result.message]);
+                setTimeout(function(){
+                    setCouponMessage([]);
+                  },5000);
+            }
+          });  
+        } 
+  }
+  function removeCartProduct (product){
     const { cartProducts, updateCart} = props;
 
     const index = cartProducts.findIndex(p => p.id === product.id);
@@ -53,7 +133,25 @@ const Cart = props => {
       cartProducts.splice(index, 1);
       updateCart(cartProducts);
     }
-  };
+  }
+  useEffect(async () => { 
+     let cartTotal = props.cartTotal;
+    if(props.promocodes && props.promocodes.length > 0){
+      setShowPromoCode(false);
+      setAppliedPromo(props.promocodes);
+    } else {
+      setShowPromoCode(true);
+    }
+    if(props.user  &&  props.user.token){
+      setIsLoggedIn(true);
+    } else {
+       setIsLoggedIn(false);
+    }
+    if(cartTotal < 750){
+        setShipping(50);  
+    }
+    
+  },[ props.user,showPromoCode,props.promocodes])
   //const products = [];
   let products = props.cartProducts;
   let cartTotal = props.cartTotal;
@@ -81,7 +179,7 @@ const Cart = props => {
               </p>
             )}
           </div>
-        {products.length && (
+        {(products.length) ? (
         <div className="cart__table">
           <table>
             <tr className="table__row">
@@ -120,7 +218,7 @@ const Cart = props => {
                   <td id="table__td">
                    <DeleteIcon
                           type="button"
-                          onClick={() => removeProduct(data)}
+                          onClick={() => removeCartProduct(data)}
                           id="best___cart__icon"
                         />
                   </td>
@@ -129,9 +227,9 @@ const Cart = props => {
             })}
           </table>
         </div>
-        )}
+        ) :''}
         {/* <<<<<<<<< TOTAL SECTOIN */}
-        {products.length && (
+        {(products.length) ? (
         <div className="total__section">
           <Container>
             <Row>
@@ -147,18 +245,10 @@ const Cart = props => {
                     </div>
                   </div>
                   <div className="total__row">
-                    <h6>Tax (18%) :</h6>
-                    <div className="total__row__right">
-                      <h6>
-                        ₹<span>225</span>
-                      </h6>
-                    </div>
-                  </div>
-                  <div className="total__row">
                     <h6>Shipping Charge :</h6>
                     <div className="total__row__right">
                       <h6>
-                        ₹<span>25</span>
+                        ₹<span>{shipping}</span>
                       </h6>
                     </div>
                   </div>
@@ -166,31 +256,54 @@ const Cart = props => {
                     <p>Amount to Pay :</p>
                     <div className="total__row__right">
                       <h5>
-                        ₹<span>1500</span>
+                        ₹<span>{ cartTotal.totalPrice + shipping}</span>
                       </h5>
                     </div>
                   </div>
-
-                  <div className="promo__code">
+                       
+                 <div class="d-flex flex-column col-md-6">
+                  {appliedPromo.map((data,index) =>{
+                    return (
+                  <span class="btn btn-success mb-2 ">{data} <CloseIcon
+                          type="button"
+                          onClick={() => removePromo(data)}
+                          id="best___cart__icon"
+                        /></span>
+                      );
+                    })}
+                    </div>
+                  {showPromoCode && (
+                    <div className="promo__code">
                     <p onClick={() => setPromocode(!promoCode)} type="button">
                       Do you have a promo code ?
                     </p>
-                    {promoCode ? (
+                    {isLoggedIn ? (promoCode ? (
                       <div className="promo__child">
-                        <input placeholder="ENTER CODE" />
-                        <Button id="promo__apply__button">APPLY</Button>
+                        <input placeholder="ENTER CODE" onChange={(event) => setPromo(event.target.value)}/>
+                        <Button id="promo__apply__button" onClick={() => verifyPromo() }>APPLY</Button>
                       </div>
                     ) : (
                       ""
-                    )}
-                  </div>
+                    )) : ( 'Please login to redeem coupon codes') }
+                    {couponMessage.map((data) => { 
+                      return (
+                        <p class="alert alert-danger mt-2 text-decoration-none">{data}</p>
+                      );
+                    })}
+                    {couponSuccessMessage.map((data) => { 
+                      return (
+                        <p class="alert alert-success mt-2 text-decoration-none">{data}</p>
+                      );
+                    })}
+                    
+                  </div>)}
                 </div>
               </Col>
             </Row>
           </Container>
         </div>
-        )}
-        {products.length && (
+        ):''}
+        {(products.length) ? (
         <div className="cart__order">
           <Row>
             <Col id="button__col" sm>
@@ -206,7 +319,7 @@ const Cart = props => {
             </Col>
           </Row>
         </div>
-        )}
+        ):''}
       </div>
 
       <Featur />
@@ -220,10 +333,12 @@ const mapStateToProps = state => ({
   newProduct: state.cart.productToAdd,
   productToRemove: state.cart.productToRemove,
   productToChange: state.cart.productToChange,
-  cartTotal: state.total.data
+  cartTotal: state.total.data,
+  user:state.user.profile,
+  promocodes:state.promocodes.promocodes,
 });
 
 export default connect(
   mapStateToProps,
-  { loadCart, updateCart, removeProduct, changeProductQuantity }
+  { loadCart, updateCart,addPromo,addPromoType, removePromo,removeProduct, changeProductQuantity }
 )(Cart);

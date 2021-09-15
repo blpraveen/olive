@@ -16,12 +16,13 @@ import Cart from './pages/Cart';
 import AllOrder from './pages/AllOrder';
 import OrderDownload from './pages/OrderDownload';
 import About from './pages/About';
-import AddAddress from './pages/AddAdress';
+import AddAddress from './pages/AddAddress';
 import Address from './pages/Adress';
 import Blog from './pages/Blog';
 import BookTalks from './pages/BookTalks';
 import Confirm from './pages/Confirm';
 import EditAddress from './pages/EditAdress';
+import Login from './pages/Login';
 import Dashboard from './pages/Dashboard'
 import OrderConfirm from './pages/OrderConfirm'
 import OfferZone from './pages/OfferZone';
@@ -57,13 +58,13 @@ function App() {
     <Route path='/offerZone'>
       <OfferZone/>
       </Route>
-    <Route path='/orderConfirm'>
+    <Route path='/orderConfirm/:id'>
       <OrderConfirm/>
       </Route>
     <Route path='/dashboard'>
       <Dashboard/>
       </Route>
-    <Route path='/editAdress'>
+    <Route path='/editAdress/:id'>
       <EditAddress/>
       </Route>
     <Route path='/confirm'>
@@ -78,13 +79,13 @@ function App() {
     <Route path='/address'>
       <Address/>
       </Route>
-    <Route path='/addAdress'>
+    <Route path='/addAddress'>
       <AddAddress/>
       </Route>
     <Route path='/about'>
       <About/>
       </Route>
-    <Route path='/orderdownload'>
+    <Route path='/orderdownload/:id'>
       <OrderDownload/>
       </Route>
     <Route path='/allorder'>
@@ -92,6 +93,9 @@ function App() {
       </Route>
     <Route path='/bookmark'>
       <BookMark/>
+      </Route>
+      <Route path='/login'>
+      <Login/>
       </Route>
       <Route path='/cart'>
       <Cart/>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import Featur from "../components/Featur";
 import "../style/css/confirm.css";
 import { Link } from "react-router-dom";
@@ -7,7 +7,49 @@ import cart2 from "../images/cart/cart2.png";
 import cart3 from "../images/cart/cart3.png";
 import sample1 from "../images/cart/review.png";
 import sample2 from "../images/cart/paulo.png";
-function Confirm() {
+import ToggleButton from "react-bootstrap/ToggleButton";
+import Row from "react-bootstrap/esm/Row";
+import Col from "react-bootstrap/esm/Col";
+import { connect } from 'react-redux';
+import { loginInit ,updateProfile,logout,loadUser} from '../services/user/actions';
+import { loadCart, removeProduct, emptyCart,changeProductQuantity,addProduct } from '../services/cart/actions';
+import { updateCart } from '../services/total/actions';
+import { addPromo,removePromo,addPromoType } from '../services/promocode/actions';
+import { UncontrolledAlert } from 'reactstrap';
+
+import  { Redirect } from 'react-router-dom';
+import CloseIcon from '@material-ui/icons/Close';
+
+const Confirm = props => {
+const cartTotal = props.cartTotal; 
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [showSuccess, setShowSuccess] = useState(false);
+const [login_errors, setLoginErrors] = useState([]);
+const [isLoggedIn, setIsLoggedIn] = useState(false);
+const [address,setAddress] =useState([]);
+const [isDelete,setIsDelete] =useState(false);
+const [address_errors,setAddressErrors] =useState([]);
+const [hideAddress,setHideAddAddress] = useState(false);
+const [shippingAddress,setShippingAddress] = useState(false);
+const [appliedPromo,setAppliedPromo] = useState([]);
+const [payment,setPayment] = useState("");
+const [orderErrors,setOrderErrors] = useState([]);
+const [shipping,setShipping] = useState(0);
+const [orderConfirmed,setOrderConfirmed] = useState(false);
+const [orderId,setOrderId] = useState(0);
+const [showOfferRadio,setShowOfferRadio] = useState(0);
+const [offerBook,setOfferBook] = useState(0);
+const [cartTot,setCartTot] = useState([]);
+function updateUser(user){
+  const { updateProfile  } = props;
+  updateProfile(user);
+ }
+  function addLogin(user){
+  const { loginInit  } = props;
+  loginInit(user);
+ }
   const [review] = useState([
     {
       name: "Rising Like a Storm ",
@@ -34,9 +76,337 @@ function Confirm() {
       total: 510,
     },
   ]);
+  function deleteAddress(id){
+
+    
+
+      const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json','Authorization': 'Bearer '+ props.user.token },
+      body: JSON.stringify({})
+    };
+      fetch(apiBaseUrl + `delete_address/${id}`, requestOptions)
+    .then(response => {
+      return response.json();
+    }).then(result => {
+      if(result.status){
+          let user = result.data;
+          let data = {};
+           data.name= user.name;
+           if(user.gender){
+              data.gender = user.gender;
+           } else {
+            data.gender = ''
+           }
+           data.email = user.email
+           if(user.dob){
+              data.dob = user.dob;
+           } else {
+            data.dob = ''
+           }
+           data.address = user.address;
+           data.offer_count = user.offer_count;
+           data.image = user.profileImage;
+           data.orders = user.orders;
+           data.token = props.user.token;
+          updateUser(data);
+          setIsDelete(true)
+          setHideAddAddress(false);
+        } else {
+          if(result.errors){
+            let error_msg = [];
+            for(let error in result.errors){
+              console.log(result.errors[error][0]);
+                error_msg.push(result.errors[error][0])
+            }   
+            setAddressErrors(error_msg);
+          }
+        }
+      });
+
+  }
+  function submitOrder(){
+    let errors = [];
+    if(payment == ''){
+        errors.push("Payment option select");
+    }
+    if(shippingAddress == ''){
+        errors.push("Select Shipping Address");
+    }
+    if(showOfferRadio){
+      if(offerBook){
+
+      } else {
+        errors.push("Please select free book");
+      }
+    }
+    if(errors.length){
+        setOrderErrors(errors);
+        return false;
+    } else {
+      setOrderErrors(errors);
+    }
+
+    let products = props.cartProducts;
+    let promocodes = props.promocodes
+    const data = {
+          products: products,
+            shipping: shippingAddress,
+            payment: payment,
+            promocodes: promocodes,
+            offerBook:offerBook
+      }
+      const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json','Authorization': 'Bearer '+ props.user.token },
+      body: JSON.stringify(data)
+    };
+      fetch(apiBaseUrl + 'submit_order', requestOptions)
+    .then(response => {
+      return response.json();
+    }).then(result => {
+      if(result.status){
+        const { addPromo, updateCart,updateProfile,emptyCart,addPromoType} = props;
+        updateCart([]);
+        addPromo([]);
+        addPromoType([]);
+        emptyCart([]);
+        setOrderId(result.data.order.id)
+        let user = result.data.user;
+          let data = {};
+           data.name= user.name;
+           if(user.gender){
+              data.gender = user.gender;
+           } else {
+            data.gender = ''
+           }
+           data.email = user.email
+           if(user.dob){
+              data.dob = user.dob;
+           } else {
+            data.dob = ''
+           }
+           if(user.type){
+              data.type = user.type;
+           } else {
+            data.type = ''
+           }
+           data.address = user.address;
+           data.offer_count = user.offer_count;
+           data.image = user.profileImage;
+           data.orders = user.orders;
+           data.token = props.user.token;
+        updateProfile(data)
+        setOrderConfirmed(true);
+        setOrderErrors([result.message]);
+      } else {
+        if(result.errors){
+            let error_msg = [];
+            for(let error in result.errors){
+              console.log(result.errors[error][0]);
+                error_msg.push(result.errors[error][0])
+            }   
+            setOrderErrors(error_msg);
+          } else {
+            setOrderErrors(["Something went wrong please try after some time"]);
+          }
+
+      }
+      });
+  }
+  useEffect(async () => { 
+    console.log(cartTotal);
+    console.log(props.cartTotal);
+    if(offerBook){
+        let products = props.cartProducts;
+        let cartTotl = cartTotal;
+        let totalPrice = 0
+         for(let product in products){
+              if(products[product].id ==offerBook){
+                   totalPrice +=  products[product].cutPrice *( products[product].quantity-1);
+                 
+              } else {
+                totalPrice +=  products[product].cutPrice * products[product].quantity;
+              }
+
+         }
+         cartTotl.totalPrice = totalPrice;
+          setCartTot(cartTotl);
+          if(cartTotl.totalPrice < 750){
+                  setShipping(50); 
+          }
+    } else {
+      if(cartTotal < 750){
+          setShipping(50);  
+      }
+      setCartTot(cartTotal)
+    }
+    if(props.promotype && props.promotype[0] == 'offerZone'){
+        setShowOfferRadio(true);
+    }
+    if(props.promocodes){
+      setAppliedPromo(props.promocodes);
+    }
+    if(props.user  &&  props.user.token){
+      if(props.user.address.length >= 2){
+        setHideAddAddress(true);
+      } 
+      setAddress(props.user.address)
+      setIsLoggedIn(true);
+    } else {
+       setIsLoggedIn(false);
+    }
+    
+  },[props.user,isDelete,shippingAddress,offerBook,payment])
+  let products = props.cartProducts;
+  function LoginUser(){
+    const data = {
+          email: email,
+          password: password,
+      };
+
+      const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    };
+      fetch(apiBaseUrl + 'login', requestOptions)
+    .then(response => {
+      return response.json();
+    }).then(result => {
+        if(result.status){
+          let user = result.data;
+          let data = {};
+           data.name= user.name;
+           if(user.gender){
+              data.gender = user.gender;
+           } else {
+            data.gender = ''
+           }
+           data.email = user.email
+           if(user.dob){
+              data.dob = user.dob;
+           } else {
+            data.dob = ''
+           }
+           if(user.type){
+              data.type = user.type;
+             } else {
+              data.type = ''
+             }
+             data.address = user.address;
+             data.offer_count = user.offer_count;
+             data.image = user.profileImage;
+           data.orders = user.orders;
+          data.token= result.token;
+          addLogin(data);
+          setIsLoggedIn(true);
+        } else {
+          if(result.errors){
+            let error_msg = [];
+            for(let error in result.errors){
+              console.log(result.errors[error][0]);
+                error_msg.push(result.errors[error][0])
+            }   
+            setLoginErrors(error_msg);
+          }
+      }
+  });
+  }
   return (
     <div className="container">
       <div className="fullbody">
+      <div class="row">
+      <div class="col-md-6">
+
+      {orderConfirmed && ( <Redirect  to={'/orderConfirm/'+ orderId} />)}
+      {orderErrors.map((data) => {
+                  
+                  return (
+                    <UncontrolledAlert color="danger">
+                      {data}!
+                    </UncontrolledAlert>
+                    );
+                })}
+        </div>
+      </div>
+      {!isLoggedIn && (
+          <div className="container7">
+          <div className="title-container7">
+            <div className="row">
+              <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <p className="address-title">Login</p>
+              </div>
+            </div>
+          </div>
+
+          {login_errors.map((data) => {
+                  
+                  return (
+                    <UncontrolledAlert color="danger">
+                      {data}!
+                    </UncontrolledAlert>
+                    );
+                })}
+          {showSuccess && (
+           <UncontrolledAlert color="success">
+                Success!
+              </UncontrolledAlert>)}
+          <div className="form-container7">
+            <div className="details">
+              <div className="row">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                  
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                  <div className="input-container">
+                    <p className="label">Email</p>
+                    <input
+                      className="in"
+                      type="email"
+                      name="email"
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+           <div className="form-container7">
+            <div className="details">
+              <div className="row">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                  
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                  <div className="input-container">
+                    <p className="label">Password</p>
+                    <input
+                      className="in"
+                      type="password"
+                      name="password"
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <hr className="underline2" />
+            <div className="btn-container">
+            <div className="row">
+              <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                <button className="cancel-btn">Cancel</button>
+              </div>
+              <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                <button className="save-btn"  onClick={() => LoginUser()}>Login</button>
+              </div>
+            </div>
+          </div>
+          </div>
+          )}
         <div className="total-container container">
           <div className="review-container">
             <div className="review-list">
@@ -54,9 +424,12 @@ function Confirm() {
                   <th id="price__th">Price</th>
                   <th id="qty__th">Qty</th>
                   <th id="total__th">Total</th>
+                  {(showOfferRadio) ? (
+                    <th id="total__th">Free Book</th>
+                    ):''}
                 </tr>
 
-                {review.map((data) => {
+                {products.map((data) => {
                   return (
                     <tr>
                       <td id="cart__td">
@@ -70,7 +443,7 @@ function Confirm() {
                       </td>
                       <td id="table__td">
                         <h6>
-                          ₹<span>{data.price}</span>{" "}
+                          ₹<span>{data.cutPrice}</span>{" "}
                         </h6>
                       </td>
                       <td id="table__td">
@@ -78,9 +451,20 @@ function Confirm() {
                       </td>
                       <td id="table__td">
                         <h6>
-                          ₹<span>{data.total}</span>
+                          ₹<span>{data.cutPrice * data.quantity}</span>
                         </h6>
                       </td>
+                      {(showOfferRadio) ? (
+                        <td id="table__td">
+                            {data.offer_zone && (
+                              <input type="radio"
+                                 value={data.id}
+                      checked={offerBook}
+                      onChange={(event) => setOfferBook(event.target.value)}
+                                   />
+                              )}
+                        </td>
+                      ):''}
                     </tr>
                   );
                 })}
@@ -97,18 +481,26 @@ function Confirm() {
               />
               <p className="review-title">Shipping Address</p>
             </div>
-
-            <div
-              className="data-container2"
-              style={{
-                background: `url('${process.env.PUBLIC_URL}/images/box1.jpg')`,
-              }}
-            >
-              <div className="name-header">
-                <div className="name-container">
-                  <p className="name">Joseph P</p>
+            <div className="address__details">
+          <Row>
+          {address.map((data) => {
+            return (
+            <Col md>
+              <div
+                className="data-container"
+                style={{
+                  background: `url('${process.env.PUBLIC_URL}/images/box1.jpg')`,
+                }}
+              >
+                <div className="name-header">
+                  <div className="name-container">
+                    <p className="name">{data.name}</p>
+                  </div>
                   <div className="icon-container">
-                    <Link to="/editAdress">
+                    <Link
+                      to={'/editAdress/'+ data.id}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
                       <img
                         className="edit-icon"
                         src={process.env.PUBLIC_URL + "/images/edit_icon.png"}
@@ -118,23 +510,60 @@ function Confirm() {
 
                     <a href="#">
                       <img
-                        className="delete-icon"
+                        className="delete-icon"  onClick={() => deleteAddress( data.id)}
                         src={process.env.PUBLIC_URL + "/images/delete_icon.png"}
                         alt="delete-icon"
                       />
                     </a>
-                  </div>{" "}
+                    <a href="#">
+                     <input
+                      type="radio"
+                      value={data.id}
+                      checked={shippingAddress}
+                      onChange={(event) => setShippingAddress(event.target.value)}
+                    />
+                     
+                    </a>
+                  </div>
+                </div>
+                <div className="data-box">
+                  <p className="data">{data.house_no}</p>
+                  <p className="data">{data.street_addres1}</p>
+                  <p className="data">{data.street_addres2}</p>
+                  <p className="data">{data.city}</p>
+                  <p className="data">{data.state}</p>
+                  <p className="data">{data.country},{data.pincode}</p>
                 </div>
               </div>
-              <div className="data-box2">
-                <p className="data">House No: 12,</p>
-                <p className="data">Palayam </p>
-                <p className="data">Road,</p>
-                <p className="data">Kozhikod</p>
-                <p className="data">Kerala</p>
-                <p className="data">India, 6703001</p>
+            </Col>
+            );
+              })}
+          {!hideAddress && (
+            <Col md-add>
+              <div
+                className="add-container"
+                style={{
+                  background: `url('${process.env.PUBLIC_URL}/images/box1.jpg')`,
+                }}
+              >
+                <Link
+                      to="/editAdress/0"
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                  <img
+                    className="add-image"
+                    src={process.env.PUBLIC_URL + "/images/add.png"}
+                    alt="add-icon"
+                  />
+                </Link>
+                <p>ADD ADDRESS</p>
               </div>
-            </div>
+            </Col>
+            )}
+            
+          </Row>
+        </div>
+            
           </div>
 
           <div className="amount-container">
@@ -146,22 +575,34 @@ function Confirm() {
               />
               <p className="review-title">Amount Breakdown</p>
             </div>
+            <div class="row">
+            {appliedPromo.map((data,index) =>{
+                    return (
+                  <span class="btn btn-success mb-2" style={{width:"150px"}}>{data} <CloseIcon
+                          type="button"
+                          onClick={() => removePromo(data)}
+                          id="best___cart__icon"
+                        /></span>
+                      );
+                    })}
+            </div>
             <div className="all-amount">
+              
               <div className="amount-title1">
+
                 <p className="amount-title2">Sub Total :</p>
-                <p className="amount-title2">Tax (18%) :</p>
                 <p className="amount-title2">Shipping Charge :</p>
                 <p className="amount-total1">TOTAL</p>
               </div>
               <div className="amount-price1">
-                <p className="amount-price2">₹ 1250</p>
-                <p className="amount-price2">₹ 225</p>
-                <p className="amount-price2">₹ 25</p>
-                <p className="amount-total2">₹ 1500</p>
+                <p className="amount-price2">₹ { cartTot.totalPrice}</p>
+                <p className="amount-price2">₹ {shipping}</p>
+                <p className="amount-total2">₹ { cartTot.totalPrice + shipping}</p>
               </div>
             </div>
           </div>
-
+{isLoggedIn && (
+          <>
           <div className="payment-container">
             <div className="review-list">
               <img
@@ -172,30 +613,40 @@ function Confirm() {
               <p className="review-title">Payment Mode</p>
             </div>
             <div className="radio-container">
-              <input type="radio" name="mode" id="cod"></input>
+              <input type="radio" name="mode" id="cod" value="cod" onChange={(event) => setPayment(event.target.value)}></input>
               <label for="cod">Cash On delivery</label>
               <br></br>
 
-              <input type="radio" name="mode" id="online"></input>
+              <input type="radio" name="mode" id="online" value="online" onChange={(event) => setPayment(event.target.value)}></input>
               <label for="online">Online</label>
             </div>
           </div>
 
           <div className="confirmbtn-container">
-            <Link
-              to="/orderConfirm"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <button className="confirm-btn" type="button">
+ 
+              <button className="confirm-btn" type="button" onClick={() => submitOrder()}>
                 CONFIRM
               </button>
-            </Link>
-          </div>
+          </div></>)}
         </div>
+        
       </div>
       <Featur />
     </div>
   );
 }
+const mapStateToProps = state => ({
+  cartProducts: state.cart.products,
+  newProduct: state.cart.productToAdd,
+  productToRemove: state.cart.productToRemove,
+  productToChange: state.cart.productToChange,
+  cartTotal: state.total.data,
+  user:state.user.profile,
+  promocodes:state.promocodes.promocodes,
+  promotype:state.promocodes.promoType,
+});
 
-export default Confirm;
+export default connect(
+  mapStateToProps,
+  { loadCart, updateCart,addPromo,addPromoType, removePromo,removeProduct,emptyCart, changeProductQuantity,loginInit,logout,updateProfile,loadUser}
+)(Confirm);

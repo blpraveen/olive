@@ -1,13 +1,31 @@
-import React from "react";
+import React, { useState ,useEffect} from "react";
+
+import  { Redirect } from 'react-router-dom';
 import Featur from "../components/Featur";
 import "../style/css/dashboard.css";
 import { Link } from "react-router-dom";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-function MyOrder() {
+
+import { connect } from 'react-redux';
+import { loadCart, removeProduct, changeProductQuantity } from '../services/cart/actions';
+import { updateCart } from '../services/total/actions';
+import { loginInit ,logout,loadUser} from '../services/user/actions';
+const Dashboard = props => {
+  
+const [isLoggedIn, seIsLoggedIn] = useState(false);
+  useEffect(async () => { 
+    if(props.user  &&  props.user.token){
+  
+     
+    } else {
+       seIsLoggedIn(true);
+    }
+  })
   return (
     <div className="container">
+       {isLoggedIn && ( <Redirect to='/' />)}
       <div className="body">
         <div className="dashboard-container ">
           <div className="path ">
@@ -70,7 +88,7 @@ function MyOrder() {
                 </Col>
                 <Col md>
                   <Link
-                    to="/addAdress"
+                    to="/addAddress"
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <div
@@ -161,4 +179,16 @@ function MyOrder() {
   );
 }
 
-export default MyOrder;
+const mapStateToProps = state => ({
+  cartProducts: state.cart.products,
+  newProduct: state.cart.productToAdd,
+  productToRemove: state.cart.productToRemove,
+  productToChange: state.cart.productToChange,
+  cartTotal: state.total.data,
+  user:state.user.profile,
+});
+
+export default connect(
+  mapStateToProps,
+  { loadCart, updateCart, removeProduct, changeProductQuantity,loginInit,logout,loadUser }
+)(Dashboard);

@@ -1,11 +1,19 @@
-import { useState } from "react";
 import "../style/css/cart.css";
 import "../style/css/orderDownload.css";
 import cart1 from "../images/cart/cart1.png";
 import cart2 from "../images/cart/cart2.png";
 import { Button } from "@material-ui/core";
 import Featur from "../components/Featur";
-function OrderDownload() {
+import React, { useState,useEffect } from "react";
+
+import { Link ,useParams} from "react-router-dom";
+const OrderDownload = props => {
+
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const { id } = useParams();
+  const [products, setProducts] = useState([]);
+  const [order, setOrder] = useState({address:{}});
+  const [total, setTotal] = useState(0);
   const [cart] = useState([
     {
       name: "Rising Like a Storm",
@@ -32,6 +40,19 @@ function OrderDownload() {
       total: 510,
     },
   ]);
+  useEffect(async () => { 
+    
+    fetch(apiBaseUrl +  `get_order/${id}`)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+            setProducts(result.data.order.books);
+            setOrder(result.data.order);
+          }
+      });
+    
+ }, []);
   return (
     <div className="order__down container">
       <div className="order__down__content">
@@ -53,29 +74,29 @@ function OrderDownload() {
                 <th id="total__th">Total</th>
               </tr>
 
-              {cart.map((data) => {
+              {products.map((data) => {
                 return (
                   <tr>
                     <td>
                       <div className="cart__item">
-                        <img src={data.image} />
+                        <img src={data.featured_image_large} />
                         <div>
-                          <h6>{data.name}</h6>
-                          <p>{data.author}</p>
+                          <h6>{data.title}</h6>
+                          <p>{data.author_name}</p>
                         </div>
                       </div>
                     </td>
                     <td id="table__td">
                       <h6>
-                        ₹<span>{data.price}</span>{" "}
+                        ₹<span>{data.offer_price}</span>{" "}
                       </h6>
                     </td>
                     <td id="table__td">
-                      <h6>{data.quantity}</h6>
+                      <h6>{data.with.quantity}</h6>
                     </td>
                     <td id="table__td">
                       <h6>
-                        ₹<span>{data.total}</span>
+                        ₹<span>{data.with.quantity * data.offer_price}</span>
                       </h6>
                     </td>
                   </tr>
@@ -97,12 +118,12 @@ function OrderDownload() {
 
           <div className="order__down__adress__box">
             <div className="order__down__adress__content">
-              <h6>Joseph P</h6>
-              <p>House No: 12,</p>
-              <p>Palayam Road,</p>
-              <p> Kozhikode</p>
-              <p>Kerala </p>
-              <p>India, 673001</p>
+              <h6>{order.address.name}</h6>
+              <p>House No: {order.address.house_no},</p>
+              <p> {order.address.street_addres1}</p>
+              <p> {order.address.city}</p>
+              <p> {order.address.state} </p>
+              <p>{order.address.country}, {order.address.pincode}</p>
             </div>
           </div>
         </div>
@@ -122,15 +143,7 @@ function OrderDownload() {
                   <p>Sub Total :</p>
                 </div>
                 <div className="order__down__amount__right">
-                  <p>₹ 1250</p>
-                </div>
-              </div>
-              <div className="order__down__amount__row">
-                <div className="order__down__amount__left">
-                  <p>Tax (18%) :</p>
-                </div>
-                <div className="order__down__amount__right">
-                  <p>₹ 225</p>
+                  <p>₹ {order.total}</p>
                 </div>
               </div>
               <div className="order__down__amount__row">
@@ -138,7 +151,7 @@ function OrderDownload() {
                   <p>Shipping Charge :</p>
                 </div>
                 <div className="order__down__amount__right">
-                  <p>₹ 25</p>
+                  <p>₹ {order.shipping}</p>
                 </div>
               </div>
               <div className="order__down__amount__row">
@@ -146,7 +159,7 @@ function OrderDownload() {
                   <h6>TOTAL</h6>
                 </div>
                 <div className="order__down__amount__right">
-                  <h5>₹1500</h5>
+                  <h5> {order.grand_total}</h5>
                 </div>
               </div>
             </div>
@@ -165,30 +178,30 @@ function OrderDownload() {
 
           <div className="order__down__status__box">
             <div className="order__down__status__content">
-              <div className="order__down__status__row">
+              {order.order_date && (<div className="order__down__status__row">
                 <div className="order__down__status__left">
-                  <p>12-12-2020</p>
+                  <p>{order.order_date}</p>
                 </div>
                 <div className="order__down__status__right">
                   <p>Order Received</p>
                 </div>
-              </div>
-              <div className="order__down__status__row">
+              </div>)}
+              {order.shipping_date && (<div className="order__down__status__row">
                 <div className="order__down__status__left">
-                  <p>13-12-2020</p>
+                  <p>{order.shipping_date}</p>
                 </div>
                 <div className="order__down__status__right">
                   <p>Shipped</p>
                 </div>
-              </div>
-              <div className="order__down__status__row">
+              </div>)}
+              {order.delivery_date && (<div className="order__down__status__row">
                 <div className="order__down__status__left">
                   <p>18-12-2020</p>
                 </div>
                 <div className="order__down__status__right">
-                  <p>Delivered</p>
+                  <p>{order.delivery_date}</p>
                 </div>
-              </div>
+              </div>)}
             </div>
           </div>
         </div>
