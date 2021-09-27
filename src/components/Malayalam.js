@@ -24,6 +24,9 @@ import ArrowBackIosSharpIcon from "@material-ui/icons/ArrowBackIosSharp";
 import { connect } from 'react-redux';
 import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
 import { updateCart } from '../services/total/actions';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -58,6 +61,7 @@ const Malayalam = props => {
       cartProducts.push(product);
     }
     updateCart(cartProducts);
+    toast.info(product.name + " added to cart !");
     
   };
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -141,6 +145,7 @@ const Malayalam = props => {
  }, []);
   return (
     <div className="malayalam">
+    <ToastContainer />
       <div className="malayalam__head__row ">
         <h5>Popular Malayalam Books</h5>
       

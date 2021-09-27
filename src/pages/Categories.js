@@ -7,7 +7,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import book from "../images/book-read.png";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Featur from "../components/Featur";
-import { useState,useEffect } from "react";
+import { useState,useEffect ,useCallback} from "react";
 import pop1 from "../images/popular/pop1.jpg";
 import pop2 from "../images/popular/pop2.jpg";
 import pop3 from "../images/popular/pop3.jpg";
@@ -26,102 +26,20 @@ import { connect } from 'react-redux';
 import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
 import { updateCart } from '../services/total/actions';
 import Pagination from "react-js-pagination";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const Categories = props => {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-  const { id } = useParams();
   const [show, setShow] = useState(false);
   const [catgory_name , setCategoryName] = useState(false);
   const [active_page , setActivePage] = useState(1);
   const [total_items , settotalItems] = useState(0);
   const [books_count , setBookCount] = useState(0);
-  const [category_id, setCategoryId] = useState(id);
   const [openFilter, setOpenFilter] = useState(false);
-  const [categoryBook,setCategoryBook] = useState([
-    {
-      image: pop1,
-      name: "My family",
-      author: "Mahadevi Varma  ",
-      cutPrice: "654",
-      price: "456",
-    },
-    {
-      image: pop2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
-    },
-    {
-      image: pop3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
-    },
-    {
-      image: pop4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
-      price: "321",
-    },
-    {
-      image: pop6,
-      name: "My family",
-      author: "Mahadevi Varma",
-      cutPrice: "654",
-      price: "456",
-    },
-    {
-      image: pop8,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
-    },
-    {
-      image: pop6,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
-    },
-    {
-      image: pop6,
-      name: "My family",
-      author: "Mahadevi Varma",
-      cutPrice: "654",
-      price: "456",
-    },
-    {
-      image: pop8,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
-    },
-    {
-      image: pop6,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
-    },
-    {
-      image: pop2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
-    },
-    {
-      image: pop3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
-    },
-  ]);
+  const [categories,setCategories] =useState([]);
   function addProduct (product){
     const { cartProducts, updateCart } = props;
     let productAlreadyInCart = false;
@@ -140,48 +58,39 @@ const Categories = props => {
     console.log(cartProducts);
     updateCart(cartProducts);
     
+    toast.info(product.name + " added to cart !");
+    
   };
   function handlePageChange (pageNumber) {
     setActivePage(pageNumber);
   }
 
 
-
   useEffect(async () => { 
-    fetch(apiBaseUrl + `category_book/${id}`+`?page=${active_page}`)
+   fetch(apiBaseUrl + 'categories')
       .then(response => {
         return response.json();
       }).then(result => {
         if(result.status){
-          setBookCount(result.books_count);
-          settotalItems(result.books_count);
-          setCategoryName(result.category);
-          if(result.data.books.length){
-            let catBook = [];
-
-            result.data.books.map((book) => {
-                
-                catBook.push({
-                  id:book.id,
-                  image: book.featured_image_large,
-                  name: book.title,
-                  author: book.author_name,
-                  cutPrice:book.offer_price,
-                  price:book.sale_price,
-                  offer_zone:book.offer_zone,
+          if(result.data.categories.length){
+            let category_list = [];
+            result.data.categories.map((category) => {
+                category_list.push({
+                  label: category.name,
+                  value: category.id,
+                  image: category.featured_image_large,
+                  count: category.books_count,
                 })
             });
-            setCategoryBook(catBook);
+            setCategories(category_list);
             
-          } else {
-            setCategoryBook([])
           }
-          
         } 
       }); 
- }, [id,active_page]);
+ }, [active_page]);
   return (
     <div className="categories container">
+    <ToastContainer />
       <div className="path ">
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
           <p>Home </p>
@@ -202,7 +111,6 @@ const Categories = props => {
       <div className="categories__content">
         <Row>
           {/* <<<<<<<<<<<<<<< FILTER SEARCH >>>>>>>>>>>>>>>>>>> */}
-          <FilterSearch />
 
           {/* Categries right Column */}
           <Col lg="10">
@@ -267,12 +175,12 @@ const Categories = props => {
               )}
 
               <Row>
-                {categoryBook.map((data) => {
+                {categories.map((data) => {
                   return (
                     <Col xs="6" sm="4" md="2">
                       <div className="book__item">
                         <Link
-                          to={'/bookSingle/'+ data.id}
+                          to={'/category/'+ data.value}
                           style={{
                             textDecoration: "none",
                             color: "inherit",
@@ -283,44 +191,18 @@ const Categories = props => {
                           <img src={data.image} />
                         </Link>
                         <Link
-                          to={'/bookSingle/'+ data.id}
+                          to={'/category/'+ data.value}
                           style={{ textDecoration: "none", color: "inherit" }}
                         >
                           <div className="book__item__name">
-                            <h6>{data.name}</h6>
-                            <p>{data.author}</p>
+                            <h6> {data.label}</h6>
+                            <p>  {data.count} Books</p>
                           </div>
                         </Link>
-                        <div className="book__item__price__div">
-                          <div className="book__item__price__left">
-                            <p className="book__item__cut__price">
-                              ₹{data.cutPrice}
-                            </p>
-                            <p className="book__item__price">₹{data.price}</p>
-                          </div>
-
-                          <AddShoppingCartIcon
-                            type="button"
-                            onClick={() => addProduct(data)}
-                            id="book__item___cart__icon"
-                          />
-                        </div>
                       </div>
                     </Col>
                   );
                 })}
-                <div className="pagination__div">
-                 <Pagination
-                  activePage={active_page}
-                  itemsCountPerPage={10}
-                  totalItemsCount={total_items}
-                  pageRangeDisplayed={5}
-                  prevPageText ='previous'
-                  lastPageText ='next'
-                  innerClass='makeStyles-ul-1'
-                  onChange={(e)=>handlePageChange(e)}
-                />
-                </div>
               </Row>
             </div>
           </Col>

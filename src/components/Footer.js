@@ -1,13 +1,40 @@
-import React from "react";
+import React ,{ useState ,useEffect} from "react";
 import "../style/css/footer.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import SendIcon from "@material-ui/icons/Send";
 import { Link } from "react-router-dom";
-function footer() {
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const Footer = props => {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const [subscribeEmail, setSubscribeEmail] = useState('');
+  function subscribeNews(){
+     const data = {
+          email: subscribeEmail
+      }
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    };
+    fetch(apiBaseUrl + 'subscribe_news', requestOptions)
+    .then(response => {
+      return response.json();
+    }).then(result => {
+      if(result.status){
+          toast.info("Subscribed to newsletter !");
+        } else {
+          toast.error("Error ! Please check vaild email address");
+        }
+      });
+
+  }
+  
   return (
-    <div className="footer ">
+    <div className="footer " id="footer">
+    <ToastContainer />
       <div className="footer__row container">
         <Row>
           <Col md>
@@ -71,9 +98,9 @@ function footer() {
               </p>
 
               <div className="form__input__div">
-                <input placeholder="Enter email address" type="email" />
+                <input placeholder="Enter email address" type="email" onKeyUp={(event) => setSubscribeEmail(event.target.value)}/>
                 <div className="footer__icon__div">
-                  <SendIcon type="button" id="footer__icon" />
+                  <SendIcon type="button" id="footer__icon" onClick={() => subscribeNews()}/>
                 </div>
               </div>
             </div>
@@ -89,4 +116,4 @@ function footer() {
   );
 }
 
-export default footer;
+export default Footer;

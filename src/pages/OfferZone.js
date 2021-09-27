@@ -14,7 +14,7 @@ import best3 from "../images/author/best3.png";
 import best4 from "../images/author/best4.png";
 import PopularList from "../components/PopularList";
 import UsePagination from "../components/Pagination";
-import { useState,useEffect } from "react";
+import { useState,useEffect,useCallback } from "react";
 import Alert from "react-bootstrap/Alert";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
@@ -22,6 +22,13 @@ import { Link } from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
 import FilterSearch from "../components/FilterSearch";
 import Pagination from "react-js-pagination";
+
+import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
+import { updateCart } from '../services/total/actions';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import { connect } from 'react-redux';
 
@@ -121,11 +128,34 @@ const OfferZone = props => {
       price: "321",
     },
   ]);
+  function addProduct (product){
+    const { cartProducts, updateCart } = props;
+    let productAlreadyInCart = false;
+
+    cartProducts.forEach(cp => {
+      if (cp.id === product.id) {
+        cp.quantity += 1;
+        productAlreadyInCart = true;
+      }
+    });
+
+    if (!productAlreadyInCart) {
+      product.quantity = 1;
+      cartProducts.push(product);
+    }
+    updateCart(cartProducts);
+    
+    toast.info(product.name + " added to cart !");
+    
+  };
    function handlePageChange (pageNumber) {
     setActivePage(pageNumber);
   }
   useEffect(async () => { 
-    setOfferCount(5-props.user.offer_count);
+    if(props.user.offer_count){
+      setOfferCount(5-props.user.offer_count);  
+    }
+    
     fetch(apiBaseUrl + `offer_zone_books`+`?page=${active_page}`)
       .then(response => {
         return response.json();
@@ -156,8 +186,89 @@ const OfferZone = props => {
         } 
       }); 
  }, [active_page]);
+  const searchCategory = useCallback((search) => {
+  const data = {
+          search: search,
+           
+      }
+      const requestOptions = {
+      method: 'POST',
+      body: JSON.stringify(data)
+    };
+      fetch(apiBaseUrl + `category/search/0`, requestOptions)
+    .then(response => {
+      return response.json();
+    }).then(result => {
+       if(result.status){
+          setBookCount(result.books_count);
+          if(result.data.books.length){
+            let catBook = [];
+
+            result.data.books.map((book) => {
+                
+                catBook.push({
+                  id:book.id,
+                  image: book.featured_image_large,
+                  name: book.title,
+                  author: book.author_name,
+                  cutPrice:book.offer_price,
+                  price:book.sale_price,
+                  offer_zone:book.offer_zone,
+                })
+            });
+            setBooks(catBook);
+            
+          } else {
+            setBooks([])
+          }
+          
+        } 
+      });
+});
+const filterCategory = useCallback((filter) => {
+     
+    const data = {
+          filter: filter,
+           
+      }
+      const requestOptions = {
+      method: 'POST',
+      body: JSON.stringify(data)
+    };
+      fetch(apiBaseUrl + `category/filter/0`, requestOptions)
+    .then(response => {
+      return response.json();
+    }).then(result => {
+       if(result.status){
+          setBookCount(result.books_count);
+          if(result.data.books.length){
+            let catBook = [];
+
+            result.data.books.map((book) => {
+                
+                catBook.push({
+                  id:book.id,
+                  image: book.featured_image_large,
+                  name: book.title,
+                  author: book.author_name,
+                  cutPrice:book.offer_price,
+                  price:book.sale_price,
+                  offer_zone:book.offer_zone,
+                })
+            });
+            setBooks(catBook);
+            
+          } else {
+            setBooks([])
+          }
+          
+        } 
+      });
+
+  });
   return (
     <div className="offer__zone container">
+    <ToastContainer />
       <div className="path ">
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
           <p>Home </p>
@@ -173,7 +284,7 @@ const OfferZone = props => {
 
       <div className="categories__content">
         <Row>
-          <FilterSearch />
+          <FilterSearch params={{data:filterCategory,search:searchCategory}}/>
 
           {/* Categries right Column */}
           <Col md="10">
@@ -289,7 +400,7 @@ const OfferZone = props => {
 
                         <AddShoppingCartIcon
                           type="button"
-                          onClick={() => setShow(true)}
+                           onClick={() => addProduct(data)}
                           id="book__item___cart__icon"
                         />
                       </div>
@@ -321,9 +432,15 @@ const OfferZone = props => {
 }
 
 const mapStateToProps = state => ({
+  cartProducts: state.cart.products,
+  newProduct: state.cart.productToAdd,
+  productToRemove: state.cart.productToRemove,
+  productToChange: state.cart.productToChange,
+  cartTotal: state.total.data,
   user:state.user.profile
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+   { loadCart, updateCart, removeProduct, changeProductQuantity }
 )(OfferZone);

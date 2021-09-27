@@ -488,7 +488,7 @@ max-width: 250px;
 .home__discover__col{
   margin: auto;
   display: flex;
-  justify-content: center;
+  justify-content: left;
 }
 
 

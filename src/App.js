@@ -6,14 +6,17 @@ import Home from './pages/Home';
 
 import Footer from './components/Footer';
 import Authors from './pages/Authors';
+import Imprints from './pages/Imprints';
 import Author from './pages/Author';
 import Categories from './pages/Categories';
+import Category from './pages/Category';
 import SearchResult from './pages/SearchResult';
 import BookSingle from './pages/BookSingle';
 import BookMark from './pages/BookMark';
 import PreOrder from './pages/PreOrder';
 import Cart from './pages/Cart';
 import AllOrder from './pages/AllOrder';
+import WebMagazine from './pages/WebMagazine';
 import OrderDownload from './pages/OrderDownload';
 import About from './pages/About';
 import AddAddress from './pages/AddAddress';
@@ -73,7 +76,7 @@ function App() {
     <Route path='/bookTalks'>
       <BookTalks/>
       </Route>
-    <Route path='/blog'>
+    <Route path='/blog/:id'>
       <Blog/>
       </Route>
     <Route path='/address'>
@@ -91,6 +94,9 @@ function App() {
     <Route path='/allorder'>
       <AllOrder/>
       </Route>
+      <Route path='/imprints'>
+      <Imprints/>
+      </Route>
     <Route path='/bookmark'>
       <BookMark/>
       </Route>
@@ -107,6 +113,9 @@ function App() {
       <BookSingle/>
       </Route>
     <Route path='/category/:id'>
+      <Category/>
+      </Route>
+      <Route path='/categories'>
       <Categories/>
       </Route>
       <Route path='/search'>
@@ -115,6 +124,10 @@ function App() {
     <Route path='/authors'>
       <Authors/>
       </Route>
+      <Route path='/web_magazine'>
+      <WebMagazine/>
+      </Route>
+      
       <Route path='/author/:id'>
       <Author/>
       </Route>

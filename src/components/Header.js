@@ -16,7 +16,11 @@ import { updateCart } from '../services/total/actions';
 import { loginInit ,logout,loadUser} from '../services/user/actions';
 import { loadCategory } from '../services/categories/actions';
 import { UncontrolledAlert } from 'reactstrap';
-import Select from 'react-select';
+import Autocomplete from './Autocomplete';
+import {
+ LoginSocialFacebook,
+ LoginSocialGoogle
+} from "reactjs-social-login";
 // import Fade from 'react-bootstrap/Fade'
 const Header = props => {
 
@@ -116,29 +120,149 @@ const Header = props => {
     });
 
   }
+  function fillForm(data,type){
+    if(type==1){
+      const access_token = data.data.access_token
+      fetch('https://www.googleapis.com/oauth2/v3/userinfo?access_token='+access_token)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+         const data = {
+            name: result.name ,
+            email: result.email,
+            id: result.sub,
+            type:1,
+        };
+
+        const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    };
+        fetch(apiBaseUrl + 'login', requestOptions)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+          if(result.status){
+            let user = result.data;
+            let data = {};
+             data.name= user.name;
+             if(user.gender){
+                data.gender = user.gender;
+             } else {
+              data.gender = ''
+             }
+             data.email = user.email
+             if(user.dob){
+                data.dob = user.dob;
+             } else {
+              data.dob = ''
+             }
+             if(user.type){
+              data.type = user.type;
+             } else {
+              data.type = ''
+             }
+             data.address = user.address;
+             data.offer_count = user.offer_count;
+             data.image = user.profileImage;
+             data.orders = user.orders;
+            data.token= result.token;
+            addLogin(data);
+            setUser(true);
+            usernameRef.current.value ='';
+             passwordRef.current.value = '';              
+             setTimeout(function(e){
+                  setShowLoginupModal(false);
+                  setShowSignupModal(false);
+              },3000);
+          } else {
+              if(result.errors){
+                let error_msg = [];
+                for(let error in result.errors){
+                  console.log(result.errors[error][0]);
+                    error_msg.push(result.errors[error][0])
+                }   
+                setLoginErrors(error_msg);
+              } else {
+                 setLoginErrors(["Login Credentials are wrong!."]);
+              }
+          }
+    });
+      });
+    }
+     if(type==2){
+        const data_req = {
+            name: data.name ,
+            email: data.email,
+            id: data.id,
+            type:2,
+        };
+
+        const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data_req)
+    };
+        fetch(apiBaseUrl + 'login', requestOptions)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+          if(result.status){
+            let user = result.data;
+            let data = {};
+             data.name= user.name;
+             if(user.gender){
+                data.gender = user.gender;
+             } else {
+              data.gender = ''
+             }
+             data.email = user.email
+             if(user.dob){
+                data.dob = user.dob;
+             } else {
+              data.dob = ''
+             }
+             if(user.type){
+              data.type = user.type;
+             } else {
+              data.type = ''
+             }
+             data.address = user.address;
+             data.offer_count = user.offer_count;
+             data.image = user.profileImage;
+             data.orders = user.orders;
+            data.token= result.token;
+            addLogin(data);
+            setUser(true);
+            usernameRef.current.value ='';
+             passwordRef.current.value = '';              
+             setTimeout(function(e){
+                  setShowLoginupModal(false);
+                  setShowSignupModal(false);
+              },3000);
+          } else {
+              if(result.errors){
+                let error_msg = [];
+                for(let error in result.errors){
+                  console.log(result.errors[error][0]);
+                    error_msg.push(result.errors[error][0])
+                }   
+                setLoginErrors(error_msg);
+              } else {
+                 setLoginErrors(["Login Credentials are wrong!."]);
+              }
+          }
+    });
+     }  
+
+  }
    useEffect(async () => { 
     if(props.user  &&  props.user.token){
 
       setUser(true);
     }
-    fetch(apiBaseUrl + 'categories')
-      .then(response => {
-        return response.json();
-      }).then(result => {
-        if(result.status){
-          if(result.data.categories.length){
-            let category_list = [];
-            result.data.categories.map((category) => {
-                category_list.push({
-                  label: category.name,
-                  value: category.id
-                })
-            });
-            setCategories(category_list);
-            
-          }
-        } 
-      }); 
+    
   },[props.user])
    function checkLogin(){
       if(props.user && props.user.token){
@@ -236,13 +360,9 @@ const Header = props => {
                 
                 <div className="header__input__div">
 
-                <Select  onChange={(event) => setSearchCategory(event.value)} options={categories} styles={customStyles} placeholder="All Categories" className='category-container' classNamePrefix="category-select"/>
                 
-                  <input
-                  onChange={(event) => setSearchText(event.target.value)}
-                    type="text"
-                    placeholder="Search for books by key word"
-                  />
+                 
+                  <Autocomplete suggestions={[]}/>
                   
                     <span className="header__serach__span" onClick={() => searchProduct()}>
                       <SearchIcon  />
@@ -313,7 +433,7 @@ const Header = props => {
             </NavLink>
             <NavLink
               strict
-              to="/category/1"
+              to="/categories"
               activeClassName="nav__active"
               id="navLink"
             >
@@ -322,14 +442,11 @@ const Header = props => {
             <NavLink to="/preorder" activeClassName="nav__active" id="navLink">
               <h5>Pre-order</h5>
             </NavLink>
-            <NavLink to="/error" activeClassName="nav__active" id="navLink">
-              <h5>Languages</h5>
-            </NavLink>
-            <NavLink to="/error" activeClassName="nav__active" id="navLink">
+            <NavLink to="/imprints" activeClassName="nav__active" id="navLink">
               <h5>IMPRINTs</h5>
             </NavLink>
 
-            <NavLink to="/error" activeClassName="nav__active" id="navLink">
+            <NavLink to="/web_magazine" activeClassName="nav__active" id="navLink">
               <h5>Web magazine</h5>
             </NavLink>
             <NavLink to="/authors" activeClassName="nav__active" id="navLink">
@@ -386,14 +503,6 @@ const Header = props => {
             onClick={() => setOpen(!open)}
           >
             <h6>Pre-order</h6>
-          </NavLink>
-          <NavLink
-            to="/error"
-            activeClassName="nav__active__collapse"
-            id="navLink"
-            onClick={() => setOpen(!open)}
-          >
-            <h6>Languages</h6>
           </NavLink>
           <NavLink
             to="/error"
@@ -623,22 +732,38 @@ const Header = props => {
                   <p className="or-with">Or Login With</p>
                   <div className="social-container">
                     <div className="icon-google">
-                      <a href="#">
-                        <img
+                    <LoginSocialGoogle
+                    client_secret={'3Afh9IL48vOHvbm5D-zbElpz'}
+    client_id={'969924030334-96ht0eu69uf5jm824mn72cveippkji2h'}
+    onResolve={({ data }) => {
+     fillForm(data,1);
+    }}
+    onReject={(err) => alert(err)}
+   >
+    <img
                           className="social-icon"
                           src={process.env.PUBLIC_URL + "/images/google.png"}
                           alt="edit-icon"
                         />
-                      </a>
+   </LoginSocialGoogle>
+                      
                     </div>
                     <div className="icon-fb">
-                      <a href="#">
-                        <img
+                    <LoginSocialFacebook
+    appId={'152254387026476'}
+    onResolve={({ data }) => {
+     fillForm(data,2);
+    }}
+    onReject={(err) => alert(err)}
+   >
+                    <img
                           className="social-icon"
                           src={process.env.PUBLIC_URL + "/images/fb.png"}
                           alt="edit-icon"
                         />
-                      </a>
+   </LoginSocialFacebook>
+
+                      
                     </div>
                   </div>
                 </div>

@@ -21,13 +21,25 @@ import discover1 from "../images/discover1.png";
 import discover2 from "../images/discover2.png";
 import discover3 from "../images/discover3.png";
 import discover4 from "../images/discover4.png";
-
+import parse from "html-react-parser";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Featur from "../components/Featur";
 import { Link } from "react-router-dom";
 function Home() {
 
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const [authorOfTheMonth, setAuthorOfMonth] = useState({});
+  const [bookOfTheMonth, setBookOfMonth] = useState({});
+  const [isReadMoreAuthor, setIsReadMoreAuthor] = useState(true);
+  const [isReadMoreBook, setIsReadMoreBook] = useState(true);
+  const [bookTalks, setbookTalks] = useState([]);
+  const [discoverBooks, setDiscoverBooks] = useState([]);
+  const toggleReadMoreAuthor = () => {
+    setIsReadMoreAuthor(!isReadMoreAuthor);
+  };
+  const toggleReadMoreBook = () => {
+    setIsReadMoreBook(!isReadMoreBook);
+  };
   const [slider, setSlider] = useState([
     {
       id:1,
@@ -65,6 +77,85 @@ function Home() {
             
           }
         } 
+      }); 
+
+      fetch(apiBaseUrl + 'of_month')
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          if(result.data.author){
+            setAuthorOfMonth({
+              id:result.data.author.id,
+              name:result.data.author.name,
+              image:result.data.author.featured_image_large,
+              description:result.data.author.description,
+            });
+            
+          }
+          if(result.data.book){
+            setBookOfMonth({
+              id:result.data.book.id,
+              name:result.data.book.title,
+              image:result.data.book.featured_image_large,
+              description:result.data.book.description,
+            });
+            
+          }
+        } 
+      }); 
+       fetch(apiBaseUrl + 'book_talks')
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          if(result.data.books.length){
+            let bookTalk = [];
+
+            result.data.books.map((book) => {
+                
+                bookTalk.push({
+                  id:book.id,
+                  image: book.book_talk_large,
+                  name: book.title,
+                  author: book.author_name,
+                  cutPrice:book.offer_price,
+                  price:book.sale_price,
+                  offer_zone:book.offer_zone,
+                })
+            });
+            setbookTalks(bookTalk);
+            
+          } else {
+            setbookTalks([])
+          }
+        } else {
+          setbookTalks([])
+        }
+      }); 
+      fetch(apiBaseUrl + 'discover_new_read')
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          if(result.data.books.length){
+            let bookTalk = [];
+
+            result.data.books.map((book) => {
+                
+                bookTalk.push({
+                  id:book.id,
+                  image: book.featured_image_large,
+                })
+            });
+            setDiscoverBooks(bookTalk);
+            
+          } else {
+            setDiscoverBooks([])
+          }
+        } else {
+          setDiscoverBooks([])
+        }
       }); 
  }, []);
   return (
@@ -176,62 +267,71 @@ function Home() {
       {/* <<<<<<<<< BOOK OF THE MONTH>>>>>>>>>>>> */}
       <div className="home__month__row">
         <Row>
+         { bookOfTheMonth.description && (
           <Col md>
             <div className="home__month">
               <div className="home__month__content">
                 <Row>
                   <Col md="4" id="month__book__col">
-                    <img className="col-8 col-md-11" src={ayurveda} />
+                    <img className="col-8 col-md-11" src={bookOfTheMonth.image} />
                   </Col>
                   <Col md="8">
                     <h6>Book of the month</h6>
-                    <h4>Ayurveda: medicine without side-effects</h4>
-                    <p>
-                      This book is not a defence of Ayurveda. A sound,
-                      scientific framework of healthcare that has saved
-                      countless lives over 5000 years does not need defenders.
-                      It needs champions, and to be given wings. In a world that
-                      needs Ayurveda more than ever, Dr G.G. Gangadharan, who
-                      has been researching both the theory and the practice for
-                      the past thirty-five years, shows in his book the logic
-                      behind the science.
-                      <span style={{ color: "#46CE04" }}>Read More</span>
+                    <Link
+            to={'/bookSingle/'+ bookOfTheMonth.id}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+             <h4>{bookOfTheMonth.name}</h4>
+          </Link> <p>
+                      {isReadMoreBook ? bookOfTheMonth.description.slice(0, 550) : bookOfTheMonth.description}
+                      <span
+                        onClick={toggleReadMoreBook}
+                        style={{ color: "#46CE04", cursor: "pointer" }}
+                      >
+                        {isReadMoreBook ? "...read more" : " show less"}
+                      </span>
                     </p>
                   </Col>
                 </Row>
               </div>
             </div>
           </Col>
-          <Col md>
+          )}
+          { authorOfTheMonth.description && (
+                <Col md>
             <Col md>
               <div className="home__month">
                 <div className="home__month__content">
                   <Row>
                     <Col md="4" id="month__book__col">
-                      <img className="col-8 col-md-11" src={mt} />
+                      <img className="col-8 col-md-11" src={authorOfTheMonth.image}  />
                     </Col>
                     <Col md="8">
                       <h6>Author of the month</h6>
-                      <h4>M. T. Vasudevan Nair</h4>
-                      <p>
-                        Madath Thekkepaattu Vasudevan Nair (born 1933),
-                        popularly known as MT, is an Indian author, screenplay
-                        writer and film director.[1] He is a prolific and
-                        versatile writer in modern Malayalam literature, and is
-                        one of the masters of post-Independence Indian
-                        literature.[2][3] He was born in Kudallur, a small
-                        village in the present day Anakkara panchayath in
-                        Pattambi Taluk, Palakkad district (Palghat), which was
-                        under the Malabar District in the Madras Presidency of
-                        the British Raj.
-                        <span style={{ color: "#46CE04" }}>Read More</span>
-                      </p>
+                      <Link
+            to={'/author/'+ authorOfTheMonth.id}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+             <h4>{authorOfTheMonth.name}</h4>
+          </Link>
+                     
+                       <p>
+                      {isReadMoreAuthor ? authorOfTheMonth.description.slice(0, 550) : authorOfTheMonth.description}
+                      <span
+                        onClick={toggleReadMoreAuthor}
+                        style={{ color: "#46CE04", cursor: "pointer" }}
+                      >
+                        {isReadMoreAuthor ? "...read more" : " show less"}
+                      </span>
+                    </p>
                     </Col>
                   </Row>
                 </div>
               </div>
             </Col>
           </Col>
+            )}
+          
         </Row>
       </div>
 
@@ -248,59 +348,31 @@ function Home() {
         </div>
 
         <Row>
-          <Col sm="auto" md="4">
+        {bookTalks && bookTalks.map((data) => {
+              return (
+              <Col sm="auto" md="4">
             <Link
-              to="/blog"
+              to={'/blog/'+ data.id}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <div className="home__talks__div">
-                <img className="col-12" src={talk1} />
+                <img className="col-12" src={data.image} />
                 <div className="home__talks__date">
-                  <p>10 April 2021 </p>
+                  <p>{data.creatd_at}</p>
                   <p>|</p>
-                  <p>Admin</p>
+                  <p>{data.author}</p>
                 </div>
 
                 <h5>
-                  Benefits of Reading How It Can Positively Affect Your Life
+                 { data.name}
                 </h5>
               </div>
             </Link>
           </Col>
-          <Col md="4">
-            <Link
-              to="/blog"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <div className="home__talks__div">
-                <img className="col-12" src={talk2} />
-                <div className="home__talks__date">
-                  <p>10 April 2021 </p>
-                  <p>|</p>
-                  <p>Admin</p>
-                </div>
-
-                <h5>The Art of reading, read and lead</h5>
-              </div>
-            </Link>
-          </Col>
-          <Col md="4">
-            <Link
-              to="/blog"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <div className="home__talks__div">
-                <img className="col-12" src={talk3} />
-                <div className="home__talks__date">
-                  <p>10 April 2021 </p>
-                  <p>|</p>
-                  <p>Admin</p>
-                </div>
-
-                <h5>Benefits Books: How It Can Positively Affect Your Life</h5>
-              </div>
-            </Link>
-          </Col>
+              );
+        })}
+          
+         
         </Row>
       </div>
 
@@ -317,18 +389,14 @@ function Home() {
         </div>
         <div className="home__discover__content">
           <Row>
-            <Col className="home__discover__col" sm="6" lg="3">
-              <img className="col-12" src={discover1} />
-            </Col>
-            <Col className="home__discover__col" sm="6" lg="3">
-              <img className="col-12" src={discover2} />
-            </Col>
-            <Col className="home__discover__col" sm="6" lg="3">
-              <img className="col-12" src={discover3} />
-            </Col>
-            <Col className="home__discover__col" sm="6" lg="3">
-              <img className="col-12" src={discover4} />
-            </Col>
+          {discoverBooks && discoverBooks.map((data) => {
+                return (<Col className="home__discover__col" sm="6" lg="3">
+                  <Link
+            to={'/bookSingle/'+ data.id}
+            style={{ textDecoration: "none", color: "inherit" }}
+          ><img className="col-12" src={data.image}/></Link>
+            </Col>);
+          })}
           </Row>
         </div>
       </div>

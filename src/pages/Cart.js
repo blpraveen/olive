@@ -5,7 +5,7 @@ import cart2 from "../images/cart/cart2.png";
 import cart3 from "../images/cart/cart3.png";
 import sample1 from "../images/cart/review.png";
 import sample2 from "../images/cart/paulo.png";
-import React, { useState ,useEffect} from "react";
+import React, { useState ,useEffect,useRef} from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -71,6 +71,9 @@ const Cart = props => {
             addPromo(newCode);
             setAppliedPromo(newCode);
           }
+  }
+  function scrollToBottom(){
+     document.getElementById('footer').scrollIntoView();
   }
   function verifyPromo(){
     const { addPromo , promocodes,addPromoType} = props;
@@ -147,11 +150,12 @@ const Cart = props => {
     } else {
        setIsLoggedIn(false);
     }
-    if(cartTotal < 750){
+
+    if(cartTotal.totalPrice < 750){
         setShipping(50);  
     }
     
-  },[ props.user,showPromoCode,props.promocodes])
+  },[props.cartTotal, props.user,showPromoCode,props.promocodes])
   //const products = [];
   let products = props.cartProducts;
   let cartTotal = props.cartTotal;
@@ -307,7 +311,7 @@ const Cart = props => {
         <div className="cart__order">
           <Row>
             <Col id="button__col" sm>
-              <button id="help__button">Get Help</button>
+              <button id="help__button" onClick={scrollToBottom}  >Get Help</button>
             </Col>
             <Col id="button__col" sm>
               <Link

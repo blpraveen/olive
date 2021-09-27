@@ -120,7 +120,6 @@ function PopularList() {
  }, []);
   return (
     <div className="popular__list ">
-     
         <Row>
           <Col lg="1">
             <div className="popular__list__title">

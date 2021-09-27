@@ -8,6 +8,7 @@ import book from "../images/single.png";
 import StarIcon from "@material-ui/icons/Star";
 import AddIcon from "@material-ui/icons/Add";
 import MinimizeIcon from "@material-ui/icons/Minimize";
+import Modal from "react-bootstrap/Modal";
 import { Button } from "@material-ui/core";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
@@ -33,12 +34,57 @@ import InfoIcon from "@material-ui/icons/Info";
 import parse from "html-react-parser";
 import { connect } from 'react-redux';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {
+  EmailIcon,
+  FacebookIcon,
+  LinkedinIcon,
+  PinterestIcon,
+  TwitterIcon,
+  WhatsappIcon
+} from "react-share";
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  LinkedinShareButton,
+  PinterestShareButton,
+  TwitterShareButton,
+  WhatsappShareButton
+} from "react-share";
 import { loadCart, removeProduct, changeProductQuantity,addProduct} from '../services/cart/actions';
 import { updateCart } from '../services/total/actions';
 import { updateBookMark } from '../services/bookmark/actions';
 
 const BookSingle = props => {
   //const { id } = props.match.params;
+  const [data] = useState([
+    {
+      tittle: "Great Story! You Love it",
+      text: "Nice book... It should be read by the one who want to learn something to be better in life..... But in this book(think and.....) they have given only their own successful peopl example..Due to which a common man may think about them only except our own successful person....",
+      stars: 4,
+      date: "2021 April 7 | Alex M",
+    },
+    {
+      tittle: "Amazing offer on amazing books",
+      text: `'Ours have the world's greatest epic Shrimad Bhagwad Geeta this book alone can change the life of the man who read this...... It seems like I m exaggerating but trust me whoever read this epic no one could tell that it's not a perfect book..... Even other religious people read and admire this book.....'`,
+      stars: 3,
+      date: "2021 April 7 | Alex M",
+    },
+    {
+      tittle: "Box was damaged, and crumpled",
+      text: "The shipping was ok, but it could be the fault of the handling process. The box had dents and the books as well",
+      stars: 2,
+      date: "2021 April 7 | Alex M",
+    },
+    {
+      tittle:
+        "Waste of time for investors who wants to learn more about investing",
+      text: "Nice book... It should be read by the one who want to learn something to be better in life..... But in this book(think and.....) they have given only their own successful peopl example..Due to which a common man may think about them only except our own successful person....",
+      stars: 3,
+      date: "2021 April 7 | Alex M",
+    },
+  ]);
   const { id } = useParams();
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [quantity,setQuantity] = useState(1)
@@ -47,9 +93,14 @@ const BookSingle = props => {
   const [review, setReview] = useState(false);
   const [show, setShow] = useState(false);
   const [isReadMore, setIsReadMore] = useState(true);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [reviewRate, setReviewRate] = useState(0);
+  const [reviewTitle, setReviewTitle] = useState('');
+  const [reviewDescription, setReviewDescription] = useState('');
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
   };
+  const shareUrl = window.location.host  + '/bookSingle/'+ id
   const [book,setBook] = useState({image:best1,author:'',name:'',cutPrice:'',price:'',description:'',book_type:{author:''},book_all_images:[]});
    function addProduct (product){
     const { cartProducts, updateCart } = props;
@@ -88,6 +139,34 @@ const BookSingle = props => {
     }
     updateBookMark(bookmarks);
     setBookMark(!bookMark);
+   var title = book.name;
+    var url = window.location.href;
+ 
+    if(window.sidebar && window.sidebar.addPanel){
+        /* Mozilla Firefox Bookmark - works with opening in a side panel only � */
+        window.sidebar.addPanel(title, url, "");
+    }else if(window.opera && window.print) {
+        /* Opera Hotlist */
+        alert("Press Control + D to bookmark");
+        return true;
+    }else if(window.external){
+        /* IE Favorite */
+        try{
+            window.external.AddFavorite(url, title);
+        }catch(e){
+                        alert("Press Control + D to bookmark");
+                }            
+    }else{
+        /* Other */
+        alert("Press Control + D to bookmark");
+    }
+    
+  }
+  function shReviewModal(){
+    setReviewRate(0);
+    setReviewDescription('');
+    setReviewTitle('');
+    setShowReviewModal(true);
   }
   useEffect(async () => { 
     if(props.bookmarks.includes(parseInt(id))){
@@ -107,10 +186,13 @@ const BookSingle = props => {
                   name: book_data.title,
                   author: book_data.author_name,
                   cutPrice:book_data.offer_price,
-                  price:book.sale_price,
+                  price:book_data.sale_price,
                   description:book_data.description,
                   book_type:book_data.book_type,
                   book_all_images:book_data.all_images,
+                  star: parseInt(book_data.rate),
+                  reviews:book_data.reviews,
+                  pre_order:book_data.pre_order,
                 };
             
             setBook(selectedBook);
@@ -140,6 +222,7 @@ const BookSingle = props => {
           }
         } 
       }); 
+      setReviewRate(0);
  }, []);
   const [related,setRelated] = useState([
     {
@@ -185,6 +268,36 @@ const BookSingle = props => {
       price: "321",
     },
   ]);
+  function submitReview(event){
+    event.preventDefault();
+    const data = {
+          subject: reviewTitle,
+          rate: reviewRate,
+          message: reviewDescription,
+          book_id:book.id
+      }
+      if( props.user.token ){
+       data['user'] = props.user.email
+      } 
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        };  
+    fetch(apiBaseUrl +  `add_review/${id}`, requestOptions)
+    .then(response => {
+      return response.json();
+    }).then(result => {
+      if(result.status){
+          toast.info("Reviews added successfully!");
+          book.reviews = result.data;
+          setBook(book);
+          setShowReviewModal(false);
+        } else {
+          toast.error("Error !Some thing went wrong");
+        }
+      });
+  }
   const text = `  In the concluding installment to the Wrath of Ambar duology
   from masterful author Tanaz Bhathena, Gul and Cavas must
   unite their magical forces―and hold onto their growing
@@ -201,6 +314,7 @@ const BookSingle = props => {
 `;
   return (
     <div className="book__single container">
+    <ToastContainer />
       <div className="path ">
         <p>Home </p>
         <ArrowForwardIosIcon id="path__icon" />
@@ -230,11 +344,18 @@ const BookSingle = props => {
               <h2>{book.title}</h2>
               <div className="book__description__star__row">
                 <div className="book__description__star__left">
+                 {book.star ? (
+                [...Array(book.star)].map((item, index) => ( 
                   <StarIcon id="book__star" />
-                  <StarIcon id="book__star" />
-                  <StarIcon id="book__star" />
-                  <StarIcon id="book__star" />
-                  <StarIcon id="book__star" />
+                  ) 
+              )):''}
+                {(5-book.star) ? (
+                      [...Array(5-book.star)].map((item, index) => ( 
+                  <StarIcon id="book__star_grey" />
+                  ) 
+              )
+                  ) : ''}
+                 
                   <p>(274)</p>
                 </div>
                 <div className="book__description__star__right">
@@ -251,15 +372,15 @@ const BookSingle = props => {
                 </p>
               </div>
               <div className="book__description__text">
-                <p>
-                {parse(book.description)}
-                  <span
-                    onClick={toggleReadMore}
-                    style={{ color: "#46CE04", cursor: "pointer" }}
-                  >
-                    {isReadMore ? "...read more" : " show less"}
-                  </span>
-                </p>
+              <p>
+                      {isReadMore ? book.description.slice(0, 550) : book.description}
+                      <span
+                        onClick={toggleReadMore}
+                        style={{ color: "#46CE04", cursor: "pointer" }}
+                      >
+                        {isReadMore ? "...read more" : " show less"}
+                      </span>
+                    </p>
               </div>
 
               <div className="book__description__button__row">
@@ -274,9 +395,22 @@ const BookSingle = props => {
                     +
                   </Button>
                 </div>
-                <Button onClick={() => addProduct(book)} type="button" id="book__add__button">
+                {book.pre_order ? (
+                  <Button
+                 onClick={() => addProduct(book)}
+                  type="button"
+                  id="book__add__button"
+                  style={{ background: "#46CE04" }}
+                >
+                  PREORDER
+                </Button>
+                  ): (
+                  <Button onClick={() => addProduct(book)} type="button" id="book__add__button">
                   Add to cart
                 </Button>
+                  )}
+                
+                
               </div>
 
               <div className="book__share__row">
@@ -291,7 +425,69 @@ const BookSingle = props => {
                   <p>ADD TO BOOKMARK</p>
                 </div>
                 <div className="book__share">
-                  <ShareOutlinedIcon id="book__share__icon" />
+                 {show ? (
+          <Alert variant="success" id="alert" className="book_share_alert">
+
+            <div className="alert__success__text">
+             <div className="Demo__some-network">
+               <FacebookShareButton
+            url={shareUrl}
+            quote={book.name}
+            className="Demo__some-network__share-button"
+          >
+            <FacebookIcon size={32} round />
+          </FacebookShareButton>
+          </div>
+            <div className="Demo__some-network">
+          <TwitterShareButton
+            url={shareUrl}
+            title={book.name}
+            className="Demo__some-network__share-button"
+          >
+            <TwitterIcon size={32} round />
+          </TwitterShareButton>
+          </div>
+          <div className="Demo__some-network">
+          <WhatsappShareButton
+            url={shareUrl}
+            title={book.name}
+            separator=":: "
+            className="Demo__some-network__share-button"
+          >
+            <WhatsappIcon size={32} round />
+          </WhatsappShareButton>
+          </div>
+           <div className="Demo__some-network">
+           <PinterestShareButton
+            url={String(window.location)}
+            media={`${book.image}`}
+            className="Demo__some-network__share-button"
+          >
+            <PinterestIcon size={32} round />
+          </PinterestShareButton>
+          </div>
+           <div className="Demo__some-network">
+          <EmailShareButton
+            url={shareUrl}
+            subject={book.name}
+            body="body"
+            className="Demo__some-network__share-button"
+          >
+            <EmailIcon size={32} round />
+          </EmailShareButton>
+          </div>
+          </div>
+
+            <CloseIcon
+              type="button"
+              onClick={() => setShow(false)}
+              id="alert__close__icon"
+            />
+          </Alert>
+        ) : (
+          ""
+        )}
+                  <ShareOutlinedIcon id="book__share__icon" onClick={() =>setShow(true)}/>
                   <p>SHARE</p>
                 </div>
               </div>
@@ -322,7 +518,7 @@ const BookSingle = props => {
                         : "book__detailes__head__h6"
                     }
                   >
-                    Reviews (12)
+                    Reviews ({book.reviews && book.reviews.total})
                   </h6>
                 </div>
               </div>
@@ -395,20 +591,29 @@ const BookSingle = props => {
                         <div className="book__review__first__row__left">
                           <h4>Customer Reviews</h4>
                           <div className="book__review__rating">
-                            <h1>4.7</h1>
+                            <h1>{book.reviews && book.reviews.avg}</h1>
                             <div className="book__review__rating__right">
-                              <p>285 Reviews</p>
+                              <p>{book.reviews && book.reviews.total_stars} Reviews</p>
                               <div className="book__review__rating__star">
-                                <StarIcon id="book__star" />
-                                <StarIcon id="book__star" />
-                                <StarIcon id="book__star" />
-                                <StarIcon id="book__star" />
-                                <StarIcon id="book__star" />
+                              {book.reviews && ((book.reviews.avg) ? (
+                                [...Array(book.reviews.avg)].map((item, index) => ( 
+                                    <StarIcon id="book__star" />
+                                    ) 
+                                )
+                              ): '')}
+                              {book.reviews && ((5-book.reviews.avg) ? (
+                              [...Array(5-book.reviews.avg)].map((item, index) => ( 
+                                    <StarIcon id="book__star_grey" />
+                                    ) 
+                                )
+                                ):'')}
+                               
+                               
                               </div>
                             </div>
                           </div>
 
-                          <button id="review__button">Write a Review</button>
+                          <button id="review__button" onClick={()=> shReviewModal()}>Write a Review</button>
                         </div>
                       </Col>
                       <Col id="progress__col">
@@ -419,10 +624,10 @@ const BookSingle = props => {
                             <ProgressBar
                               className="progress__bar"
                               variant="warning"
-                              now={80}
+                              now={book.reviews && ((book.reviews.total_stars) ? Math.round(((book.reviews.star5*5)/book.reviews.total_stars)*100): 0)}
                             />
 
-                            <p>200</p>
+                            <p>{book.reviews && book.reviews.star5} </p>
                           </div>
                           <div className="book__progress">
                             <p>4 Star</p>
@@ -430,32 +635,22 @@ const BookSingle = props => {
                             <ProgressBar
                               className="progress__bar"
                               variant="warning"
-                              now={60}
+                              now={book.reviews && ((book.reviews.total_stars) ? Math.round(((book.reviews.star4*4)/book.reviews.total_stars)*100) : 0)}
                             />
 
-                            <p>50</p>
+                            <p>{book.reviews && book.reviews.star4} </p>
                           </div>
-                          <div className="book__progress">
-                            <p>5 Star</p>
-
-                            <ProgressBar
-                              className="progress__bar"
-                              variant="warning"
-                              now={40}
-                            />
-
-                            <p>200</p>
-                          </div>
+                         
                           <div className="book__progress">
                             <p>3 Star</p>
 
                             <ProgressBar
                               className="progress__bar"
                               variant="warning"
-                              now={30}
+                              now={book.reviews && ((book.reviews.total_stars) ? Math.round(((book.reviews.star3*3)/book.reviews.total_stars)*100) : 0)}
                             />
 
-                            <p>14</p>
+                            <p>{book.reviews && book.reviews.star3}</p>
                           </div>
                           <div className="book__progress">
                             <p>2 Star</p>
@@ -463,10 +658,10 @@ const BookSingle = props => {
                             <ProgressBar
                               className="progress__bar"
                               variant="warning"
-                              now={15}
+                              now={book.reviews && ((book.reviews.total_stars) ? Math.round(((book.reviews.star2*2)/book.reviews.total_stars)*100) : 0)}
                             />
 
-                            <p>20</p>
+                            <p>{book.reviews && book.reviews.star2}</p>
                           </div>
                           <div className="book__progress">
                             <p>1 Star</p>
@@ -474,10 +669,10 @@ const BookSingle = props => {
                             <ProgressBar
                               className="progress__bar"
                               variant="warning"
-                              now={10}
+                              now={book.reviews && ((book.reviews.total_stars) ? Math.round(((book.reviews.star1*1)/book.reviews.total_stars)*100) : 0)}
                             />
 
-                            <p>8</p>
+                            <p>{book.reviews && book.reviews.star1}</p>
                           </div>
                         </div>
                       </Col>
@@ -487,11 +682,11 @@ const BookSingle = props => {
                   <div className="book__review__content">
                     <Row>
                       <Col xs="12" md="8">
-                        {related.map((data) => {
+                        {book.reviews && book.reviews.reviews.map((data) => {
                           return (
                             <div>
                               <div className="review__content__head">
-                                <h6>{data.tittle}</h6>
+                                <h6>{data.subject}</h6>
                                 <div className="review__stars__div">
                                   <ReactStars
                                     id="review__stars"
@@ -503,9 +698,9 @@ const BookSingle = props => {
                                 </div>
                               </div>
                               <div className="review__text">
-                                <p>{data.text}</p>
+                                <p>{data.message}</p>
                                 <div className="review__date">
-                                  <h6>{data.date}</h6>
+                                  <h6>{data.created_at} | {data.customer}</h6>
                                 </div>
                               </div>
                             </div>
@@ -526,26 +721,7 @@ const BookSingle = props => {
 
         {/* <<<<<<<<<<< ALSO BROUGHT BOOKS */}
         {/* <<<<<<<< CART ADDED ALERT >>>>>>>>>> */}
-        {show ? (
-          <Alert variant="success" id="alert">
-            <CheckCircleIcon id="alert__success__icon" />
-
-            <div className="alert__success__text">
-              <p>Product added to your cart</p>
-              <Link to="/cart" style={{ textDecoration: "none" }}>
-                <h6>CHECKOUT NOW</h6>
-              </Link>
-            </div>
-
-            <CloseIcon
-              type="button"
-              onClick={() => setShow(false)}
-              id="alert__close__icon"
-            />
-          </Alert>
-        ) : (
-          ""
-        )}
+       
 
         {/* <<<<<<<< LOGIN ALERT >>>>>>>>>> */}
 
@@ -642,7 +818,42 @@ const BookSingle = props => {
       <PopularList />
 
       <Featur />
+      <Modal
+        show={showReviewModal}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header
+          closeButton
+          onClick={() => setShowReviewModal(false)}
+        ><p className="review-title">Write A Review</p></Modal.Header>
+        <Modal.Body id="signup-model">
+                <div className="rating-container">
+                    <div className="rating-text">
+                        <p>Your Rating</p>
+                        <ReactStars
+                        count={5}
+                        onChange={(value) => setReviewRate(value)}
+                        size={24}
+                        color2={'#ffd700'} />,
+                    </div>
+                </div>
+
+                <div className="form-container">
+                    <form className="review">
+                        <input type="text" placeholder="Heading" className="review-form" onChange={(event) => setReviewTitle(event.target.value)}></input>
+                        <textarea rows="10" placeholder="Description" className="description-text" onChange={(event) => setReviewDescription(event.target.value)}></textarea>
+                        <br/>
+                        <button className="publish-btn" onClick={(event) => submitReview(event)}>Publish</button>
+                    </form>
+                </div>
+
+              
+        </Modal.Body>
+      </Modal>
     </div>
+    
   );
 }
 
@@ -653,6 +864,7 @@ const mapStateToProps = state => ({
   productToChange: state.cart.productToChange,
   cartTotal: state.total.data,
   bookmarks:state.bookmarks.bookmarks,
+  user:state.user.profile,
 });
 
 export default connect(

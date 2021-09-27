@@ -24,6 +24,8 @@ import InfoIcon from "@material-ui/icons/Info";
 import { connect } from 'react-redux';
 import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
 import { updateCart } from '../services/total/actions';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const responsive = {
   desktop: {
@@ -57,6 +59,7 @@ const BestSellers = props => {
       cartProducts.push(product);
     }
     updateCart(cartProducts);
+    toast.info(product.name + " added to cart !");
     
   };
   const [bestSeller, setbestSeller] = useState([
@@ -151,7 +154,9 @@ const BestSellers = props => {
     },
   ]);
   return (
+
     <div className="best__seller">
+      <ToastContainer />
       <div className="best__seller__head__row ">
         <h5>Best Sellers</h5>
         <Link

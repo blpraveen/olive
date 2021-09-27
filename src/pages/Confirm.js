@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState ,useEffect,useCallback } from "react";
 import Featur from "../components/Featur";
 import "../style/css/confirm.css";
 import { Link } from "react-router-dom";
@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { loginInit ,updateProfile,logout,loadUser} from '../services/user/actions';
 import { loadCart, removeProduct, emptyCart,changeProductQuantity,addProduct } from '../services/cart/actions';
 import { updateCart } from '../services/total/actions';
+import  displayRazorpay from '../components/displayRazorpay';
 import { addPromo,removePromo,addPromoType } from '../services/promocode/actions';
 import { UncontrolledAlert } from 'reactstrap';
 
@@ -41,6 +42,7 @@ const [orderConfirmed,setOrderConfirmed] = useState(false);
 const [orderId,setOrderId] = useState(0);
 const [showOfferRadio,setShowOfferRadio] = useState(0);
 const [offerBook,setOfferBook] = useState(0);
+const [payDetails,setPayDetails] = useState(0);
 const [cartTot,setCartTot] = useState([]);
 function updateUser(user){
   const { updateProfile  } = props;
@@ -125,6 +127,98 @@ function updateUser(user){
       });
 
   }
+  const paymentSuccess = useCallback((payment_response) => {
+     let errors = [];
+    if(payment == ''){
+        errors.push("Payment option select");
+    }
+    if(shippingAddress == ''){
+        errors.push("Select Shipping Address");
+    }
+    if(showOfferRadio){
+      if(offerBook){
+
+      } else {
+        errors.push("Please select free book");
+      }
+    }
+    if(errors.length){
+        setOrderErrors(errors);
+        return false;
+    } else {
+      setOrderErrors(errors);
+    }
+
+    let products = props.cartProducts;
+    let promocodes = props.promocodes
+    const data = {
+          products: products,
+            shipping: shippingAddress,
+            payment: payment,
+            promocodes: promocodes,
+            offerBook:offerBook,
+            payment_succes:1,
+            payment_details:payment_response
+      }
+      const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json','Authorization': 'Bearer '+ props.user.token },
+      body: JSON.stringify(data)
+    };
+      fetch(apiBaseUrl + 'submit_order', requestOptions)
+    .then(response => {
+      return response.json();
+    }).then(result => {
+      if(result.status){
+        const { addPromo, updateCart,updateProfile,emptyCart,addPromoType} = props;
+        updateCart([]);
+        addPromo([]);
+        addPromoType([]);
+        emptyCart([]);
+        setOrderId(result.data.order.id)
+        let user = result.data.user;
+          let data = {};
+           data.name= user.name;
+           if(user.gender){
+              data.gender = user.gender;
+           } else {
+            data.gender = ''
+           }
+           data.email = user.email
+           if(user.dob){
+              data.dob = user.dob;
+           } else {
+            data.dob = ''
+           }
+           if(user.type){
+              data.type = user.type;
+           } else {
+            data.type = ''
+           }
+           data.address = user.address;
+           data.offer_count = user.offer_count;
+           data.image = user.profileImage;
+           data.orders = user.orders;
+           data.token = props.user.token;
+        updateProfile(data)
+        setOrderConfirmed(true);
+        setOrderErrors([result.message]);
+      } else {
+        if(result.errors){
+            let error_msg = [];
+            for(let error in result.errors){
+              console.log(result.errors[error][0]);
+                error_msg.push(result.errors[error][0])
+            }   
+            setOrderErrors(error_msg);
+          } else {
+            setOrderErrors(["Something went wrong please try after some time"]);
+          }
+
+      }
+      });
+
+  });
   function submitOrder(){
     let errors = [];
     if(payment == ''){
@@ -214,9 +308,25 @@ function updateUser(user){
       }
       });
   }
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+     document.body.appendChild(script);
+   });
+};
+
+
   useEffect(async () => { 
-    console.log(cartTotal);
-    console.log(props.cartTotal);
+    
+    loadScript("https://checkout.razorpay.com/v1/checkout.js");
+
     if(offerBook){
         let products = props.cartProducts;
         let cartTotl = cartTotal;
@@ -236,7 +346,7 @@ function updateUser(user){
                   setShipping(50); 
           }
     } else {
-      if(cartTotal < 750){
+      if(cartTotal.totalPrice < 750){
           setShipping(50);  
       }
       setCartTot(cartTotal)
@@ -312,6 +422,51 @@ function updateUser(user){
           }
       }
   });
+  }
+  function showRazorpay(){
+    let errors = [];
+    if(shippingAddress == ''){
+        errors.push("Select Shipping Address");
+    } 
+    if(showOfferRadio){
+      if(offerBook){
+
+      } else {
+        errors.push("Please select free book");
+      }
+    }
+    if(errors.length){
+        setOrderErrors(errors);
+        return false;
+    } else {
+      setOrderErrors(errors);
+    }
+    const pay = {
+      receipt:"Receipt No",
+      amount: cartTot.totalPrice + shipping,
+      currency: 'INR',
+    }
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pay)
+    };
+    fetch(apiBaseUrl + 'create_order',requestOptions)
+      .then(response => {
+        return response.json();
+      }).then(result => {
+        if(result.status){
+          console.log(result);
+          let data ={};
+          data.id =result.data.order; 
+          data.amount = cartTot.totalPrice + shipping; 
+          data.email = props.user.email; 
+          data.phone = props.user.phone; 
+          data.name = props.user.name; 
+          data.callback = paymentSuccess;
+          displayRazorpay(data);
+        } 
+      }); 
   }
   return (
     <div className="container">
@@ -471,8 +626,8 @@ function updateUser(user){
               </table>
             </div>
           </div>
-
-          <div className="shipping-container">
+          {isLoggedIn && (
+            <div className="shipping-container">
             <div className="review-list">
               <img
                 className="list-icon"
@@ -562,9 +717,12 @@ function updateUser(user){
             )}
             
           </Row>
+          
         </div>
             
           </div>
+            )}
+          
 
           <div className="amount-container">
             <div className="review-list">
@@ -619,6 +777,11 @@ function updateUser(user){
 
               <input type="radio" name="mode" id="online" value="online" onChange={(event) => setPayment(event.target.value)}></input>
               <label for="online">Online</label>
+            </div>
+            <div>
+                {(payment=='online') ?(<button  onClick={showRazorpay} class="btn btn-info">
+                  Pay Now
+                </button>):''}
             </div>
           </div>
 
