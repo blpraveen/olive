@@ -8,12 +8,8 @@ import book from "../images/book-read.png";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Featur from "../components/Featur";
 import { useState,useEffect ,useCallback} from "react";
-import pop1 from "../images/popular/pop1.jpg";
-import pop2 from "../images/popular/pop2.jpg";
-import pop3 from "../images/popular/pop3.jpg";
-import pop4 from "../images/popular/pop4.jpg";
-import pop6 from "../images/popular/pop6.jpg";
-import pop8 from "../images/popular/pop8.jpg";
+
+import placeholder from "../images/placeholder.png";
 import PopularList from "../components/PopularList";
 import UsePagination from "../components/Pagination";
 import Alert from "react-bootstrap/Alert";
@@ -39,90 +35,91 @@ const PreOrder = props => {
   const [total_items , settotalItems] = useState(0);
   const [books_count , setBookCount] = useState(0);
   const [openFilter, setOpenFilter] = useState(false);
+  const [diableLinks, setDiableLinks] = useState(true);
   const [categoryBook,setCategoryBook] = useState([
     {
-      image: pop1,
-      name: "My family",
-      author: "Mahadevi Varma  ",
-      cutPrice: "654",
-      price: "456",
+      image: placeholder,
+      name: "",
+      author: " ",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: pop2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: pop3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: pop4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "r",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: pop6,
-      name: "My family",
-      author: "Mahadevi Varma",
-      cutPrice: "654",
-      price: "456",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: pop8,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: pop6,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: pop6,
-      name: "My family",
-      author: "Mahadevi Varma",
-      cutPrice: "654",
-      price: "456",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: pop8,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: pop6,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: pop2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: pop3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
   ]);
   function addProduct (product){
@@ -186,7 +183,7 @@ const searchCategory = useCallback((search) => {
           } else {
             setCategoryBook([])
           }
-          
+          setDiableLinks(false);
         } 
       });
 });
@@ -230,6 +227,8 @@ const filterCategory = useCallback((filter) => {
           }
           
         } 
+
+        setDiableLinks(false);
       });
 
   });
@@ -265,6 +264,8 @@ const filterCategory = useCallback((filter) => {
           }
           
         } 
+
+          setDiableLinks(false);
       }); 
  }, [active_page]);
   return (
@@ -358,7 +359,7 @@ const filterCategory = useCallback((filter) => {
                 {categoryBook.map((data) => {
                   return (
                     <Col xs="6" sm="4" md="2">
-                      <div className="book__item">
+                      <div className="book__item" style={diableLinks ? { pointerEvents: 'none' } : {}} >
                         <Link
                           to={'/bookSingle/'+ data.id}
                           style={{

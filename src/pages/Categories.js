@@ -37,7 +37,7 @@ const Categories = props => {
   const [catgory_name , setCategoryName] = useState(false);
   const [active_page , setActivePage] = useState(1);
   const [total_items , settotalItems] = useState(0);
-  const [books_count , setBookCount] = useState(0);
+  const [category_count , setCategoryCount] = useState(0);
   const [openFilter, setOpenFilter] = useState(false);
   const [categories,setCategories] =useState([]);
   function addProduct (product){
@@ -82,6 +82,7 @@ const Categories = props => {
                   count: category.books_count,
                 })
             });
+            setCategoryCount(category_list.length);
             setCategories(category_list);
             
           }
@@ -119,7 +120,7 @@ const Categories = props => {
 
               <div className="categories__head__row ">
                 <h5>{catgory_name}</h5>
-                <p>{books_count} Books</p>
+                <p>{category_count} Categories Count</p>
               </div>
               {/* </div> */}
               {/* CART ALERTS */}

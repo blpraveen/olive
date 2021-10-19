@@ -2,13 +2,11 @@ import React, { useState,useEffect } from "react";
 
 import Featur from "../components/Featur";
 import "../style/css/orderConfirm.css";
-import best1 from "../images/author/best1.png";
-import best2 from "../images/author/best2.png";
-import best3 from "../images/author/best3.png";
-import best4 from "../images/author/best4.png";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
+
+import placeholder from "../images/placeholder.png";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 
 import { connect } from 'react-redux';
@@ -19,77 +17,147 @@ import { updateBookMark } from '../services/bookmark/actions';
 
 import { Link ,useParams} from "react-router-dom";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const OrderConfirm = props => {
 
   const { id } = useParams();
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [orderNumber, setOrderNumner] = useState(false);
+  const [bookMark, setBookMark] = useState({});
   const [userName, setUserName] = useState('');
   const [arrived, setArrived] = useState([
     {
-      image: best1,
-      name: "My family",
-      author: "Mahadevi Varma  ",
-      cutPrice: "654",
-      price: "456",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
     {
-      image: best2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
     {
-      image: best3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
     {
-      image: best4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
     {
-      image: best1,
-      name: "My family",
-      author: "Mahadevi Varma",
-      cutPrice: "654",
-      price: "456",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
     {
-      image: best2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
+    },
+    {
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
+    },
+    {
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
   ]);
-  function addBookMark(id) {
+  function addBookMark(data) {
     const { updateBookMark } = props;
-    /*let bookmarks = props.bookmarks;
-    if(bookMark){
+    let bookmarks = props.bookmarks;
+
+    if(bookMark[data.id]){
     bookmarks.forEach((cp,index) => {
-        if (cp === id) {
+        if (cp === data.id) {
           bookmarks.slice(index,1);
         }
       });
     } else {
       if(props.bookmarks){
-        bookmarks.push(id);
+        bookmarks.push(data.id);
       } else {
         bookmarks = [];
-        bookmarks.push(id);
+        bookmarks.push(data.id);
       }
     }
-    updateBookMark(bookmarks);*/
+    updateBookMark(bookmarks);
+    if(bookMark[data.id]){
+        bookMark[data.id] = ! bookMark[data.id];
+    } else {
+         bookMark[data.id] = true;
+    }
+    setBookMark(bookMark);
+   var title = data.name;
+    var url = window.location.href;
+    
+    if(window.sidebar && window.sidebar.addPanel){
+        /* Mozilla Firefox Bookmark - works with opening in a side panel only � */
+        window.sidebar.addPanel(title, url, "");
+        window.location.reload(false)
+    }else if(window.opera && window.print) {
+        /* Opera Hotlist */
+        
+        toast.info("Press Control + D to bookmark");
+        window.location.reload(false)
+        return true;
+    }else if(window.external){
+        /* IE Favorite */
+        try{
+            window.external.AddFavorite(url, title);
+            window.location.reload(false)
+        }catch(e){
+                       
+        toast.info("Press Control + D to bookmark");
+                        window.location.reload(false)
+                }            
+    }else{
+        /* Other */
+        
+        toast.info("Press Control + D to bookmark");
+        window.location.reload(false)
+    }
+    
   }
   useEffect(async () => { 
-    
+    let bookmarks = props.bookmarks;
+    if(bookMark){
+    bookmarks.forEach((cp,index) => {
+        bookMark[cp] = true;
+      });
+    }
+     setBookMark(bookMark);
+     console.log(bookMark);
     fetch(apiBaseUrl +  `get_order/${id}`)
       .then(response => {
         return response.json();
@@ -129,6 +197,7 @@ const OrderConfirm = props => {
  }, []);
   return (
     <div className="container">
+    <ToastContainer />
       <div className="body">
         <div className="container9 container">
           <div className="confirm-container">
@@ -169,10 +238,11 @@ const OrderConfirm = props => {
                         <p>{data.author}</p>
                       </div>
                       <div className="confirm__item__bookmark">
+                      {bookMark[data.id]}
                         <BookmarkBorderIcon
-                           onClick={() => addBookMark(data.id)}
-                          id="confirm__book__mark__icon"
-                          className={data.bookMark ? "bookMark" : "book__bookmark__icon"}
+                           onClick={() => addBookMark(data)}
+                          id="confirm__book__mark__icon "
+                          className={bookMark[data.id] ? "bookMark" : "book__bookmark__icon"}
                         />
                         <h5 >ADD TO BOOKMARK</h5>
                       </div>

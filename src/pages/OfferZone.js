@@ -8,10 +8,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import offer from "../images/offer.png";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Featur from "../components/Featur";
-import best1 from "../images/author/best1.png";
-import best2 from "../images/author/best2.png";
-import best3 from "../images/author/best3.png";
-import best4 from "../images/author/best4.png";
+
+import placeholder from "../images/placeholder.png";
 import PopularList from "../components/PopularList";
 import UsePagination from "../components/Pagination";
 import { useState,useEffect,useCallback } from "react";
@@ -42,90 +40,57 @@ const OfferZone = props => {
   const [openFilter, setOpenFilter] = useState(false);
   const [booksCount, setBooksCount] = useState(0);
   const [offerCount, setOfferCount] = useState(0);
+
+  const [diableLinks, setDiableLinks] = useState(true);
   const [books,setBooks] = useState([
     {
-      image: best1,
-      name: "My family",
-      author: "Mahadevi Varma  ",
-      cutPrice: "654",
-      price: "456",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best1,
-      name: "My family",
-      author: "Mahadevi Varma",
-      cutPrice: "654",
-      price: "456",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
-    },
-    {
-      image: best4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
-      price: "321",
-    },
-    {
-      image: best1,
-      name: "My family",
-      author: "Mahadevi Varma",
-      cutPrice: "654",
-      price: "456",
-    },
-    {
-      image: best2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
-    },
-    {
-      image: best3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
-    },
-    {
-      image: best4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
   ]);
   function addProduct (product){
@@ -183,7 +148,11 @@ const OfferZone = props => {
             setBooks([])
           }
           
-        } 
+        } else {
+           setBooks([])
+        }
+
+         setDiableLinks(false);
       }); 
  }, [active_page]);
   const searchCategory = useCallback((search) => {
@@ -222,7 +191,11 @@ const OfferZone = props => {
             setBooks([])
           }
           
-        } 
+        }  else {
+           setBooks([])
+        }
+
+         setDiableLinks(false);
       });
 });
 const filterCategory = useCallback((filter) => {
@@ -262,7 +235,11 @@ const filterCategory = useCallback((filter) => {
             setBooks([])
           }
           
-        } 
+        }  else {
+           setBooks([])
+        }
+
+         setDiableLinks(false);
       });
 
   });
@@ -369,7 +346,7 @@ const filterCategory = useCallback((filter) => {
               {books.map((data) => {
                 return (
                   <Col xs="6" sm="4" md="2">
-                    <div className="book__item">
+                    <div className="book__item" style={diableLinks ? { pointerEvents: 'none' } : {}}>
                       <Link
                          to={'/bookSingle/'+ data.id}
                         style={{

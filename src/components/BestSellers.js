@@ -1,15 +1,9 @@
 import "./../style/css/bestSellers.css";
 import "./../style/css/justArrived.css";
-import best1 from "../images/best/img1.jpg";
-import best2 from "../images/best/img2.jpg";
-import best3 from "../images/best/img3.jpg";
-import best4 from "../images/best/img4.jpg";
-import best5 from "../images/best/img5.jpg";
-import best6 from "../images/best/img6.jpg";
-import best7 from "../images/best/img7.jpg";
-import best8 from "../images/best/img8.jpg";
 import banner1 from "../images/best/banner1.png";
 import banner2 from "../images/best/banner2.png";
+
+import placeholder from "../images/placeholder.png";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useState ,useEffect} from "react";
@@ -64,35 +58,41 @@ const BestSellers = props => {
   };
   const [bestSeller, setbestSeller] = useState([
     {
-      image: best1,
-      name: "My family ",
-      author: "Mahadevi Varma",
-      cutPrice: "654",
-      price: "456",
+      image: placeholder,
+      name: " ",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
   ]);
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+  const [diableLinks, setDiableLinks] = useState(true);
+  const [imageOne, setImageOne] = useState(banner2);
+  const [imageTwo, setImageTwo] = useState(banner1);
+  const [bestOne, setBestOne] = useState(0);
+  const [bestTwo, setBestTwo] = useState(0);
   const [show, setShow] = useState(false);
   useEffect(async () => { 
     fetch(apiBaseUrl + 'best_sellers')
@@ -100,10 +100,18 @@ const BestSellers = props => {
         return response.json();
       }).then(result => {
         if(result.status){
+          if(result.image_1){
+            setImageOne(result.image_1);  
+          }
+          if(result.image_2){
+              setImageTwo(result.image_2);
+          }
+          
+          setBestOne(result.best_seller_1);
+          setBestTwo(result.best_seller_2);
           if(result.data.books.length){
             let bestSellerBook = [];
             result.data.books.map((book) => {
-                console.log(book);
                 bestSellerBook.push({
                   id:book.id,
                   image: book.featured_image_large,
@@ -117,40 +125,48 @@ const BestSellers = props => {
             setbestSeller(bestSellerBook);
             setbestSellerTwo(bestSellerBook);
             
+          } else {
+            setbestSeller([]);
+            setbestSellerTwo([]);
           }
-        } 
+        } else {
+          setbestSeller([]);
+          setbestSellerTwo([]);
+        }
+
+        setDiableLinks(false);
       }); 
- }, []);
+ },[]);
   
 
   const [bestSellerTwo, setbestSellerTwo] = useState([
     {
-      image: best5,
-      name: "Right Between the ears",
-      author: "Sandeep Dayal",
-      cutPrice: "567",
-      price: "565  ",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "  ",
     },
     {
-      image: best6,
-      name: "Vichhoda",
-      author: "Harinder Sinkka",
-      cutPrice: "876",
-      price: "654",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best7,
-      name: "The star of India",
-      author: "Dina R. Chambersr",
-      cutPrice: "888",
-      price: "654",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best8,
-      name: "The Delhi",
-      author: "Khusheanth Singh",
-      cutPrice: "743",
-      price: "789",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
   ]);
   return (
@@ -170,7 +186,18 @@ const BestSellers = props => {
         <Row>
           <Col>
             <div className="best__seller__banner">
-              <img className="col-12" src={banner2} />
+              {(bestOne)? (   <Link to={'/bookSingle/'+bestOne}
+                        style={{
+                          textDecoration: "none",
+                          color: "inherit",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <img className="col-12" src={imageOne} />
+                      </Link>) :
+              (<img className="col-12" src={imageOne} />)
+              }
             </div>
           </Col>
           <Col lg="8">
@@ -194,7 +221,7 @@ const BestSellers = props => {
                 itemClass="popular__ani"  >
                 {bestSeller.map((data) => {
                   return (
-                    <div className="best__item">
+                    <div className="best__item" style={diableLinks ? { pointerEvents: 'none' } : {}}>
                       <Link
                         to={'/bookSingle/'+ data.id}
                         style={{
@@ -242,7 +269,18 @@ const BestSellers = props => {
         <Row>
           <Col>
             <div className="best__seller__banner">
-              <img className="col-12" src={banner1} />
+               {(bestTwo)? (  <Link  to={'/bookSingle/'+bestTwo}
+                        style={{
+                          textDecoration: "none",
+                          color: "inherit",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <img className="col-12" src={imageTwo} />
+                      </Link>) :
+              (<img className="col-12" src={imageTwo} />)
+              }
             </div>
           </Col>
           <Col lg="8">
@@ -325,7 +363,7 @@ const BestSellers = props => {
               >
                 {bestSellerTwo.map((data) => {
                   return (
-                    <div className="best__item">
+                    <div className="best__item" style={diableLinks ? { pointerEvents: 'none' } : {}}>
                       <Link
                         to={'/bookSingle/'+ data.id}
                         style={{

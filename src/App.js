@@ -19,6 +19,15 @@ import AllOrder from './pages/AllOrder';
 import WebMagazine from './pages/WebMagazine';
 import OrderDownload from './pages/OrderDownload';
 import About from './pages/About';
+import Catalog from './pages/Catalog';
+import Publish from './pages/Publish';
+import Forgot from './pages/Forgot';
+import Refund from './pages/Refund';
+import Register from './pages/Register';
+import Cancellation from './pages/Cancellation';
+import Delivery from './pages/Delivery';
+import Tc from './pages/Tc';
+import Privacy from './pages/Privacy';
 import AddAddress from './pages/AddAddress';
 import Address from './pages/Adress';
 import Blog from './pages/Blog';
@@ -26,6 +35,7 @@ import BookTalks from './pages/BookTalks';
 import Confirm from './pages/Confirm';
 import EditAddress from './pages/EditAdress';
 import Login from './pages/Login';
+import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard'
 import OrderConfirm from './pages/OrderConfirm'
 import OfferZone from './pages/OfferZone';
@@ -67,7 +77,7 @@ function App() {
     <Route path='/dashboard'>
       <Dashboard/>
       </Route>
-    <Route path='/editAdress/:id'>
+    <Route path='/editAdress/:id/:show'>
       <EditAddress/>
       </Route>
     <Route path='/confirm'>
@@ -79,7 +89,7 @@ function App() {
     <Route path='/blog/:id'>
       <Blog/>
       </Route>
-    <Route path='/address'>
+    <Route path='/address/:show'>
       <Address/>
       </Route>
     <Route path='/addAddress'>
@@ -112,17 +122,54 @@ function App() {
     <Route path='/booksingle/:id' >
       <BookSingle/>
       </Route>
+      <Route path='/password/reset/:token' >
+      <ResetPassword/>
+      </Route>
+      
     <Route path='/category/:id'>
       <Category/>
       </Route>
       <Route path='/categories'>
       <Categories/>
       </Route>
+
+      <Route path='/catalog'>
+      <Catalog/>
+      </Route>
+
+      <Route path='/tc'>
+      <Tc/>
+      </Route> 
+      <Route path='/privacy'>
+      <Privacy/>
+      </Route>
+
+      <Route path='/delivery'>
+      <Delivery/>
+      </Route>
+
+      <Route path='/cancellation'>
+      <Cancellation/>
+      </Route>
+      <Route path='/refund'>
+      <Refund/>
+      </Route>
+      <Route path='/publish'>
+      <Publish/>
+      </Route>
+
+      <Route path='/register'>
+      <Register/>
+      </Route>
       <Route path='/search'>
       <SearchResult/>
       </Route>
     <Route path='/authors'>
       <Authors/>
+      </Route>
+
+    <Route path='/forgot'>
+      <Forgot/>
       </Route>
       <Route path='/web_magazine'>
       <WebMagazine/>

@@ -2,14 +2,16 @@ import React,{ useState,useEffect} from "react";
 import Featur from "../components/Featur";
 import UsePagination from "../components/Pagination";
 import "../style/css/blog.css";
-import ReactStars from "react-rating-stars-component";
 import Row from "react-bootstrap/Row";
+
+import StarIcon from "@material-ui/icons/Star";
+import placeholder from "../images/placeholder.png";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import { Link ,useParams} from "react-router-dom";
 import parse from "html-react-parser";
 const Blog = props => {
-  const [bookTalk, setbookTalk] = useState({});
+  const [bookTalk, setbookTalk] = useState({image:placeholder});
   const [isReadMore, setIsReadMore] = useState(true);
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
@@ -38,6 +40,7 @@ const Blog = props => {
                   book_talk_description:book_data.book_talk_description,
                   book_type:book_data.book_type,
                   book_all_images:book_data.all_images,
+                  star:book_data.rate,
                 };
             
             setbookTalk(selectedBook);
@@ -105,7 +108,17 @@ const Blog = props => {
                       </Link>
                       <div className="rating">
                         <div style={{ display: "flex", alignItems: "center" }}>
-                          
+                          {bookTalk.star ? (
+                            [...Array(bookTalk.star)].map((item, index) => ( 
+                              <StarIcon id="book__star" />
+                              ) 
+                          )):''}
+                            {(5-bookTalk.star) ? (
+                                  [...Array(5-bookTalk.star)].map((item, index) => ( 
+                              <StarIcon id="book__star_grey" />
+                              ) 
+                          )
+                              ) : ''}
 
                           <h6> (274)</h6>
                         </div>

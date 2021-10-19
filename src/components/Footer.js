@@ -37,42 +37,74 @@ const Footer = props => {
     <ToastContainer />
       <div className="footer__row container">
         <Row>
-          <Col md>
+          <Col md="3">
             <Row>
               <Col xs="6">
                 <div className="footer__div">
                   <h6>About</h6>
                   <Link
+                    to="/"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <p>Home</p>
+                  </Link>
+                  <Link
                     to="/about"
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
-                    <p>Company</p>
+                  <p>About</p>
                   </Link>
-
-                  <p>Site Map</p>
-                  <p>Our Team</p>
-                  <p>Our Mission</p>
-                </div>
-              </Col>
-              <Col xs="6">
-                <div className="footer__div">
-                  <h6>Help</h6>
-                  <p>Help Center</p>
-                  <p>Returns</p>
-                  <p>Accessibilty</p>
-                  <p>Product Recalls</p>
+                    <Link
+                    to="/publish"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                  <p>Publish my book</p>
+                   </Link>
+                  <Link
+                    to="/catalog"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                  <p>Catalog</p>
+                   </Link>
                 </div>
               </Col>
             </Row>
           </Col>
-          <Col md>
+          <Col md="6">
             <Row>
               <Col xs="6">
                 <div className="footer__div">
                   <h6>Policy</h6>
+                   <Link
+                    to="/tc"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
                   <p>Terms of use</p>
+                  </Link>
+                   <Link
+                    to="/privacy"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
                   <p>Privacy</p>
-                  <p>Security</p>
+                   </Link>
+                   <Link
+                    to="/delivery"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                  <p>Delivery</p>
+                    </Link>
+                     <Link
+                    to="/cancellation"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                  <p>Cancellation</p>
+                   </Link>
+                    <Link
+                    to="/refund"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                  <p>Refund</p>
+                   </Link>
                 </div>
               </Col>
               <Col xs="6">

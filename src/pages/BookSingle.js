@@ -15,6 +15,8 @@ import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import { useState,useEffect} from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import ReactStars from "react-rating-stars-component";
+
+import placeholder from "../images/placeholder.png";
 import best1 from "../images/author/best1.png";
 import best2 from "../images/author/best2.png";
 import best3 from "../images/author/best3.png";
@@ -87,6 +89,10 @@ const BookSingle = props => {
   ]);
   const { id } = useParams();
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const [isLoggedIn, seIsLoggedIn] = useState(false);
+
+  const [diableLinks, setDiableLinks] = useState(true);
+  const [diableRelatedLinks, setDiableRelatedLinks] = useState(true);
   const [quantity,setQuantity] = useState(1)
   const [bookMark, setBookMark] = useState(false);
   const [details, setDetails] = useState(true);
@@ -118,7 +124,7 @@ const BookSingle = props => {
       cartProducts.push(product);
     }
     updateCart(cartProducts);
-    
+    toast.info(product.name + " added to cart !");
   };
   function addBookMark(id) {
     const { updateBookMark } = props;
@@ -147,18 +153,21 @@ const BookSingle = props => {
         window.sidebar.addPanel(title, url, "");
     }else if(window.opera && window.print) {
         /* Opera Hotlist */
-        alert("Press Control + D to bookmark");
+        toast.info("Press Control + D to bookmark");
+        alert("");
         return true;
     }else if(window.external){
         /* IE Favorite */
         try{
             window.external.AddFavorite(url, title);
         }catch(e){
-                        alert("Press Control + D to bookmark");
+                        
+        toast.info("Press Control + D to bookmark");
                 }            
     }else{
         /* Other */
-        alert("Press Control + D to bookmark");
+        
+        toast.info("Press Control + D to bookmark");
     }
     
   }
@@ -169,6 +178,9 @@ const BookSingle = props => {
     setShowReviewModal(true);
   }
   useEffect(async () => { 
+     if(props.user  &&  props.user.token){
+           seIsLoggedIn(true);
+     }
     if(props.bookmarks.includes(parseInt(id))){
        setBookMark(true);
     }
@@ -196,6 +208,7 @@ const BookSingle = props => {
                 };
             
             setBook(selectedBook);
+            setDiableLinks(false);
             
           }
         } 
@@ -218,54 +231,56 @@ const BookSingle = props => {
                 })
             });
             setRelated(relatedBook);
+
+            setDiableRelatedLinks(false);
             
           }
         } 
       }); 
       setReviewRate(0);
- }, []);
+ }, [props.user]);
   const [related,setRelated] = useState([
     {
-      image: best1,
-      name: "My family",
-      author: "Mahadevi Varma  ",
-      cutPrice: "654",
-      price: "456",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+    },    
+    {
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+    },    
+    {
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",  
     },
     {
-      image: best3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
-      price: "321",
-    },
-    {
-      image: best1,
-      name: "My family",
-      author: "Mahadevi Varma",
-      cutPrice: "654",
-      price: "456",
-    },
-    {
-      image: best2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
   ]);
   function submitReview(event){
@@ -371,7 +386,7 @@ const BookSingle = props => {
                   <span style={{ paddingLeft: "5px" }}>Paperback</span>
                 </p>
               </div>
-              <div className="book__description__text">
+              <div className="book__description__text" style={diableLinks ? { pointerEvents: 'none' } : {}}>
               <p>
                       {isReadMore ? book.description.slice(0, 550) : book.description}
                       <span
@@ -405,7 +420,7 @@ const BookSingle = props => {
                   PREORDER
                 </Button>
                   ): (
-                  <Button onClick={() => addProduct(book)} type="button" id="book__add__button">
+                  <Button onClick={() => addProduct(book)} type="button" id="book__add__button" style={diableLinks ? { pointerEvents: 'none' } : {}}>
                   Add to cart
                 </Button>
                   )}
@@ -413,7 +428,7 @@ const BookSingle = props => {
                 
               </div>
 
-              <div className="book__share__row">
+              <div className="book__share__row" style={diableLinks ? { pointerEvents: 'none' } : {}}>
                 <div
                   className="book__book__mark"
                   onClick={() => addBookMark(book.id)}
@@ -612,8 +627,8 @@ const BookSingle = props => {
                               </div>
                             </div>
                           </div>
-
-                          <button id="review__button" onClick={()=> shReviewModal()}>Write a Review</button>
+                          {(isLoggedIn)? (<button style={diableLinks ? { pointerEvents: 'none' } : {}} id="review__button" onClick={()=> shReviewModal()}>Write a Review</button>): (<button id="review__button">Login to write Review</button>)}
+                          
                         </div>
                       </Col>
                       <Col id="progress__col">
@@ -688,13 +703,18 @@ const BookSingle = props => {
                               <div className="review__content__head">
                                 <h6>{data.subject}</h6>
                                 <div className="review__stars__div">
-                                  <ReactStars
-                                    id="review__stars"
-                                    count={5}
-                                    value={data.stars}
-                                    size={24}
-                                    activeColor="#ffd700"
-                                  />
+                                 {((data.rate) ? (
+                                [...Array(data.rate)].map((item, index) => ( 
+                                    <StarIcon id="book__star" />
+                                    ) 
+                                )
+                              ): '')}
+                              {((5-data.rate) ? (
+                              [...Array(5-data.rate)].map((item, index) => ( 
+                                    <StarIcon id="book__star_grey" />
+                                    ) 
+                                )
+                                ):'')}
                                 </div>
                               </div>
                               <div className="review__text">
@@ -771,7 +791,7 @@ const BookSingle = props => {
             {related.map((data) => {
               return (
                 <Col xs="6" sm="4" md="2">
-                  <div className="book__item">
+                  <div className="book__item" style={diableRelatedLinks ? { pointerEvents: 'none' } : {}}>
                     <Link
                       to={'/bookSingle/'+ data.id}
                       style={{
@@ -802,7 +822,7 @@ const BookSingle = props => {
 
                       <AddShoppingCartIcon
                         type="button"
-                        onClick={() => setShow(true)}
+                        onClick={() => addProduct(data)}
                         id="book__item___cart__icon"
                       />
                     </div>

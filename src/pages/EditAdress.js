@@ -14,7 +14,7 @@ const EditAddress = props => {
   const [isLoggedIn, seIsLoggedIn] = useState(false);
   const [succesRedirect, setSuccesRedirect] = useState(false);
   
-  const { id } = useParams();
+  const { id,show } = useParams();
   const [address_errors, setAddessErrors] = useState([]);
   function updateUser(user){
   const { updateProfile  } = props;
@@ -32,6 +32,7 @@ const EditAddress = props => {
                   setPin(data.pincode);
                   setState(data.state);
                   setDistrict(data.district);
+                  setCountry(data.country);
                   setTown(data.city);
                   setAddressLine(data.street_addres2);
                   setAddress(data.street_addres1);
@@ -47,7 +48,6 @@ const EditAddress = props => {
   },[ props.user])
   function saveAddress(){
 
-  console.log(address_line);
   const data = {
           name: name,
             house_no: house,
@@ -102,15 +102,23 @@ const EditAddress = props => {
            data.token = props.user.token;
           updateUser(data);
           setSuccesRedirect(true);
+          console.log(show);
         } else {
+          let error_msg = [];
           if(result.errors){
-            let error_msg = [];
+            
             for(let error in result.errors){
               console.log(result.errors[error][0]);
                 error_msg.push(result.errors[error][0])
             }   
-            setAddessErrors(error_msg);
+
           }
+          if(result.error){
+              for(let err in result.error){
+                  error_msg.push(result.error[err])
+              }
+             }
+            setAddessErrors(error_msg);
         }
       });
 }
@@ -131,7 +139,8 @@ const EditAddress = props => {
   return (
     <div className="container">
          {isLoggedIn && ( <Redirect to='/' />)}
-         {succesRedirect && ( <Redirect to='/addAddress' />)}
+         {succesRedirect && !show  && ( <Redirect to='/addAddress' />)}
+         {succesRedirect && show  && ( <Redirect to='/confirm' />)}
       <div className="body">
         <div className="container7">
           <div className="title-container7">
@@ -157,7 +166,7 @@ const EditAddress = props => {
               <div className="row">
               <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
               <div className="input-container">
-                  <p className="label">Full Name</p>
+                  <p className="label">Full Name <span style={{color:'red'}}>*</span></p>
                   <input
                     className="in"
                     type="text"
@@ -241,7 +250,7 @@ const EditAddress = props => {
                 </div>
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
                   <div className="input-container">
-                    <p className="label">Pin code</p>
+                    <p className="label">Pin code <span style={{color:'red'}}>*</span></p>
                     <input
                       className="in"
                       type="text"
@@ -253,7 +262,7 @@ const EditAddress = props => {
                 </div>
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
                   <div className="input-container">
-                    <p className="label">Phone</p>
+                    <p className="label">Phone <span style={{color:'red'}}>*</span></p>
                     <input
                       className="in"
                       type="text"
@@ -265,7 +274,7 @@ const EditAddress = props => {
                 </div>
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
                   <div className="input-container">
-                    <p className="label">Email</p>
+                    <p className="label">Email <span style={{color:'red'}}>*</span></p>
                     <input
                       className="in"
                       type="email"
@@ -277,7 +286,7 @@ const EditAddress = props => {
                 </div>
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
                   <div className="input-container">
-                    <p className="label">Country</p>
+                    <p className="label">Country <span style={{color:'red'}}>*</span></p>
                      <input
                       className="in"
                       type="text"
@@ -290,8 +299,8 @@ const EditAddress = props => {
                 </div>
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
                   <div className="input-container">
-                    <p className="label">Shipping/Billing</p>
-                    <select className="in" name="type" value={type} onChange={(event) => setType(event.target.value)}>
+                    <p className="label">Shipping/Billing <span style={{color:'red'}}>*</span></p>
+                    <select className="in" name="type" value={type} onChange={(event) => setType(event.target.value)} required>
                       <option value="">Select Address Type</option>
                       <option value="Shipping" >Shipping Address</option>
                       <option value="Billing" >Billing Address</option>

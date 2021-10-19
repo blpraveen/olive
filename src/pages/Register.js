@@ -5,15 +5,17 @@ import { connect } from 'react-redux';
 import { loadCart, removeProduct, changeProductQuantity } from '../services/cart/actions';
 import { updateCart } from '../services/total/actions';
 import { loginInit ,logout,loadUser} from '../services/user/actions';
-import { Link, NavLink } from "react-router-dom";
 import { UncontrolledAlert } from 'reactstrap';
-const Login = props => {
+import { Link, NavLink } from "react-router-dom";
+const Register = props => {
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 const [email, setEmail] = useState("");
+const [name, setName] = useState("");
 const [password, setPassword] = useState("");
 const [login_errors, setLoginErrors] = useState([]);
 const [showSuccess, setShowSuccess] = useState(false);
 const [isLoggedIn, setIsLoggedIn] = useState(false);
+const [isRegsitered, setIsRegsitered] = useState(false);
 function addLogin(user){
   const { loginInit  } = props;
   loginInit(user);
@@ -23,9 +25,10 @@ function addLogin(user){
 
     setIsLoggedIn(true);
   }
-},[])
-function LoginUser(){
+})
+function RegisterUser(){
   const data = {
+          name: name,
           email: email,
           password: password,
       };
@@ -35,50 +38,22 @@ function LoginUser(){
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     };
-      fetch(apiBaseUrl + 'login', requestOptions)
+      fetch(apiBaseUrl + 'register', requestOptions)
     .then(response => {
       return response.json();
     }).then(result => {
         if(result.status){
-          let user = result.data;
-          let data = {};
-           data.name= user.name;
-           if(user.gender){
-              data.gender = user.gender;
-           } else {
-            data.gender = ''
-           }
-           data.email = user.email
-           if(user.dob){
-              data.dob = user.dob;
-           } else {
-            data.dob = ''
-           }
-           if(user.type){
-              data.type = user.type;
-             } else {
-              data.type = ''
-             }
-             data.address = user.address;
-             data.offer_count = user.offer_count;
-             data.image = user.profileImage;
-           data.orders = user.orders;
-          data.token= result.token;
-          addLogin(data);
-          setIsLoggedIn(true);
+          setIsRegsitered(true);
         } else {
           if(result.errors){
             let error_msg = [];
             for(let error in result.errors){
+              console.log(result.errors[error][0]);
                 error_msg.push(result.errors[error][0])
             }   
             setLoginErrors(error_msg);
-            return ;
           }
-          setLoginErrors("Failed to Login.Invalid Credentials Try Again!.");
       }
-  },err => {
-        setLoginErrors("Failed to Login.Invalid Credentials Try Again!.");
   });
 }
 	 return (
@@ -86,12 +61,13 @@ function LoginUser(){
 
     <div className="container">
            {isLoggedIn && ( <Redirect to='/' />)}
+           {isRegsitered && ( <Redirect to='/login' />)}
       <div className="body">
         <div className="container7">
           <div className="title-container7">
             <div className="row">
               <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <p className="address-title">Login</p>
+                <p className="address-title">Register</p>
               </div>
             </div>
           </div>
@@ -108,6 +84,27 @@ function LoginUser(){
            <UncontrolledAlert color="success">
                 Success!
               </UncontrolledAlert>)}
+          <div className="form-container7">
+            <div className="details">
+              <div className="row">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                  
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                  <div className="input-container">
+                    <p className="label">Name</p>
+                    <input
+                      className="in"
+                      type="text"
+                      name="name"
+                      value={name}
+                      onChange={(event) => setName(event.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
           <div className="form-container7">
             <div className="details">
               <div className="row">
@@ -156,21 +153,15 @@ function LoginUser(){
             <div className="row">
               <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
               <Link
-                    to="/register"
+                    to="/login"
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
-                <button className="cancel-btn">Register</button>
+                <button className="cancel-btn">Sign In</button>
                 </Link>
               </div>
               <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                <button className="save-btn"  onClick={() => LoginUser()}>Login</button>
+                <button className="save-btn"  onClick={() => RegisterUser()}>Register</button>
               </div>
-              <Link
-                    to="/forgot"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                  Forgot Password?
-                  </Link>
             </div>
           </div>
         </div>
@@ -192,4 +183,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { loadCart, updateCart, removeProduct, changeProductQuantity,loginInit,logout,loadUser }
-)(Login);
+)(Register);

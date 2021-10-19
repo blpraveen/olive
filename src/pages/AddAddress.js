@@ -1,6 +1,7 @@
 import React, { useState ,useEffect} from "react";
 
-import  { Redirect } from 'react-router-dom';
+import { } from "react-router-dom";
+import  { Redirect,useParams } from 'react-router-dom';
 import Featur from "../components/Featur";
 import "../style/css/addAdress.css";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
@@ -14,6 +15,8 @@ import { updateCart } from '../services/total/actions';
 import { updateProfile ,logout,loadUser} from '../services/user/actions';
 const AddAddress = props => {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+  const { show } = useParams();
   const [isLoggedIn, seIsLoggedIn] = useState(false);
   const [address,setAddress] =useState([]);
   const [address_errors,setAddressErrors] =useState([]);
@@ -77,6 +80,7 @@ const AddAddress = props => {
               console.log(result.errors[error][0]);
                 error_msg.push(result.errors[error][0])
             }   
+             
             setAddressErrors(error_msg);
           }
         }
@@ -119,7 +123,7 @@ const AddAddress = props => {
                   </div>
                   <div className="icon-container">
                     <Link
-                      to={'/editAdress/'+ data.id}
+                      to={'/editAdress/'+ data.id+'/0'}
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
                       <img
@@ -160,7 +164,7 @@ const AddAddress = props => {
                 }}
               >
                 <Link
-                      to="/editAdress/0"
+                      to="/editAdress/0/0"
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
                   <img

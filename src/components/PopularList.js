@@ -3,15 +3,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 
-import review from "../images/popular/review.png";
-import pop1 from "../images/popular/pop1.jpg";
-import pop2 from "../images/popular/pop2.jpg";
-import pop3 from "../images/popular/pop3.jpg";
-import pop4 from "../images/popular/pop4.jpg";
-import pop5 from "../images/popular/pop5.jpg";
-import pop6 from "../images/popular/pop6.jpg";
-import pop7 from "../images/popular/pop7.jpg";
-import pop8 from "../images/popular/pop8.jpg";
+import placeholder from "../images/placeholder.png";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -37,63 +29,65 @@ const responsive = {
 
 function PopularList() {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+  const [diableLinks, setDiableLinks] = useState(true);
   const [popularCategory,setPopularCategory] = useState([
     {
-      category: "Self ",
-      image: review,
+      category: "",
+      image: placeholder,
     },
     {
-      category: "Westerns",
-      image: pop1,
+      category: "",
+      image: placeholder,
     },
     {
-      category: "Thriller",
-      image: pop2,
+      category: "",
+      image: placeholder,
     },
     {
-      category: "Mystery",
-      image: pop3,
+      category: "",
+      image: placeholder,
     },
     {
-      category: "Fiction",
-      image: pop4,
+      category: "",
+      image: placeholder,
     },
     {
-      category: "Mystery",
-      image: pop5,
+      category: "",
+      image: placeholder,
     },
     {
-      category: "Self Help",
-      image: pop6,
+      category: "",
+      image: placeholder,
     },
     {
-      category: "Westerns",
-      image: pop7,
+      category: "",
+      image: placeholder,
     },
     {
-      category: "Thriller",
-      image: pop8,
+      category: "",
+      image: placeholder,
     },
     {
-      category: "Mystery",
-      image: pop2,
+      category: "",
+      image: placeholder,
     },
     {
-      category: "Fiction",
-      image: pop1,
+      category: "",
+      image: placeholder,
     },
     {
-      category: "Mystery",
-      image: pop5,
+      category: "",
+      image: placeholder,
     },
    
     {
-      category: "Fiction",
-      image:  pop6,
+      category: "",
+      image:  placeholder,
     },
     {
-      category: "Mystery",
-      image:pop3,
+      category: "",
+      image:placeholder,
     },
   ]);
   useEffect(async () => { 
@@ -114,8 +108,13 @@ function PopularList() {
             });
             setPopularCategory(popularCategory);
             
+          } else {
+            setPopularCategory([]);
           }
+        } else {
+          setPopularCategory([]);
         } 
+        setDiableLinks(false);
       }); 
  }, []);
   return (
@@ -126,7 +125,7 @@ function PopularList() {
               <h6>Popular categories</h6>
             </div>
           </Col>
-          <Col lg="11">
+          <Col lg="11"  style={diableLinks ? { pointerEvents: 'none' } : {}}>
             <Carousel
               swipeable={false}
               draggable={false}

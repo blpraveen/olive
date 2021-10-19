@@ -5,15 +5,22 @@ import { connect } from 'react-redux';
 import { loadCart, removeProduct, changeProductQuantity } from '../services/cart/actions';
 import { updateCart } from '../services/total/actions';
 import { loginInit ,logout,loadUser} from '../services/user/actions';
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink,useParams } from "react-router-dom";
 import { UncontrolledAlert } from 'reactstrap';
-const Login = props => {
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const ResetPassword = props => {
+  const { token } = useParams();
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
 const [login_errors, setLoginErrors] = useState([]);
 const [showSuccess, setShowSuccess] = useState(false);
+const [showForm, setShowForm] = useState(false);
 const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+
+const [isSent, setIsSent] = useState(false);
 function addLogin(user){
   const { loginInit  } = props;
   loginInit(user);
@@ -22,12 +29,9 @@ function addLogin(user){
   if(props.user  &&  props.user.token){
 
     setIsLoggedIn(true);
-  }
-},[])
-function LoginUser(){
-  const data = {
-          email: email,
-          password: password,
+  } else {
+    const data = {
+          token: token,
       };
 
       const requestOptions = {
@@ -35,63 +39,69 @@ function LoginUser(){
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     };
-      fetch(apiBaseUrl + 'login', requestOptions)
+      fetch(apiBaseUrl + 'check_token', requestOptions)
     .then(response => {
       return response.json();
     }).then(result => {
         if(result.status){
-          let user = result.data;
-          let data = {};
-           data.name= user.name;
-           if(user.gender){
-              data.gender = user.gender;
-           } else {
-            data.gender = ''
-           }
-           data.email = user.email
-           if(user.dob){
-              data.dob = user.dob;
-           } else {
-            data.dob = ''
-           }
-           if(user.type){
-              data.type = user.type;
-             } else {
-              data.type = ''
-             }
-             data.address = user.address;
-             data.offer_count = user.offer_count;
-             data.image = user.profileImage;
-           data.orders = user.orders;
-          data.token= result.token;
-          addLogin(data);
-          setIsLoggedIn(true);
+              setEmail(result.data.email);
+              setShowForm(true);
+          } else {
+          if(result.errors){
+            let error_msg = [];
+            for(let error in result.errors){
+              console.log(result.errors[error][0]);
+                error_msg.push(result.errors[error][0])
+            }   
+            setLoginErrors(error_msg);
+          }
+      }
+  });
+  }
+},[])
+function ResetPassword(){
+  const data = {
+          email: email,
+          password:password
+      };
+
+      const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    };
+      fetch(apiBaseUrl + 'reset', requestOptions)
+    .then(response => {
+      return response.json();
+    }).then(result => {
+        if(result.status){
+          setTimeout(function(){setIsSent(true); }, 3000);
+           toast.info("Password reset successfully !");
         } else {
           if(result.errors){
             let error_msg = [];
             for(let error in result.errors){
+              console.log(result.errors[error][0]);
                 error_msg.push(result.errors[error][0])
             }   
             setLoginErrors(error_msg);
-            return ;
           }
-          setLoginErrors("Failed to Login.Invalid Credentials Try Again!.");
       }
-  },err => {
-        setLoginErrors("Failed to Login.Invalid Credentials Try Again!.");
   });
 }
 	 return (
 
 
     <div className="container">
+    <ToastContainer />
            {isLoggedIn && ( <Redirect to='/' />)}
+            {isSent && ( <Redirect to='/login' />)}
       <div className="body">
         <div className="container7">
           <div className="title-container7">
             <div className="row">
               <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <p className="address-title">Login</p>
+                <p className="address-title">Reset Password</p>
               </div>
             </div>
           </div>
@@ -108,28 +118,9 @@ function LoginUser(){
            <UncontrolledAlert color="success">
                 Success!
               </UncontrolledAlert>)}
-          <div className="form-container7">
-            <div className="details">
-              <div className="row">
-                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                  
-                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                  <div className="input-container">
-                    <p className="label">Email</p>
-                    <input
-                      className="in"
-                      type="email"
-                      name="email"
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-          <div className="form-container7">
+          {showForm && (
+
+            <div className="form-container7">
             <div className="details">
               <div className="row">
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
@@ -149,30 +140,18 @@ function LoginUser(){
               </div>
             </div>
           </div>
-          </div>
+          </div>)}
           <hr className="underline2" />
 
-          <div className="btn-container">
+          {showForm && ( <div className="btn-container">
             <div className="row">
+              
               <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-              <Link
-                    to="/register"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                <button className="cancel-btn">Register</button>
-                </Link>
+                <button className="save-btn"  onClick={() => ResetPassword()}>Reset Password</button>
               </div>
-              <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                <button className="save-btn"  onClick={() => LoginUser()}>Login</button>
-              </div>
-              <Link
-                    to="/forgot"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                  Forgot Password?
-                  </Link>
+              
             </div>
-          </div>
+          </div>)}
         </div>
       </div>
     </div>
@@ -192,4 +171,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { loadCart, updateCart, removeProduct, changeProductQuantity,loginInit,logout,loadUser }
-)(Login);
+)(ResetPassword);

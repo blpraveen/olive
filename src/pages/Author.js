@@ -7,6 +7,8 @@ import best1 from "../images/author/best1.png";
 import best2 from "../images/author/best2.png";
 import best3 from "../images/author/best3.png";
 import best4 from "../images/author/best4.png";
+
+import placeholder from "../images/placeholder.png";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Featur from "../components/Featur";
 import { useState,useEffect } from "react";
@@ -16,11 +18,48 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Link ,useParams} from "react-router-dom";
 import InfoIcon from "@material-ui/icons/Info";
 import parse from "html-react-parser";
-function Author() {
+
+import { connect } from 'react-redux';
+import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../services/cart/actions';
+import { updateCart } from '../services/total/actions';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const Author = props => {
   const { id } = useParams();
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [show, setShow] = useState(false);
-  const [author,setAuthor] = useState({image:best1,author:'',name:'',dob:'',description:'',language:'',gener:'',books:[],first_book:{title:''},notable_works:{title:''},last_work:{title:''}});
+
+  const [diableLinks, setDiableLinks] = useState(true);
+  const [author,setAuthor] = useState({image:placeholder,author:'',name:'',dob:'',description:'',language:'',gener:'',books:[],first_book:{title:''},notable_works:{title:''},last_work:{title:''}});
+   function addProduct (product){
+    const { cartProducts, updateCart } = props;
+    let productAlreadyInCart = false;
+        let book =        {
+                  id:product.id,
+                  image: product.featured_image_large,
+                  name: product.title,
+                  author: product.author_name,
+                  cutPrice:product.offer_price,
+                  price:product.sale_price,
+                  offer_zone:product.offer_zone,
+                };
+    cartProducts.forEach(cp => {
+      if (cp.id === book.id) {
+        cp.quantity += 1;
+        productAlreadyInCart = true;
+      }
+    });
+
+    if (!productAlreadyInCart) {
+      book.quantity = 1;
+      cartProducts.push(book);
+    }
+    updateCart(cartProducts);
+    toast.info(book.name + " added to cart !");
+    
+  };
   useEffect(async () => { 
     fetch(apiBaseUrl + `author/${id}`)
       .then(response => {
@@ -54,7 +93,11 @@ function Author() {
             setAuthor({image:best1,author:'',name:'',dob:'',description:'',language:'',gener:'',books:[],first_book:{title:''},notable_works:{title:''},last_work:{title:''}})
           }
           
+        } else {
+
         } 
+
+         setDiableLinks(false);
       }); 
  }, []);
   return (
@@ -173,7 +216,7 @@ function Author() {
                 {author.books.map((data) => {
                   return (
                     <Col xs="6" sm="4" md="3">
-                      <div className="book__item">
+                      <div className="book__item"  style={diableLinks ? { pointerEvents: 'none' } : {}}>
                         <Link
                           to={'/bookSingle/'+ data.id}
                           style={{
@@ -204,7 +247,7 @@ function Author() {
 
                           <AddShoppingCartIcon
                             type="button"
-                            onClick={() => setShow(true)}
+                            onClick={() => addProduct(data)}
                             id="book__item___cart__icon"
                           />
                         </div>
@@ -222,4 +265,15 @@ function Author() {
   );
 }
 
-export default Author;
+const mapStateToProps = state => ({
+  cartProducts: state.cart.products,
+  newProduct: state.cart.productToAdd,
+  productToRemove: state.cart.productToRemove,
+  productToChange: state.cart.productToChange,
+  cartTotal: state.total.data
+});
+
+export default connect(
+  mapStateToProps,
+  { loadCart, updateCart, removeProduct, changeProductQuantity }
+)(Author);

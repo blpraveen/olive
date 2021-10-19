@@ -21,6 +21,7 @@ import discover1 from "../images/discover1.png";
 import discover2 from "../images/discover2.png";
 import discover3 from "../images/discover3.png";
 import discover4 from "../images/discover4.png";
+import placeholder from "../images/placeholder.png";
 import parse from "html-react-parser";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Featur from "../components/Featur";
@@ -30,9 +31,11 @@ function Home() {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [authorOfTheMonth, setAuthorOfMonth] = useState({});
   const [bookOfTheMonth, setBookOfMonth] = useState({});
+  const [bannerSlider, setBannerSlider] = useState('');
   const [isReadMoreAuthor, setIsReadMoreAuthor] = useState(true);
   const [isReadMoreBook, setIsReadMoreBook] = useState(true);
   const [bookTalks, setbookTalks] = useState([]);
+  const [bannerUrl, setBannerUrl] = useState('');
   const [discoverBooks, setDiscoverBooks] = useState([]);
   const toggleReadMoreAuthor = () => {
     setIsReadMoreAuthor(!isReadMoreAuthor);
@@ -63,6 +66,8 @@ function Home() {
         return response.json();
       }).then(result => {
         if(result.status){
+          setBannerSlider(result.banner_img);
+          setBannerUrl(result.banner_url);
           if(result.data.sliders.length){
             let sliders = [];
             result.data.sliders.map((slider) => {
@@ -177,7 +182,17 @@ function Home() {
 
           <Col sm="12" md="12" lg="3">
             <div>
-              <img className="col-12" src={school} id="home__banner__right" />
+              {(bannerUrl) ? (
+              (bannerSlider) ? (<a
+                    href={bannerUrl}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  ><img className="col-12" src={bannerSlider} id="home__banner__right" /></a>) :(<a
+                    href={bannerUrl}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  ><img className="col-12" src={school} id="home__banner__right" /></a>)
+              ) : ((bannerSlider) ? (<img className="col-12" src={bannerSlider} id="home__banner__right" />) :(<img className="col-12" src={school} id="home__banner__right" />)
+              )}
+              
             </div>
           </Col>
         </Row>
@@ -214,7 +229,10 @@ function Home() {
                         </div>
 
                         <span>
-                          <ArrowForwardIcon id="magazine__arrow" />
+                          <Link
+                    to={'/web_magazine/'}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  ><ArrowForwardIcon id="magazine__arrow" /></Link>
                         </span>
                       </div>
                     </Col>

@@ -1,13 +1,8 @@
 import { useState , useEffect } from "react";
 import "./../style/css/malayalam.css";
 import "./../style/css/justArrived.css";
-import malayalam1 from "../images/malayalam/mal1.jpg";
-import malayalam2 from "../images/malayalam/mal2.jpg";
-import malayalam3 from "../images/malayalam/mal3.jpg";
-import malayalam4 from "../images/malayalam/mal4.jpg";
-import malayalam5 from "../images/malayalam/mal5.jpg";
-import malayalam6 from "../images/malayalam/mal6.jpeg";
-import malayalam7 from "../images/malayalam/mal7.jpg";
+
+import placeholder from "../images/placeholder.png";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
@@ -66,55 +61,57 @@ const Malayalam = props => {
   };
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [show, setShow] = useState(false);
+
+  const [diableLinks, setDiableLinks] = useState(true);
   const [arrived, setArrived] = useState([
     {
-      image: malayalam1,
-      name: "കളക്ടർ ബ്രോ",
-      author: "പ്രശാന്ത് നായർ",
-      cutPrice: "666",
-      price: "334",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: malayalam2,
-      name: "ഒറിജിൻ",
-      author: "ഡാൻ ബ്രൗൺ",
-      cutPrice: "654",
-      price: "678",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: malayalam3,
-      name: "പച്ച മഞ്ഞ ചുവപ്പ്",
-      author: "ഡി രാമകൃഷ്ണൻ",
-      cutPrice: "332",
-      price: "113",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: malayalam4,
-      name: "ബാൽക്കൻ ഡയറി",
-      author: "ബെജു എൻ നായർ",
-      cutPrice: "884",
-      price: "756",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: malayalam5,
-      name: "കേരള ഭക്ഷണ ചരിതം",
-      author: "സുമ ശിവദാസ്",
-      cutPrice: "445",
-      price: "300",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: malayalam6,
-      name: "നമ്പാടന്റെ നമ്പറുകൾ",
-      author: "ലോനപ്പൻ",
-      cutPrice: "199",
-      price: "115",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: malayalam7,
-      name: "നമ്പാടന്റെ നമ്പറുകൾ",
-      author: "ലോനപ്പൻ",
-      cutPrice: "199",
-      price: "115",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
   ]);
   useEffect(async () => { 
@@ -139,8 +136,14 @@ const Malayalam = props => {
             });
             setArrived(bestSellerBook);
             
+          } else {
+            setArrived([]);
           }
-        } 
+        } else {
+          setArrived([]);
+        }
+
+        setDiableLinks(false);
       }); 
  }, []);
   return (
@@ -230,7 +233,7 @@ const Malayalam = props => {
         >
           {arrived.map((data) => {
             return (
-              <div className="malayalam__item">
+              <div className="malayalam__item"  style={diableLinks ? { pointerEvents: 'none' } : {}}>
                 <Link
                   to={'/bookSingle/'+ data.id}
                   style={{

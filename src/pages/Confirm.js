@@ -44,6 +44,8 @@ const [showOfferRadio,setShowOfferRadio] = useState(0);
 const [offerBook,setOfferBook] = useState(0);
 const [payDetails,setPayDetails] = useState(0);
 const [cartTot,setCartTot] = useState([]);
+const [isOnline,setIsOnline] = useState(false);
+const [diableLinks, setDiableLinks] = useState(false);
 function updateUser(user){
   const { updateProfile  } = props;
   updateProfile(user);
@@ -107,6 +109,9 @@ function updateUser(user){
             data.dob = ''
            }
            data.address = user.address;
+            if(data.address[0]){
+                  setShippingAddress(data.address[0].id);
+             }
            data.offer_count = user.offer_count;
            data.image = user.profileImage;
            data.orders = user.orders;
@@ -144,6 +149,7 @@ function updateUser(user){
     }
     if(errors.length){
         setOrderErrors(errors);
+        setDiableLinks(false);
         return false;
     } else {
       setOrderErrors(errors);
@@ -196,6 +202,9 @@ function updateUser(user){
             data.type = ''
            }
            data.address = user.address;
+            if(data.address[0]){
+                  setShippingAddress(data.address[0].id);
+             }
            data.offer_count = user.offer_count;
            data.image = user.profileImage;
            data.orders = user.orders;
@@ -204,6 +213,7 @@ function updateUser(user){
         setOrderConfirmed(true);
         setOrderErrors([result.message]);
       } else {
+        setDiableLinks(false);
         if(result.errors){
             let error_msg = [];
             for(let error in result.errors){
@@ -220,6 +230,7 @@ function updateUser(user){
 
   });
   function submitOrder(){
+    setDiableLinks(true);
     let errors = [];
     if(payment == ''){
         errors.push("Payment option select");
@@ -286,6 +297,9 @@ function updateUser(user){
             data.type = ''
            }
            data.address = user.address;
+             if(data.address[0]){
+                  setShippingAddress(data.address[0].id);
+             }
            data.offer_count = user.offer_count;
            data.image = user.profileImage;
            data.orders = user.orders;
@@ -362,6 +376,9 @@ function updateUser(user){
         setHideAddAddress(true);
       } 
       setAddress(props.user.address)
+      if(props.user.address[0]){
+          setShippingAddress(props.user.address[0].id);
+       }
       setIsLoggedIn(true);
     } else {
        setIsLoggedIn(false);
@@ -405,6 +422,9 @@ function updateUser(user){
               data.type = ''
              }
              data.address = user.address;
+             if(data.address[0]){
+                  setShippingAddress(data.address[0].id);
+             }
              data.offer_count = user.offer_count;
              data.image = user.profileImage;
            data.orders = user.orders;
@@ -437,10 +457,13 @@ function updateUser(user){
     }
     if(errors.length){
         setOrderErrors(errors);
+
         return false;
     } else {
       setOrderErrors(errors);
     }
+
+    setDiableLinks(true);
     const pay = {
       receipt:"Receipt No",
       amount: cartTot.totalPrice + shipping,
@@ -456,7 +479,6 @@ function updateUser(user){
         return response.json();
       }).then(result => {
         if(result.status){
-          console.log(result);
           let data ={};
           data.id =result.data.order; 
           data.amount = cartTot.totalPrice + shipping; 
@@ -553,7 +575,12 @@ function updateUser(user){
             <div className="btn-container">
             <div className="row">
               <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                <button className="cancel-btn">Cancel</button>
+               <Link
+                      to={'/register'}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                <button className="cancel-btn">Register</button>
+                </Link>
               </div>
               <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                 <button className="save-btn"  onClick={() => LoginUser()}>Login</button>
@@ -563,7 +590,7 @@ function updateUser(user){
           </div>
           )}
         <div className="total-container container">
-          <div className="review-container">
+          <div className="">
             <div className="review-list">
               <img
                 className="list-icon"
@@ -634,7 +661,7 @@ function updateUser(user){
                 src={process.env.PUBLIC_URL + "/images/list2.svg"}
                 alt="list_icon"
               />
-              <p className="review-title">Shipping Address</p>
+              <p className="review-title">Shipping Address <span clasName="text-danger" style={{color:"red"}}>*</span></p>
             </div>
             <div className="address__details">
           <Row>
@@ -653,7 +680,7 @@ function updateUser(user){
                   </div>
                   <div className="icon-container">
                     <Link
-                      to={'/editAdress/'+ data.id}
+                      to={'/editAdress/'+ data.id+'/1'}
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
                       <img
@@ -671,12 +698,19 @@ function updateUser(user){
                       />
                     </a>
                     <a href="#">
-                     <input
+
+                      {shippingAddress == data.id ?  <input
                       type="radio"
                       value={data.id}
-                      checked={shippingAddress}
+                      checked={true}
                       onChange={(event) => setShippingAddress(event.target.value)}
-                    />
+                    /> :  <input
+                      type="radio"
+                      value={data.id}
+                      onChange={(event) => setShippingAddress(event.target.value)}
+                    />}
+
+                     
                      
                     </a>
                   </div>
@@ -702,7 +736,7 @@ function updateUser(user){
                 }}
               >
                 <Link
-                      to="/editAdress/0"
+                      to="/editAdress/0/1"
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
                   <img
@@ -779,17 +813,17 @@ function updateUser(user){
               <label for="online">Online</label>
             </div>
             <div>
-                {(payment=='online') ?(<button  onClick={showRazorpay} class="btn btn-info">
-                  Pay Now
-                </button>):''}
+                
             </div>
           </div>
 
-          <div className="confirmbtn-container">
- 
-              <button className="confirm-btn" type="button" onClick={() => submitOrder()}>
+          <div className="confirmbtn-container" style={diableLinks ? { pointerEvents: 'none' } : {}}>
+              {(payment=='online') ?(<button  onClick={showRazorpay} className="confirm-btn">
+                  Pay Now
+                </button>):''}
+              {(payment !='online') ? <button className="confirm-btn" type="button" onClick={() => submitOrder()}>
                 CONFIRM
-              </button>
+              </button> :''}
           </div></>)}
         </div>
         

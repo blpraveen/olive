@@ -1,10 +1,6 @@
 import "./../style/css/justArrived.css";
-import pop1 from "../images/popular/pop1.jpg";
-import pop2 from "../images/popular/pop2.jpg";
-import pop3 from "../images/popular/pop3.jpg";
-import pop4 from "../images/popular/pop4.jpg";
-import pop6 from "../images/popular/pop6.jpg";
-import pop8 from "../images/popular/pop8.jpg";
+
+import placeholder from "../images/placeholder.png";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
@@ -58,64 +54,74 @@ const JustArrived = props => {
     
   };
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+  const [diableLinks, setDiableLinks] = useState(true);
   const [show, setShow] = useState(false);
 
   const [arrived, setArrived] = useState([
     {
-      image: pop8,
-      name: "Rising Like a Stome",
-      author: "Tanaz Bhathena",
-      cutPrice: "234",
-      price: "165",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
     {
-      image: pop1,
-      name: "Sinbad and theTrump...",
-      author: "Kevin Missal",
-      cutPrice: "234",
-      price: "157",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
     {
-      image: pop8,
-      name: "Rising Like a Stome",
-      author: "Tanaz Bhathena",
-      cutPrice: "234",
-      price: "165",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
     {
-      image: pop1,
-      name: "Sinbad and theTrump...",
-      author: "Kevin Missal",
-      cutPrice: "234",
-      price: "157",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
     {
-      image: pop6,
-      name: "Notes of AR Rahman",
-      author: "Krishna Trilok",
-      cutPrice: "675",
-      price: "675",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
     {
-      image: pop3,
-      name: "1971 IAN cardoz",
-      author: "Vivan Marwaha",
-      cutPrice: "432",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
     {
-      image: pop2,
-      name: "Hisila Yami",
-      author: "Hisila Yami",
-      cutPrice: "987",
-      price: "879",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
     {
-      image: pop4,
-      name: "Conflicts of Interest",
-      author: "Sunitha Narain",
-      cutPrice: "432",
-      price: "765",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
+      offerperc:0,
     },
   ]);
   useEffect(async () => { 
@@ -127,7 +133,7 @@ const JustArrived = props => {
           if(result.data.books.length){
             let bestSellerBook = [];
             result.data.books.map((book) => {
-
+                let offerperc = Math.round((book.sale_price-book.offer_price)/book.sale_price *100);
                 bestSellerBook.push({
                   id:book.id,
                   image: book.featured_image_large,
@@ -136,12 +142,20 @@ const JustArrived = props => {
                   cutPrice:book.offer_price,
                   price:book.sale_price,
                   offer_zone:book.offer_zone,
+                  offerperc:offerperc,
                 })
             });
             setArrived(bestSellerBook);
             
+          } else {
+
+          setArrived([]);
           }
-        } 
+        }  else {
+          setArrived([]);
+        }
+
+        setDiableLinks(false);
       }); 
  }, []);
   return (
@@ -233,18 +247,18 @@ const JustArrived = props => {
         >
           {arrived.map((data) => {
             return (
-              <div className="arrived__item">
+              <div className="arrived__item" style={diableLinks ? { pointerEvents: 'none' } : {}}>
                 <Link
                   to={'/bookSingle/'+ data.id}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <div className="arrived__item__off">
-                    <span>
+                     {(data.offerperc)? (<span>
                       <p>
-                        {Math.round((data.price-data.cutPrice)/data.price *100)}% <br />
-                        off
+                        {data.offerperc} % <br />
+                        
                       </p>
-                    </span>
+                    </span>) : ''}
                     <img src={data.image} />
                   </div>
 

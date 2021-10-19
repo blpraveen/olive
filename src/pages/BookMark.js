@@ -1,14 +1,14 @@
 import "../style/css/bookMark.css";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+
+import  { Redirect,useParams } from 'react-router-dom';
 import SearchIcon from "@material-ui/icons/Search";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
-import best1 from "../images/author/best1.png";
-import best2 from "../images/author/best2.png";
-import best3 from "../images/author/best3.png";
-import best4 from "../images/author/best4.png";
+
+import placeholder from "../images/placeholder.png";
 import { useState,useEffect} from "react";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 
@@ -28,8 +28,13 @@ import { loadCart, removeProduct, changeProductQuantity,addProduct } from '../se
 import { updateCart } from '../services/total/actions';
 import Pagination from "react-js-pagination";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const BookMark = props => {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+  const [isLoggedIn, seIsLoggedIn] = useState(false);
   const [show, setShow] = useState(false);
   const [active_page , setActivePage] = useState(1);
 
@@ -37,88 +42,53 @@ const BookMark = props => {
   const [books_count , setBookCount] = useState(0);
   const [markedBook,setMarkedBook] = useState([
     {
-      image: best1,
-      name: "My family",
-      author: "Mahadevi Varma  ",
-      cutPrice: "654",
-      price: "456",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best1,
-      name: "My family",
-      author: "Mahadevi Varma",
-      cutPrice: "654",
-      price: "456",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
     {
-      image: best3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
-    },
-    {
-      image: best4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
-      price: "321",
-    },
-    {
-      image: best1,
-      name: "My family",
-      author: "Mahadevi Varma",
-      cutPrice: "654",
-      price: "456",
-    },
-    {
-      image: best2,
-      name: "That night",
-      author: "Nidhi Updhyay",
-      cutPrice: "123",
-      price: "321",
-    },
-    {
-      image: best3,
-      name: "The family firm",
-      author: "Emily Oster",
-      cutPrice: "777",
-      price: "765",
-    },
-    {
-      image: best4,
-      name: "The best couple ever",
-      author: "The best couple ever",
-      cutPrice: "321",
-      price: "321",
+      image: placeholder,
+      name: "",
+      author: "",
+      cutPrice: "",
+      price: "",
     },
   ]);
   function addProduct (product){
@@ -137,13 +107,21 @@ const BookMark = props => {
       cartProducts.push(product);
     }
     updateCart(cartProducts);
+    toast.info(product.name + " added to cart !");
     
   };
   function handlePageChange (pageNumber) {
     setActivePage(pageNumber);
   }
   useEffect(async () => { 
-    let bookmarks = props.bookmarks;
+    let bookmarks;
+    if(props.user  &&  props.user.token){
+      bookmarks = props.bookmarks;
+      bookmarks= bookmarks.filter(function(val) { return val !== null; });
+    } else {
+         seIsLoggedIn(true);
+    }
+    
     if(bookmarks){
     const data = {
           book_ids: bookmarks
@@ -178,9 +156,11 @@ const BookMark = props => {
             setMarkedBook([])
           }});
     } 
-  },[props.bookmarks,active_page]);
+  },[props.user,props.bookmarks,active_page]);
   return (
     <div className="bookmark container">
+    <ToastContainer />
+     {isLoggedIn && ( <Redirect to='/' />)}
       <div className="path">
         <p>Home </p>
         <ArrowForwardIosIcon id="path__icon" />
@@ -299,7 +279,7 @@ const BookMark = props => {
               );
             })}
             <div className="pagination__div">
-              <Pagination
+             <Pagination
                   activePage={active_page}
                   itemsCountPerPage={10}
                   totalItemsCount={total_items}

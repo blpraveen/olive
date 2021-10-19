@@ -1,5 +1,7 @@
 import "../style/css/allOrder.css";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+
+import  { Redirect,useParams } from 'react-router-dom';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
@@ -12,6 +14,8 @@ import { connect } from 'react-redux';
 const AllOrder = props => {
 
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+  const [isLoggedIn, seIsLoggedIn] = useState(false);
   const [activeOrders, setActiveOrders] = useState([]);
   const [pastOrders, setPastOrders] = useState([]);
   const [active] = useState([
@@ -88,6 +92,7 @@ const AllOrder = props => {
     },
   ]);
   useEffect(async () => { 
+    if(props.user  &&  props.user.token){
      const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json','Authorization': 'Bearer '+ props.user.token },
@@ -101,10 +106,13 @@ const AllOrder = props => {
             setPastOrders(result.data.pastOrders);
           }
       });
-    
- }, []);
+    } else {
+       seIsLoggedIn(true);
+    }
+ }, [props.user]);
   return (
     <div className="all__order container">
+    {isLoggedIn && ( <Redirect to='/' />)}
       <div className="path ">
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
           <p>Home </p>

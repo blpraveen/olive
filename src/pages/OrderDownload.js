@@ -173,7 +173,7 @@ const OrderDownload = props => {
             <span className="order__down__round">
               <p>4</p>
             </span>
-            <h5>Status</h5>
+            <h5>Status ({order.payment_method})</h5>
           </div>
 
           <div className="order__down__status__box">
@@ -206,9 +206,7 @@ const OrderDownload = props => {
           </div>
         </div>
         {/* <<<<<<<<<<<<< DOWNLOAD BUTTON >>>>>>>>>>>>>>> */}
-        <div className="order__down__button">
-          <Button id="order__download__button">DOWNLOAD </Button>
-        </div>
+        
       </div>
 
       <Featur />
