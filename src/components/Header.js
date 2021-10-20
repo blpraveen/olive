@@ -710,7 +710,11 @@ const Header = props => {
                   />
                   <div className="btn-container">
                     <p>
-                      <a href="#">Forgot Password?</a>
+                       <Link
+                       onClick={() => setShowLoginupModal(false)}
+          to="/forgot"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >Forgot Password?</Link>
                     </p>
 
                       <button className="signin-btn" type="button" onClick={() => LoginUser()}>

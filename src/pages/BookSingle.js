@@ -356,7 +356,7 @@ const BookSingle = props => {
           </Col>
           <Col md="7" className="book__description__col">
             <div className="book__description">
-              <h2>{book.title}</h2>
+              <h2>{book.name}</h2>
               <div className="book__description__star__row">
                 <div className="book__description__star__left">
                  {book.star ? (
@@ -782,7 +782,7 @@ const BookSingle = props => {
           <div className="also__brought__head">
             <h6>
               Customers Who Bought{" "}
-              <span style={{ color: "#46CE04" }}>Rising Like a Storm</span> also
+              <span style={{ color: "#46CE04" }}>{book.name}</span> also
               brought
             </h6>
           </div>

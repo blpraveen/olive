@@ -74,7 +74,7 @@ const Author = props => {
                 authorData= {
                   id:author.id,
                   image: author.featured_image_large,
-                  name: author.title,
+                  name: author.name,
                   dob: author.dob,
                   author: author.author_name,
                   description:author.description,
@@ -131,15 +131,15 @@ const Author = props => {
                 </div>
                 <div className="author__data__row">
                   <h5>Notable works</h5>
-                  <h6>{author.notable_works.title}</h6>
+                  <h6>{author.notable_works && author.notable_works.title}</h6>
                 </div>
                 <div className="author__data__row">
                   <h5>First book</h5>
-                  <h6>{author.first_book.title}</h6>
+                  <h6>{author.first_book &&  author.first_book.title}</h6>
                 </div>
                 <div className="author__data__row">
                   <h5>Latest Work</h5>
-                  <h6>{author.last_work.title}</h6>
+                  <h6>{author.last_work &&   author.last_work.title}</h6>
                 </div>
               </div>
             </Col>
